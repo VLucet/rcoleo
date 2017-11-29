@@ -1,2 +1,3 @@
 ^.*\.Rproj$
+R/endpoints.R
 ^\.Rproj\.user$

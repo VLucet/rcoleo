@@ -1,9 +1,13 @@
 Package: rcoleo
-Title: What the Package Does (one line, title case)
+Title: rcoleo
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R: person("Steve", "Vissault", email = "steve.vissault@usherbrooke.ca", role = c("aut", "cre"))
+Description: rcoleo un paquet R permettant le retrait des données collectées dans le cadre du programme de suivi de la biodiversité. Ce programme de suivi a été mis sur pied par le Ministère des Forêts, de la Faune et des Parcs (2015). Ce paquet R s'appuie sur l'API de Coléo (TODO: URL vers la doc), un système d'information sur la biodiversité du Québec développé en partenariat avec le laboratoire d'Écologie Intégrative de l'Université de Sherbrooke.
 Depends: R (>= 3.4.2)
-License: What license is it under?
+License: MIT
 Encoding: UTF-8
 LazyData: true
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
+RoxygenNote: 6.0.1

@@ -8,6 +8,10 @@
 
 get <- function (endpoint, ...) {
 
+  if(!endpoint){
+    stop("Le point d'accès au données est manquant (ex. /cells)")
+  }
+
   url <- httr::modify_url(
      rcoleo.env$dev$server,
      path=paste0(rcoleo.env$base,endpoint)
