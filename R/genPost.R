@@ -4,8 +4,9 @@
 #' @param singleton Données à injecter à l'intérieur de la base de données.
 #' @return
 #' @examples
-#' # TODO: Mettre un exemple de schema de données dans un RDS
-#' get(endpoints$cells)
+#' data(cells)
+#' post("/cells",cells[[1]])
+#' # Note: Cette fonction ne prend que des singletons
 #' @export
 
 post <- function (endpoint,singleton, ...) {
