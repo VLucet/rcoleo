@@ -7,7 +7,7 @@
 #' @export
 
 postSites <- function(lt) {
-  endpoint <- "/sites"
+
   # Create resp
   responses <- list()
 
