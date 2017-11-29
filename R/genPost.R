@@ -28,18 +28,7 @@ post <- function (endpoint,singleton, ...) {
       ...)
 
 
-  if(resp$status_code == 201){
-
-    structure(
-    list(
-      body = singleton,
-      response = resp
-    ),
-      class = "postSuccess"
-    )
-
-  } else {
-
+  if(httr::http_error(resp)){
     structure(
     list(
       body = jsonlite::fromJSON(httr::content(test$response, "text")),
@@ -47,6 +36,13 @@ post <- function (endpoint,singleton, ...) {
     ),
       class = "postError"
     )
-
+  } else {
+      structure(
+      list(
+        body = singleton,
+        response = resp
+      ),
+        class = "postSuccess"
+      )
   }
 }

@@ -25,12 +25,14 @@ get <- function (endpoint, ...) {
 
   cont <- httr::content(resp)
 
-  structure(
-  list(
-    content = cont,
-    path = url,
-    response = resp
-  ),
-    class = "getColeo"
-  )
+  if(http_success(resp)){
+    structure(
+    list(
+      content = cont,
+      path = url,
+      response = resp
+    ),
+      class = "getSuccess"
+    )
+  }
 }
