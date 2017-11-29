@@ -19,7 +19,7 @@ post <- function (endpoint,singleton, ...) {
      path=paste0(rcoleo.env$base,endpoint)
   )
 
-  resp <- httr::GET(url,
+  resp <- httr::POST(url,
     body = jsonlite::toJSON(singleton,auto_unbox=TRUE),
     config = httr::add_headers(
       "Content-type" = "application/json",
@@ -27,12 +27,27 @@ post <- function (endpoint,singleton, ...) {
       ...)
 
 
-  structure(
-  list(
-    body = jsonlite::toJSON(singleton,auto_unbox=TRUE,pretty=TRUE),
-    path = endpoint,
-    response = resp
-  ),
-    class = "postColeo"
-  )
+  if(resp$status_code == 201){
+
+    structure(
+    list(
+      body = singleton
+      path = url,
+      response = resp
+    ),
+      class = "postSuccess"
+    )
+
+  } else {
+
+    structure(
+    list(
+      body = jsonlite::fromJSON(httr::content(test$response, "text")),
+      path = url,
+      response = resp
+    ),
+      class = "postError"
+    )
+
+  }
 }
