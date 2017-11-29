@@ -32,8 +32,7 @@ post <- function (endpoint,singleton, ...) {
 
     structure(
     list(
-      body = singleton
-      path = url,
+      body = singleton,
       response = resp
     ),
       class = "postSuccess"
@@ -44,7 +43,6 @@ post <- function (endpoint,singleton, ...) {
     structure(
     list(
       body = jsonlite::fromJSON(httr::content(test$response, "text")),
-      path = url,
       response = resp
     ),
       class = "postError"
