@@ -14,62 +14,6 @@ vignette: >
 #### POST fonctions
 # Function to upload on db
 
-post <- function (endpoint,singleton) {
-  server <- "http://localhost:8080"
-
-  url <- httr::modify_url(server, path = paste0("/api/v0",endpoint))
-  response <- httr::POST(url, body = jsonlite::toJSON(singleton,auto_unbox=TRUE), config = httr::add_headers("Content-type" = "application/json", "Authorization" = paste('Bearer',bearer)))
-
-  return(response)
-}
-
-get <- function (endpoint,pars) {
-  server <- "http://localhost:8080"
-
-  url <- httr::modify_url(server, path = paste0("/api/v0",endpoint))
-  response <- httr::GET(url, config = httr::add_headers("Content-type" = "application/json", "Authorization" = paste('Bearer',bearer)))
-
-  return(response)
-}
-
-postCells <- function(lt) {
-  endpoint <- "/cells"
-  # Create resp
-  responses <- list()
-  for (i in 1:length(lt)) {
-        # Store responses in "resp" list
-        responses[[i]] <- post(endpoint, lt[[i]])
-        if (httr::http_error(responses[[i]])) {
-          stop(
-            cat(
-            "Error code",httr::status_code(responses[[i]]),"\n",
-            httr::content(responses[[i]], "text"), "\n"
-          ))
-        }
-  }
-  return(responses)
-}
-
-postSites <- function(lt) {
-  endpoint <- "/sites"
-  # Create resp
-  responses <- list()
-
-  for (i in 1:length(lt)) {
-        # Get cell_code for the site
-        # Store responses in "resp" list
-        responses[[i]] <- post(endpoint, lt[[i]])
-        if (httr::http_error(responses[[i]])) {
-          stop(
-            cat(
-            "Error code",httr::status_code(responses[[i]]),"\n",
-            httr::content(responses[[i]], "text"), "\n"
-          ))
-        }
-  }
-  return(responses)
-}
-
 
 
 
@@ -199,6 +143,8 @@ for(i in 1:nlevels(shp_cells$IJ)){
 # Envoyer seulement les donnees avec un nom de cellule
 resp_cells <- postCells(lt=cells_ls[which(!is.na(sapply(cells_ls,function(x) return(x$name))))])
 
+cells_ls[which(!is.na(sapply(cells_ls,function(x) return(x$name))))][[1]]
+
 ###########################
 #### Injection des sites ##
 ###########################
@@ -211,7 +157,7 @@ sites_ls <- apply(sites,1,as.list)
 # Creer geom points
 loc <- apply(sites,1, function(x){
   if(!any(is.na(x["lat"]),is.na(x["lon"]))){
-  return(geojson_list(as.numeric(c(x["lat"],x["lon"])))$features[[1]]$geometry)  
+  return(geojson_list(as.numeric(c(x["lat"],x["lon"])))$features[[1]]$geometry)
 } else {
   return(NA)
 }})

@@ -10,7 +10,7 @@
 
 post <- function (endpoint,singleton, ...) {
 
-  if(!endpoint){
+  if(!exists("endpoint")){
     stop("Le point d'accès au données est manquant (ex. /cells)")
   }
 
