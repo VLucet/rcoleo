@@ -27,22 +27,30 @@ post <- function (endpoint,singleton, ...) {
       "Authorization" = paste('Bearer',rcoleo.env$bearer)),
       ...)
 
-
-  if(httr::http_error(resp)){
+  if(resp$status == 401){
     structure(
     list(
-      body = jsonlite::fromJSON(httr::content(test$response, "text")),
+      body = httr::http_status(resp),
       response = resp
     ),
-      class = "postError"
+      class = "postUnAuthorized"
+    )
+  }
+  else if(resp$status == 200){
+    structure(
+    list(
+      body = jsonlite::fromJSON(httr::content(resp$response, "text")),
+      response = resp
+    ),
+      class = "postUnvalidate"
     )
   } else {
-      structure(
-      list(
-        body = singleton,
-        response = resp
-      ),
-        class = "postSuccess"
-      )
+    structure(
+    list(
+      body = singleton,
+      response = resp
+    ),
+      class = "postSuccess"
+    )
   }
 }

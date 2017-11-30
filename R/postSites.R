@@ -6,14 +6,15 @@
 #' getCampaigns()
 #' @export
 
-postSites <- function(data) {
-
+postSites <- function(lt) {
+  endpoint <- "/sites"
+  # Create resp
   responses <- list()
 
-  for (i in 1:length(data)) {
+  for (i in 1:length(lt)) {
         # Get cell_code for the site
         # Store responses in "resp" list
-        responses[[i]] <- post(endpoint, data[[i]])
+        responses[[i]] <- post(endpoint, lt[[i]])
         if (httr::http_error(responses[[i]])) {
           stop(
             cat(

@@ -25,7 +25,7 @@ get <- function (endpoint, ...) {
 
   cont <- httr::content(resp)
 
-  if(http_success(resp)){
+  if(!httr::http_error(resp)){
     structure(
     list(
       content = cont,
