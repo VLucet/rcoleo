@@ -27,11 +27,13 @@ library(tidyr)
 library(rgdal)
 library(geojsonio)
 
+### Lire le fichier excel
+
 # importer la table des valeurs de reference
-ref_values <- read_excel("./extdata/CompilationDonnées_2016-2018.xlsx",sheet=1)
+ref_values <- read_excel("./extdata/V2_CompilationDonnées_2016-2018.xlsx",sheet=1)
 
 # Séléctionner les feuilles qui seront injectées dans la BD
-sheets <- c("Végétation","Sol","Carabes_Installation","Inv. acoustique","papillon","odonate")
+sheets <- c("Végétation")
 
 # Chaque feuille sera un niveau de la liste `coleo_ls`
 coleo_ls <- list()
@@ -44,8 +46,9 @@ for(i in 1:length(sheets)){
   ## Gerer les dates (eviter la conversion automatique)
   ct <- ifelse(grepl("^Date", nms,ignore.case = TRUE), "date", "guess")
 
-  ## deuxieme lecture de la page
-  coleo_ls[[i]] <- read_excel("./extdata/CompilationDonnées_2016-2018.xlsx",sheet=sheets[i],col_types = ct,trim_ws=TRUE)
+  ## deuxieme lecture de la page et ignore le type dans la ligne 2
+  df <- read_excel("./extdata/CompilationDonnées_2016-2018.xlsx",sheet=sheets[i],col_types = ct,trim_ws=TRUE)
+  coleo_ls[[i]] <- df[-1,]
 
   ## replacer les espaces par des barres de soulignement dans les noms de colonnes
   names(coleo_ls[[i]]) <- str_replace_all(names(coleo_ls[[i]])," ", "_")
@@ -112,7 +115,7 @@ cells <- as.data.frame(unique(sites[,c("Nom_de_la_cellule","No_de_référence_de
 names(cells) <- c("name","cell_code")
 
 # Ajouter les polygones de cellules
-shp_cells <- readOGR(dsn="./extdata/shp/",layer="Qc15_present")
+shp_cells <- readOGR(dsn="./extdata/shp/",layer="cellule_terrain_BdQc")
 
 # Reprojection vers Quebec Lambert Conic
 shp_cells <- sp::spTransform(shp_cells,CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs;"))
@@ -127,13 +130,13 @@ for(i in 1:nlevels(shp_cells$IJ)){
 
   cells_ls[[i]] <- list()
   cells_ls[[i]]$cell_code <- cell_code
-  cells_ls[[i]]$name <- ifelse(cell_code %in% cells$cell_code,cells[which(cells$cell_code == cell_code),"name"],NA)
+  cells_ls[[i]]$name <- shp_cells[shp_cells$IJ == cell_code ,]@data$Nom
 
   shp_sp <- as(shp, "SpatialPolygons")
-  cells_ls[[i]]$shp <- geojson_list(shp)$features[[1]]$geometry
+  cells_ls[[i]]$geom <- geojson_list(shp)$features[[1]]$geometry
 
   # Add CRS fields
-  cells_ls[[i]]$shp$crs <- list(type="name",properties=list(name="EPSG:4326"))
+  cells_ls[[i]]$geom$crs <- list(type="name",properties=list(name="EPSG:4326"))
 
 }
 
@@ -141,9 +144,8 @@ for(i in 1:nlevels(shp_cells$IJ)){
 # resp_cells <- postColeo(endpoint="/cells",lt=cells_ls)
 
 # Envoyer seulement les donnees avec un nom de cellule
-resp_cells <- postCells(lt=cells_ls[which(!is.na(sapply(cells_ls,function(x) return(x$name))))])
+resp_cells <- post_cells(cells_ls)
 
-cells_ls[which(!is.na(sapply(cells_ls,function(x) return(x$name))))][[1]]
 
 ###########################
 #### Injection des sites ##
@@ -241,6 +243,25 @@ campagnes <- select(campagnes, -Ouverture_fermeture, -no_mesure)
 
 # Ecriture des tables
 write.csv(campagnes,file="./extdata/csv/campagnes.csv",row.names=F)
+
+#######################
+## Formattage du fichier Carabes
+#######################
+
+Carabes_Tri <- read_excel("./extdata/CompilationDonnées_2016-2018.xlsx",sheet="Carabes_Tri")
+Carabes_Tri <- reshape2::melt(Carabes_Tri,id.vars=names(Carabes_Tri)[1:7],na.rm=TRUE)
+Carabes_Tri <- subset(Carabes_Tri, value!=0)
+
+Groupe_taxo <- levels(Carabes_Tri$variable)
+Groupe_taxo <- word(Groupe_taxo,2)
+Groupe_taxo[which(Groupe_taxo=="de")] <- "Mollusque"
+Groupe_taxo <- tolower(Groupe_taxo)
+
+Carabes_Tri$variable <- factor(Carabes_Tri$variable,levels=levels(Carabes_Tri$variable),labels=Groupe_taxo)
+names(Carabes_Tri)[8:9] <- c("groupe taxonomique","abondance")
+
+write.csv2(Carabes_Tri,file="./extdata/csv/insectes_sol.csv",row.names=FALSE)
+
 
 
 ```
