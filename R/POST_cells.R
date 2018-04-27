@@ -4,16 +4,16 @@
 #' @return Un objet de la classe \emph{responses} (liste) contenant les codes de status (201 ou 500).
 #' @examples
 #' data(cells)
-#' postCells(cells[1:10])
+#' post_cells(cells[1:10])
 #' @export
 
-postCells <- function(data) {
+post_cells <- function(data) {
 
   responses <- list()
-  endpoint <- rcoleo.env$endpoints$cells
+  endpoint <- rce$endpoints$cells
 
   for (i in 1:length(data)) {
-    responses[[i]] <- post(endpoint, data[[i]])
+    responses[[i]] <- post_gen(endpoint, data[[i]])
   }
 
   class(responses) <- "postCollections"

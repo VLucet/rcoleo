@@ -5,26 +5,26 @@
 #' @return
 #' @examples
 #' data(cells)
-#' post("/cells",cells[[1]])
+#' post_gen("/cells",cells[1])
 #' # Note: Cette fonction ne prend que des singletons
 #' @export
 
-post <- function (endpoint,singleton, ...) {
+post_gen <- function (endpoint,singleton, ...) {
 
   if(!exists("endpoint")){
     stop("Le point d'accès au données est manquant (ex. /cells)")
   }
 
   url <- httr::modify_url(
-     rcoleo.env$dev$server,
-     path=paste0(rcoleo.env$base,endpoint)
+     rce$server,
+     path=paste0(rce$base,endpoint)
   )
 
   resp <- httr::POST(url,
     body = jsonlite::toJSON(singleton,auto_unbox=TRUE),
     config = httr::add_headers(
       "Content-type" = "application/json",
-      "Authorization" = paste('Bearer',rcoleo.env$bearer)),
+      "Authorization" = paste('Bearer',rce$bearer)),
       ...)
 
   if(resp$status == 401){
@@ -36,10 +36,10 @@ post <- function (endpoint,singleton, ...) {
       class = "postUnAuthorized"
     )
   }
-  else if(resp$status == 200){
+  else if(resp$status == 400){
     structure(
     list(
-      body = jsonlite::fromJSON(httr::content(resp$response, "text")),
+      body = jsonlite::fromJSON(httr::content(resp, "text")),
       response = resp
     ),
       class = "postUnvalidate"

@@ -3,27 +3,27 @@
 #' @param endpoint Point d'entrée pour le retrait des données. Un point d'entrée peut être vu comme une table de la base de données
 #' @return
 #' @examples
-#' get(endpoints$cells)
+#' get_gen(endpoints$cells)
 #' @export
 
-get <- function (endpoint, ...) {
+get_gen <- function (endpoint, ...) {
 
   if(!exists("endpoint")){
     stop("Le point d'accès au données est manquant (ex. /cells)")
   }
 
   url <- httr::modify_url(
-     rcoleo.env$dev$server,
-     path=paste0(rcoleo.env$base,endpoint)
+     rce$server,
+     path=paste0(rce$base,endpoint)
   )
 
   resp <- httr::GET(url,
     config = httr::add_headers(
       "Content-type" = "application/json",
-      "Authorization" = paste('Bearer',rcoleo.env$bearer)),
+      "Authorization" = paste('Bearer',rce$bearer)),
       ...)
 
-  cont <- httr::content(resp)
+  cont <- jsonlite::fromJSON(httr::content(resp,type="text"),flatten=TRUE)
 
   if(!httr::http_error(resp)){
     structure(
