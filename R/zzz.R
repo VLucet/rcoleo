@@ -11,6 +11,7 @@ saveRDS(bearer,file=".httr-oauth")
 # Config de base
 assign("base", "/api/v1", envir = rce)
 assign("bearer", readRDS(".httr-oauth"), envir = rce)
+assign("ua", user_agent("rcoleo"), envir = rce )
 
 # Point d'entrées pour le retrait ou l'analyse des données
 endpoints <- list()
