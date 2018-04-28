@@ -4,7 +4,7 @@ rce <- new.env()
 assign("server", "http://localhost:3001", envir = rce)
 
 # Debug
-con <- RPostgreSQL::dbConnect(dbDriver("PostgreSQL"),user="postgres",host="localhost",dbname="coleo_dev")
+con <- RPostgreSQL::dbConnect("PostgreSQL",user="postgres",host="localhost",dbname="coleo_dev")
 bearer <- RPostgreSQL::dbGetQuery(con,"SELECT token FROM api_keys LIMIT 1")
 saveRDS(bearer,file=".httr-oauth")
 
