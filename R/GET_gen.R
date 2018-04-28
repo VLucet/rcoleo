@@ -6,7 +6,7 @@
 #' get_gen(endpoints$cells)
 #' @export
 
-get_gen <- function (endpoint, ...) {
+get_gen <- function (endpoint,...) {
 
   if(!exists("endpoint")){
     stop("Le point d'accès au données est manquant (ex. /cells)")
@@ -26,13 +26,22 @@ get_gen <- function (endpoint, ...) {
   cont <- jsonlite::fromJSON(httr::content(resp,type="text"),flatten=TRUE)
 
   if(!httr::http_error(resp)){
-    structure(
-    list(
-      content = cont,
-      path = url,
-      response = resp
-    ),
-      class = "getSuccess"
-    )
+    return
+      structure(
+        list(
+          content = cont,
+          response = resp
+        ),
+          class = "getSuccess"
+        )
+  } else {
+    return
+      structure(
+        list(
+          response = resp
+        ),
+          class = "getError"
+        )
   }
+
 }
