@@ -12,6 +12,14 @@ post_sites <- function(data) {
   # Create resp
   responses <- list()
 
+
+  # Retrieve the ids from cells
+  # for (i in 1:length(data)) {
+  #   if()
+  #   data[[i]]$id <- paste0(data[[i]]$cell_id)
+  #
+  # }
+
   for (i in 1:length(data)) {
         # Get cell_code for the site
         # Store responses in "resp" list
