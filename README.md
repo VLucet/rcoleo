@@ -15,7 +15,7 @@ devtools::install_github("TheoreticalEcosystemEcology/rcoleo")
 
 ## Mettre en cache votre jeton d'accès
 
-Pour obtenir votre jeton d'accès, veuillez vous authentifier sur le portail coleo, votre jeton d'accès sera affiché dans la section profile [http://www.quebec-biodiversité.ca/coleo/portal](http://www.quebec-biodiversité.ca/coleo/portal)
+Pour obtenir votre jeton d'accès, veuillez vous authentifier sur le portail coleo, votre jeton d'accès sera affiché dans la section profile [http://www.quebec-biodiversité.ca/coleo/portal](http://www.quebec-biodiversité.ca/coleo/portail)
 
 Il est fortement recommandé de mettre en cache se jeton d'accès afin de s'assurer qu'il ne soit pas visible ou transmis avec votre code à un autre utilisateur. Ce jeton d'accès est unique et révocable.
 
