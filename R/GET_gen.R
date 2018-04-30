@@ -3,7 +3,7 @@
 #' @param endpoint Point d'entrée pour le retrait des données. Un point d'entrée peut être vu comme une table de la base de données.
 #' @param ... Arguments de la fonction generique \link[httr]{GET}
 #' @return
-#' Retourne une objet de type \code{list} contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est \code{getSuccess} ou \code{getError}. Une réponse de classe \code{getSuccess} est une liste à deux niveaux composé du contenu (`content`), et la réponse (objet de classe \code{response}, paquet \code{httr}). Une réponse de classe \code{getError}.
+#' Retourne une objet de type \code{list} contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est \code{getSuccess} ou \code{getError}. Une réponse de classe \code{getSuccess} est une liste à deux niveaux composé du contenu (\code{body}), et la réponse (objet de classe \code{response}, paquet \code{httr}). Une réponse de classe \code{getError}.
 #' @details
 #' Les points d'accès de l'API sont énuméré dans l'environment de coléo, voir \code{print(rce$endpoints)}
 #' @examples
@@ -50,11 +50,11 @@ get_gen <- function(endpoint, ...) {
       message(sprintf("La requête sur l'API a échouée: [%s]\n%s", status_code(resp),
         parsed$message), call. = FALSE)
 
-      responses[[page + 1]] <- structure(list(content = NULL, response = resp),
+      responses[[page + 1]] <- structure(list(body = NULL, response = resp),
           class = "getError")
 
     } else {
-      responses[[page + 1]] <- structure(list(content = parsed, response = resp),
+      responses[[page + 1]] <- structure(list(body = parsed, response = resp),
         class = "getSuccess")
     }
 

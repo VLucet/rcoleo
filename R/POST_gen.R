@@ -12,7 +12,7 @@
 post_gen <- function (endpoint,singleton, ...) {
 
   if(!exists("endpoint")){
-    stop("Le point d'accès au données est manquant (ex. /cells)")
+    stop("Le point d'accès aux données est manquant (ex. /cells)")
   }
 
   url <- httr::modify_url(
@@ -33,7 +33,7 @@ post_gen <- function (endpoint,singleton, ...) {
       body = httr::http_status(resp),
       response = resp
     ),
-      class = "postUnAuthorized"
+      class = "postError"
     )
   }
   else if(resp$status == 400){
@@ -42,9 +42,9 @@ post_gen <- function (endpoint,singleton, ...) {
       body = jsonlite::fromJSON(httr::content(resp, "text")),
       response = resp
     ),
-      class = "postUnvalidate"
+      class = "postError"
     )
-  } else {
+  } else if(resp$status == 201) {
     structure(
     list(
       body = singleton,
@@ -52,5 +52,13 @@ post_gen <- function (endpoint,singleton, ...) {
     ),
       class = "postSuccess"
     )
-  }
+  }  else if(resp$status == 500){
+      structure(
+      list(
+        body = jsonlite::fromJSON(httr::content(resp, "text")),
+        response = resp
+      ),
+        class = "postError"
+      )
+}
 }

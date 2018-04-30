@@ -3,11 +3,13 @@ rce <- new.env()
 
 assign("server", "http://localhost:3001", envir = rce)
 
-# Debug
+###### Debug #####
 con <- RPostgreSQL::dbConnect("PostgreSQL",user="postgres",host="localhost",dbname="coleo_dev")
 bearer <- RPostgreSQL::dbGetQuery(con,"SELECT token FROM api_keys LIMIT 1")
 saveRDS(bearer,file=".httr-oauth")
 RPostgreSQL::dbDisconnect(con)
+####################
+
 
 # Config de base
 assign("base", "/api/v1", envir = rce)

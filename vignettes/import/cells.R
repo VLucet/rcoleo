@@ -4,7 +4,7 @@
 ###########################
 
 # load
-devtools::load_all()
+devtools::load_all(".")
 
 # Authentification
 bearer <- readRDS(".httr-oauth")
@@ -39,5 +39,4 @@ for(i in 1:nlevels(shp_cells$IJ)){
 }
 
 # Envoyer seulement les donnees avec un nom de cellule
-devtools::load_all(".")
 resp_cells <- post_cells(cells_ls)
