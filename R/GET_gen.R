@@ -1,9 +1,14 @@
 #' Fonction générique pour retirer de l'information depuis l'API de Coléo
 #'
-#' @param endpoint Point d'entrée pour le retrait des données. Un point d'entrée peut être vu comme une table de la base de données
+#' @param endpoint Point d'entrée pour le retrait des données. Un point d'entrée peut être vu comme une table de la base de données. Les points d'entrées sont listé dans l'environnement `rce` du paquet rcoleo.
+#' @param ... Arguments des fonctions supérieur ou arguments de la fonction generique `httr::GET`
 #' @return
+#' Retourne une `list` contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est `getSuccess` ou `getError`. Une réponse de classe `GetSuccess` est une liste à deux niveaux composé du contenu (`content`), et la réponse (objet de classe `response`, paquet `httr`)
 #' @examples
-#' get_gen(endpoints$cells)
+#' resp <- get_gen(rce$endpoints$cells)
+#' length(resp) # Nombre de pages retourné par l'appel.
+#' str(resp[[1]])
+#' class(resp[[1]])
 #' @export
 
 get_gen <- function(endpoint, ...) {
@@ -14,7 +19,7 @@ get_gen <- function(endpoint, ...) {
 
   # Premier appel pour avoir le nombre de page
   resp <- httr::GET(url, config = httr::add_headers(`Content-type` = "application/json",
-    Authorization = paste("Bearer", rce$bearer)),query=list(page=0), rce$ua)
+    Authorization = paste("Bearer", rce$bearer)),rce$ua, ... )
 
   # Denombrement du nombre de page
   rg <- as.numeric(stringr::str_extract_all(httr::headers(resp)["content-range"],
@@ -27,8 +32,11 @@ get_gen <- function(endpoint, ...) {
 
   for (page in 0:pages) {
 
+    # Ajouter les pages à la requête
+    query$page <- page
+
     resp <- httr::GET(url, config = httr::add_headers(`Content-type` = "application/json",
-      Authorization = paste("Bearer", rce$bearer)), rce$ua, query=list(page = page))
+      Authorization = paste("Bearer", rce$bearer)), rce$ua, ...)
 
     if (httr::http_type(resp) != "application/json") {
       stop("L'API n'a pas retourné un JSON", call. = FALSE)
@@ -46,6 +54,7 @@ get_gen <- function(endpoint, ...) {
 
   }
 
+ # Si une seule page pas besoin de le transmettre en list
   return(responses)
 
 }
