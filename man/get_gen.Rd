@@ -7,11 +7,19 @@
 get_gen(endpoint, ...)
 }
 \arguments{
-\item{endpoint}{Point d'entrée pour le retrait des données. Un point d'entrée peut être vu comme une table de la base de données}
+\item{endpoint}{Point d'entrée pour le retrait des données. Un point d'entrée peut être vu comme une table de la base de données. Les points d'entrées sont lister dans l'environnement `rce` du paquet rcoleo.}
+
+\item{Arguments}{des fonctions supérieur ou arguments de la fonction generique `httr::GET`}
+}
+\value{
+Retourne une `list` contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est `getSuccess` ou `getError`. Une réponse de classe `GetSuccess` est une liste à deux niveaux composé du contenu (`content`), et la réponse (objet de classe `response`, paquet `httr`)
 }
 \description{
 Fonction générique pour retirer de l'information depuis l'API de Coléo
 }
 \examples{
-get_gen(endpoints$cells)
+resp <- get_gen(rce$endpoints$cells)
+length(resp) # Nombre de pages retourné par l'appel.
+str(resp[[1]])
+class(resp[[1]])
 }

@@ -3,6 +3,8 @@
 export(get_campaigns)
 export(get_cells)
 export(get_gen)
+export(get_sites)
+export(get_species)
 export(post_cells)
 export(post_gen)
 export(post_sites)

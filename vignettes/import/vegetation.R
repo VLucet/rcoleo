@@ -1,18 +1,19 @@
----
-title: "Importer les données depuis le fichier Excel du ministère"
-author: "Steve Vissault"
-date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Vignette Title}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
----
 
-```r
+library(readxl)
+library(dplyr)
+library(stringr)
+library(tibble)
+library(tidyr)
+library(rgdal)
+library(geojsonio)
+
 sheet <- "Végétation"
 
 nms <- names(read_excel("./extdata/V2_CompilationDonnées_2016-2018.xlsx",sheet=sheet))
+
+## Gerer les dates (eviter la conversion automatique)
+ct <- ifelse(grepl("^Date", nms,ignore.case = TRUE), "date", "guess")
+
 
 ## deuxieme lecture de la page et ignore le type dans la ligne 2
 df <- read_excel("./extdata/CompilationDonnées_2016-2018.xlsx",sheet=sheet,col_types = ct,trim_ws=TRUE)[-1,]
@@ -50,6 +51,3 @@ for(i in 1:length(sites_ls)){
 }
 
 resp_sites <- post_sites(sites_ls)
-
-
-```

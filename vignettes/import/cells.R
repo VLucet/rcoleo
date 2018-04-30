@@ -3,6 +3,9 @@
 ##### Injection Cellules ##
 ###########################
 
+# load
+devtools::load_all()
+
 # Authentification
 bearer <- readRDS(".httr-oauth")
 
