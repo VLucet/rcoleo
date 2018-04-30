@@ -7,34 +7,34 @@
 #' get_cells()
 #' @export
 
-get_cells <- function(query = NULL,...) {
+get_cells <- function(ids = ids,...) {
 
   responses <- list()
   endpoint <- rce$endpoints$cells
 
 
-  if (is.null(query)) {
+  if (length(ids)==0) {
 
     # Obtenir toutes les cellules
     responses <- get_gen(endpoint)
 
   } else {
 
-    stopifnot(is.character(query))
+    stopifnot(is.character(ids))
 
-    # Obtenir des cellules specifiques (ids)
-    for (c in 1:length(query)) {
+    # Obtenir des cellules specifiques (query)
+    for (id in 1:length(ids)) {
 
-      responses[[c]] <- get_gen(endpoint, query = list(q = query[c]))
+      responses[[id]] <- unlist(get_gen(endpoint, query = list(code = ids[id])),recursive=FALSE)
 
-      if (length(responses[[c]]$content) == 0) {
+      if (nrow(responses[[id]]$content) == 0) {
 
-        message(query[c], " n'est pas présent dans la base de données")
+        message(ids[id], " n'est pas présent dans la base de données")
 
-      } else if (nrow(responses[[c]]$content) > 1) {
+      } else if (nrow(responses[[id]]$content) > 1) {
 
-        message(nrow(responses[[c]]$content), " entrées ont été retourné par la base de données pour le numéro de cellule: ",
-          ids[c])
+        message(nrow(responses[[id]]$content), " entrées ont été retourné par la base de données pour le numéro de cellule: ",
+          ids[id])
 
       }
 
