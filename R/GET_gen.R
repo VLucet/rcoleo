@@ -1,9 +1,9 @@
 #' Fonction générique pour retirer de l'information depuis l'API de Coléo
 #'
 #' @param endpoint Point d'entrée pour le retrait des données. Un point d'entrée peut être vu comme une table de la base de données.
-#' @param ... Arguments de la fonction generique `httr::GET`
+#' @param ... Arguments de la fonction generique \link[httr]{GET}
 #' @return
-#' Retourne une `list` contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est `getSuccess` ou `getError`. Une réponse de classe `getSuccess` est une liste à deux niveaux composé du contenu (`content`), et la réponse (objet de classe `response`, paquet `httr`). Une réponse de classe `getError`
+#' Retourne une objet de type \code{list} contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est \code{getSuccess} ou \code{getError}. Une réponse de classe \code{getSuccess} est une liste à deux niveaux composé du contenu (`content`), et la réponse (objet de classe \code{response}, paquet \code{httr}). Une réponse de classe \code{getError}.
 #' @details
 #' Les points d'accès de l'API sont énuméré dans l'environment de coléo, voir \code{print(rce$endpoints)}
 #' @examples
