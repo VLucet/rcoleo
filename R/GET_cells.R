@@ -1,7 +1,7 @@
-#' Obtenir les informations sur une cellule depuis l'API de coleo
+#' Obtenir les informations sur des cellules depuis l'API de coleo
 #'
 #' @param ids est un vecteur contenant les identifiants des cellules que l'on désire obtenir. Si ids n'est pas spécifié, la fonction retournera l'ensemble des cellules présentes dans la base de données.
-#' @return Un objet de la classe \emph{response} (liste) contenant les codes de status (201 ou 500). Le code 201 signifie que la ou les cellules ont bien été ajouté à la base de données alors que le code 500 siginifie qu'il y a eut une ou des erreurs.
+#' @return Un objet \code{list}, dont chacun des niveaux corresponds à la réponse de l'API. La réponse peut être de classe \code{getError} ou \code{getSuccess}.
 #' @examples
 #' get_cells(ids=c('111_91'))
 #' get_cells()
