@@ -1,14 +1,17 @@
-#' Retourne les campagnes d'un site ou un ensemble de sites.
-#'
-#' @param data Une liste
-#' @return Un objet de la classe \emph{data.frame} (tableau) contenant la liste des campagnes. Si le vecteur \emph{id} est d'une dimension supérieur à 1, une liste sera retourné. Chaque niveau de la liste correspondra à un site en particulier avec à l'intérieur un tableau decrivant les campagnes attachées à ce site.
+#' Publication d'un site sur la base de données de Coléo
+#' @description
+#' Cette fonction applique la méthode POST sur le point d'entrées \emph{\sites} de l'API de Coleo
+#' @param data une liste ou chacun des niveaux corresponds aux données attribuées à un site.
+#' @return Un objet \code{list}, dont chacun des niveaux corresponds à la réponse de l'API. La réponse peut être de classe \code{postError} ou \code{postSuccess}.
 #' @examples
 #' site <- list()
-#' post_sites(site)
+#' post_sites(list(list(cell_id = 1,code_site = "111_140_H01", date_open = "2017-08-31", type="forestier", off_station_code_id="")))
+#' @seealso \code{\link{post_gen}} pour la structure de sortie de la fonction.
 #' @export
 
 
 post_sites <- function(data) {
+
   endpoint <- rce$endpoints$sites
 
   # Create resp
