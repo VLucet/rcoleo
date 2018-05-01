@@ -7,6 +7,11 @@ library(tidyr)
 library(rgdal)
 library(geojsonio)
 
+
+###################################
+####### PREP POST sur sites #######
+###################################
+
 sheet <- "Végétation"
 
 nms <- names(read_excel("./extdata/V2_CompilationDonnées_2016-2018.xlsx",sheet=sheet))
@@ -21,8 +26,18 @@ df <- read_excel("./extdata/CompilationDonnées_2016-2018.xlsx",sheet=sheet,col_
 ## replacer les espaces par des barres de soulignement dans les noms de colonnes
 names(df) <- str_replace_all(names(df)," ", "_")
 
-sites <- select(df,No_de_référence_de_la_cellule,No_de_référence_du_site,Type_de_milieu,Date_inventaire_printanier,No_borne_forestière,Latitude,Longitude)
-names(sites) <- c("cell_id","site_code","type","date_open","off_station_code_id","lat","lon")
+sites <- select(df,No_de_référence_de_la_cellule,No_de_référence_du_site,Type_de_milieu,Date_inventaire_printanier,Date_inventaire_estival,No_borne_forestière,Latitude,Longitude)
+
+## Configurer la date d'ouverture du site
+sites$date_open <- ifelse(is.na(sites$Date_inventaire_printanier),as.character(sites$Date_inventaire_estival),as.character(sites$Date_inventaire_printanier))
+sites$date_open <- as.Date(sites$date_open)
+
+## Retirer les dates estivales et printannière
+sites <- select(sites,-Date_inventaire_estival,-Date_inventaire_printanier)
+
+names(sites) <- c("cell_id","site_code","type","off_station_code_id","lat","lon","date_open")
+
+
 
 ## Garder les entrées unique par site
 sites <- unique(sites)
@@ -50,4 +65,11 @@ for(i in 1:length(sites_ls)){
   }
 }
 
+##############################
+####### POST sur sites #######
+##############################
+
+
 resp_sites <- post_sites(sites_ls)
+
+## Effort

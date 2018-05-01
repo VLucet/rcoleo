@@ -27,13 +27,13 @@ get_cells <- function(ids = ids,...) {
 
       responses[[id]] <- unlist(get_gen(endpoint, query = list(code = ids[id])),recursive=FALSE)
 
-      if (nrow(responses[[id]]$content) == 0) {
+      if (nrow(responses[[id]]$body) == 0) {
 
         message(ids[id], " n'est pas présent dans la base de données")
 
-      } else if (nrow(responses[[id]]$content) > 1) {
+      } else if (nrow(responses[[id]]$body) > 1) {
 
-        message(nrow(responses[[id]]$content), " entrées ont été retourné par la base de données pour le numéro de cellule: ",
+        message(nrow(responses[[id]]$body), " entrées ont été retourné par la base de données pour le numéro de cellule: ",
           ids[id])
 
       }

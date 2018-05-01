@@ -30,7 +30,10 @@ get_gen <- function(endpoint, ...) {
 
   limit <- rg[2]+1
   pages <- ifelse((rg[3] %% limit) == 0, round(rg[3] / limit)-1, round(rg[3] / limit))
+
+  if(!exists("query")) query <- list()
   responses <- list()
+
 
   for (page in 0:pages) {
 
