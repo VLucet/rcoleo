@@ -2,19 +2,22 @@
 % Please edit documentation in R/POST_sites.R
 \name{post_sites}
 \alias{post_sites}
-\title{Retourne les campagnes d'un site ou un ensemble de sites.}
+\title{Publication d'un site sur la base de données de Coléo}
 \usage{
 post_sites(data)
 }
 \arguments{
-\item{id}{Un vecteur contenant la liste des codes de sites.}
+\item{data}{une liste ou chacun des niveaux corresponds aux données attribuées à un site.}
 }
 \value{
-Un objet de la classe \emph{data.frame} (tableau) contenant la liste des campagnes. Si le vecteur \emph{id} est d'une dimension supérieur à 1, une liste sera retourné. Chaque niveau de la liste correspondra à un site en particulier avec à l'intérieur un tableau decrivant les campagnes attachées à ce site.
+Un objet \code{list}, dont chacun des niveaux corresponds à la réponse de l'API. La réponse peut être de classe \code{postError} ou \code{postSuccess}.
 }
 \description{
-Retourne les campagnes d'un site ou un ensemble de sites.
+Cette fonction applique la méthode POST sur le point d'entrées \emph{sites} de l'API de Coleo
 }
 \examples{
-get_campaigns()
+post_sites(list(list(cell_id = 1,code_site = "111_140_H01", date_open = "2017-08-31", type="forestier", off_station_code_id=NA)))
+}
+\seealso{
+\code{\link{post_gen}} pour la structure de sortie de la fonction.
 }

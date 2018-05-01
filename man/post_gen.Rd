@@ -16,6 +16,6 @@ Fonction générique pour envoyer de l'information vers l'API de Coléo
 }
 \examples{
 data(cells)
-post_gen("/cells",cells[1])
+post_gen('/cells',cells[1])
 # Note: Cette fonction ne prend que des singletons
 }
