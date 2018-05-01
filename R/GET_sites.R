@@ -13,30 +13,28 @@ get_sites <- function(ids = ids, ...) {
   responses <- list()
   endpoint <- rce$endpoints$sites
 
-
   if (is.null(ids)) {
 
-    # Obtenir toutes les cellules
+    # Obtenir tous les sites
     responses <- get_gen(endpoint)
 
   } else {
 
     stopifnot(is.character(ids))
 
-    # Obtenir des cellules specifiques (ids)
-    for (c in 1:length(ids)) {
+    # Obtenir les sites définis dans ids
+    for (id in 1:length(ids)) {
 
       responses[[id]] <- unlist(get_gen(endpoint, query = list(code = ids[id])),recursive=FALSE)
 
+      if (length(responses[[id]]$body) == 0) {
 
-      if (length(responses[[c]]$body) == 0) {
-        
-        message(ids[c], " n'est pas présent dans la base de données")
+        message(ids[id], " n'est pas présent dans la base de données")
 
-      } else if (nrow(responses[[c]]$body) > 1) {
+      } else if (nrow(responses[[id]]$body) > 1) {
 
-        message(nrow(responses[[c]]$body), " entrées ont été retourné par la base de données pour le numéro du site: ",
-          ids[c])
+        message(nrow(responses[[id]]$body), " entrées ont été retourné par la base de données pour le numéro du site: ",
+          ids[id])
 
       }
 
