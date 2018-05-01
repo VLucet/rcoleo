@@ -47,7 +47,7 @@ get_gen <- function(endpoint, ...) {
       stop("L'API n'a pas retourné un JSON", call. = FALSE)
     }
 
-    parsed <- jsonlite::fromJSON(httr::content(resp, type = "text"), flatten = TRUE)
+    parsed <- jsonlite::fromJSON(httr::content(resp, type = "text", encoding = "UTF-8"), flatten = TRUE)
 
     if (httr::http_error(resp)) {
       message(sprintf("La requête sur l'API a échouée: [%s]\n%s", status_code(resp),
