@@ -1,12 +1,14 @@
-#' Retourne les sites d'une cellule.
+#' Obtenir les informations sur des sites depuis l'API de coleo
 #'
-#' @param d une liste contenant pour chaque niveau l'information d'une cellule. L'informations qui peut être saisie sur une cellule est accessible à TODO http://XXX.
-#' @return Un objet de la classe \emph{responses} (liste) contenant les codes de status (201 ou 500). Le code 201 signifie que la ou les cellules ont bien été ajouté à la base de données alors que le code 500 siginifie qu'il y a eut une ou des erreurs.
+#' @param ids est un vecteur contenant les identifiants uniques des sites que l'on désire obtenir. Si ids n'est pas spécifié, la fonction retournera l'ensemble des sites présents dans la base de données.
+#' @return Un objet \code{list}, dont chacun des niveaux corresponds à la réponse de l'API. La réponse peut être de classe \code{getError} ou \code{getSuccess}.
 #' @examples
+#' get_sites(ids=c('135_104_H01'))
 #' get_sites()
 #' @export
 
-get_sites <- function(query = NULL,...) {
+
+get_sites <- function(ids = ids, ...) {
 
   responses <- list()
   endpoint <- rce$endpoints$sites
@@ -19,20 +21,21 @@ get_sites <- function(query = NULL,...) {
 
   } else {
 
-    stopifnot(is.character(query))
+    stopifnot(is.character(ids))
 
     # Obtenir des cellules specifiques (ids)
     for (c in 1:length(ids)) {
 
-      responses[[c]] <- get_gen(endpoint, query = list(q = query[c]))
+      responses[[id]] <- unlist(get_gen(endpoint, query = list(code = ids[id])),recursive=FALSE)
 
-      if (length(responses[[c]]$content) == 0) {
 
+      if (length(responses[[c]]$body) == 0) {
+        
         message(ids[c], " n'est pas présent dans la base de données")
 
-      } else if (nrow(responses[[c]]$content) > 1) {
+      } else if (nrow(responses[[c]]$body) > 1) {
 
-        message(nrow(responses[[c]]$content), " entrées ont été retourné par la base de données pour le numéro du site: ",
+        message(nrow(responses[[c]]$body), " entrées ont été retourné par la base de données pour le numéro du site: ",
           ids[c])
 
       }
