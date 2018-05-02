@@ -4,7 +4,7 @@
 \alias{get_campaigns}
 \title{Retourne les campagnes d'un site ou un ensemble de sites.}
 \usage{
-get_campaigns(id = NULL)
+get_campaigns(ids = NULL)
 }
 \arguments{
 \item{id}{Un vecteur contenant la liste des codes de sites.}

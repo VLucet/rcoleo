@@ -1,10 +1,4 @@
 #' Retourne les entrées d'espèces présentes dans la base de données
-#'
-#' @param
-#' @return
-#' @examples
-#' get_sites()
-#' @export
 
 get_species <- function(query = NULL) {
 

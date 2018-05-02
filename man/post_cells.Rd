@@ -7,7 +7,7 @@
 post_cells(data)
 }
 \arguments{
-\item{data}{une liste contenant pour chaque niveau l'information d'une cellule. L'informations qui peut être saisie sur une cellule est accessible à TODO http://XXX.}
+\item{data}{une liste contenant pour chaque niveau l'information d'une cellule.}
 }
 \value{
 Un objet de la classe \emph{responses} (liste) contenant les codes de status (201 ou 500).

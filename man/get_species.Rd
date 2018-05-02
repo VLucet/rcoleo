@@ -9,6 +9,3 @@ get_species(query = NULL)
 \description{
 Retourne les entrées d'espèces présentes dans la base de données
 }
-\examples{
-get_sites()
-}

@@ -11,11 +11,9 @@ post_gen(endpoint, singleton, ...)
 
 \item{singleton}{Données à injecter à l'intérieur de la base de données.}
 }
+\value{
+Retourne une objet de type \code{list} contenant les réponses de l'API. Chaque niveau de la liste correspond à la réponse de l'API. Pour chacun des appels POST sur l'API, la classe retourné est \code{postSuccess} ou \code{postError}. Une réponse de classe \code{postSuccess} ou \code{postError} est une liste à deux niveaux composée du \code{body}, et de la réponse \link[httr:response-class]{httr::response}. Si le réponse est de classe \code{postSucces}, le \code{body} contiendra les données injectées sinon il contiendra le message d'erreur retourné par l'API.
+}
 \description{
 Fonction générique pour envoyer de l'information vers l'API de Coléo
-}
-\examples{
-data(cells)
-post_gen('/cells',cells[1])
-# Note: Cette fonction ne prend que des singletons
 }

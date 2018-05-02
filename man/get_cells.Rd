@@ -2,18 +2,23 @@
 % Please edit documentation in R/GET_cells.R
 \name{get_cells}
 \alias{get_cells}
-\title{Obtenir les informations sur une cellule depuis l'API de coleo}
+\title{Obtenir les informations sur des cellules depuis l'API de coleo}
 \usage{
-get_cells(ids = ids, ...)
+get_cells(ids = NULL, ...)
 }
 \arguments{
-\item{ids}{est un vecteur contenant les identifiants des cellules que l'on désire obtenir. Si ids n'est pas spécifié, la fonction retournera l'ensemble des cellules présentes dans la base de données.}
+\item{ids}{est un vecteur contenant les identifiants uniques que l'on désire obtenir. Si ids n'est pas spécifié, la fonction retournera l'ensemble des sites présents dans la base de données.}
+
+\item{...}{Arguments de la fonction generique \code{\link[httr:GET]{httr::GET()}}}
 }
 \value{
-Un objet \code{list}, dont chacun des niveaux corresponds à la réponse de l'API. La réponse peut être de classe \code{getError} ou \code{getSuccess}.
+Retourne une objet de type \code{list} contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est \code{getSuccess} ou \code{getError}. Une réponse de classe \code{getSuccess} est une liste à deux niveaux composé du contenu (\code{body}), et la réponse \link[httr:response-class]{httr::response}. Une réponse de classe \code{getError}.
 }
 \description{
-Obtenir les informations sur une cellule depuis l'API de coleo
+Obtenir les informations sur des cellules depuis l'API de coleo
+}
+\details{
+Les points d'accès de l'API sont énuméré dans l'environment de coléo, voir \code{print(rce$endpoints)}
 }
 \examples{
 get_cells(ids=c('111_91'))

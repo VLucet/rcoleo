@@ -2,19 +2,20 @@
 % Please edit documentation in R/GET_sites.R
 \name{get_sites}
 \alias{get_sites}
-\title{Retourne les sites d'une cellule.}
+\title{Obtenir les informations sur un ou des sites depuis l'API de coleo}
 \usage{
-get_sites(query = NULL, ...)
+get_sites(ids = NULL, ...)
 }
 \arguments{
-\item{d}{une liste contenant pour chaque niveau l'information d'une cellule. L'informations qui peut être saisie sur une cellule est accessible à TODO http://XXX.}
+\item{ids}{est un vecteur contenant les identifiants uniques des sites que l'on désire obtenir. Si ids n'est pas spécifié, la fonction retournera l'ensemble des sites présents dans la base de données.}
 }
 \value{
-Un objet de la classe \emph{responses} (liste) contenant les codes de status (201 ou 500). Le code 201 signifie que la ou les cellules ont bien été ajouté à la base de données alors que le code 500 siginifie qu'il y a eut une ou des erreurs.
+Un objet \code{list}, dont chacun des niveaux corresponds à la réponse de l'API. La réponse peut être de classe \code{getError} ou \code{getSuccess}.
 }
 \description{
-Retourne les sites d'une cellule.
+Obtenir les informations sur un ou des sites depuis l'API de coleo
 }
 \examples{
+get_sites(ids=c('135_104_H01'))
 get_sites()
 }

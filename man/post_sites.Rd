@@ -13,7 +13,7 @@ post_sites(data)
 Un objet \code{list}, dont chacun des niveaux corresponds à la réponse de l'API. La réponse peut être de classe \code{postError} ou \code{postSuccess}.
 }
 \description{
-Cette fonction applique la méthode POST sur le point d'entrées \emph{sites} de l'API de Coleo
+Cette fonction applique la méthode POST sur le point d'entrées \code{sites} de l'API de Coleo
 }
 \examples{
 post_sites(list(list(cell_id = 1,code_site = "111_140_H01", date_open = "2017-08-31", type="forestier", off_station_code_id=NA)))

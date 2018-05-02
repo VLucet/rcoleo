@@ -1,5 +1,7 @@
 # rcoleo
 
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+
 `rcoleo` un paquet R permettant le retrait des données collectées dans le cadre du programme de suivi de la biodiversité. Ce programme a été mis sur pied par le Ministère des Forêts, de la Faune et des Parcs (2015).
 
 Ce paquet R expose les services `RESTFull` de l'API de Coléo. Colée est un système d'information sur la biodiversité du Québec développé en partenariat avec le laboratoire d'Écologie Intégrative de l'Université de Sherbrooke.
