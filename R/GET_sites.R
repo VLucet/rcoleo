@@ -9,6 +9,6 @@
 
 get_sites <- function(ids = NULL, ...) {
 
-  return(get_ids(ids, rce$endpoints$sites))
+  return(get_ids(ids, rce$endpoints$sites, ...))
 
 }

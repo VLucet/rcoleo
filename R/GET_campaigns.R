@@ -1,11 +1,24 @@
-#' Retourne les campagnes d'un site ou un ensemble de sites.
+#' Obtenir l'ensemble des campagnes attachées à un site
 #'
-#' @param id Un vecteur contenant la liste des codes de sites.
-#' @return Un objet de la classe \emph{data.frame} (tableau) contenant la liste des campagnes. Si le vecteur \emph{id} est d'une dimension supérieur à 1, une liste sera retourné. Chaque niveau de la liste correspondra à un site en particulier avec à l'intérieur un tableau decrivant les campagnes attachées à ce site.
+#' @param ids `vector` contenant la liste des codes de sites pour lesquelles ont désire récupérer les campagnes
+#' @param simplify `logical` l'objet de sortie de la fonction est un `data.frame` à la place d'un objet de type `list`
+#' @inherit get_ids
 #' @examples
 #' get_campaigns()
 #' @export
 
-get_campaigns <- function(id=NULL){
+get_campaigns <- function(ids=NULL, ...){
+
+  sites <- get_sites(ids, rce$endpoints$sites)
+
+  responses <- list()
+
+  for(id in 1:length(sites)){
+    responses[[id]] <- list(site_code = NULL, campaigns = NULL)
+    responses[[id]]$site_code <- sites[[id]]$body$site_code
+    responses[[id]]$campaigns <- do.call("rbind",sites[[id]]$body$campaigns)
+  }
+
+  return(responses)
 
 }

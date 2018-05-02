@@ -11,6 +11,7 @@ library(geojsonio)
 ###################################
 ####### PREP POST sur sites #######
 ###################################
+source("vignettes/import/cells.R")
 
 sheet <- "Végétation"
 
@@ -42,6 +43,9 @@ names(sites) <- c("cell_id","site_code","type","off_station_code_id","lat","lon"
 ## Garder les entrées unique par site
 sites <- unique(sites)
 
+## Remplacer les barres de soulignement par des tirets
+sites$site_code <- str_replace_all(sites$site_code,"-", "_")
+
 ## CORRECTIONS
 ## Garder monit_prg_station_id juste pour les programmes externes
 sites[stringr::str_detect(sites$off_station_code_id,"(\\d{3})-(\\d{3})"),"off_station_code_id"] <- NA
@@ -68,8 +72,42 @@ for(i in 1:length(sites_ls)){
 ##############################
 ####### POST sur sites #######
 ##############################
-
-
 resp_sites <- post_sites(sites_ls)
 
+###################################
+####### PREP POST sur campaign ####
+###################################
+
+campaigns <- unique(select(df,No_de_référence_du_site,Date_inventaire_printanier,Date_inventaire_estival))
+campaigns$type <- "végétation"
+names(campaigns) <- c("site_code","opened_at","closed_at","type")
+
+# S'il n'y pas de date de fermeture, alors on prend la date d'ouverture et inversement
+campaigns[is.na(campaigns$closed_at),"closed_at"] <- campaigns[is.na(campaigns$closed_at),"opened_at"]
+campaigns[is.na(campaigns$opened_at),"opened_at"] <- campaigns[is.na(campaigns$opened_at),"closed_at"]
+
+## Remplacer les barres de soulignement par des tirets
+campaigns$site_code <- str_replace_all(campaigns$site_code,"-", "_")
+
+# Transforme en list
+campaigns_ls <- apply(campaigns,1,as.list)
+
+##############################
+##### POST sur campaigns #####
+##############################
+resp_campaigns <- post_campaigns(campaigns_ls)
+
 ## Effort
+  
+
+
+
+## Campaign
+
+## Tech
+
+## landmarks
+
+## Observations
+
+## ObsSpecies

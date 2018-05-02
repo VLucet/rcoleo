@@ -1,6 +1,6 @@
 #' Fonction générique pour retirer de l'information depuis l'API de Coléo
 #'
-#' @param endpoint Point d'entrée pour le retrait des données. Un point d'entrée peut être vu comme une table de la base de données.
+#' @param endpoint `character` désignant le point d'entrée pour le retrait des données. Un point d'entrée peut être vu comme une table de la base de données.
 #' @param ... Arguments de la fonction generique [httr::GET()]
 #' @return
 #' Retourne une objet de type `list` contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est `getSuccess` ou `getError`. Une réponse de classe `getSuccess` est une liste à deux niveaux composé du contenu (`body`), et la réponse [httr::response-class]. Une réponse de classe `getError`.
@@ -13,7 +13,7 @@
 #' class(resp[[1]])
 #' @export
 
-get_gen <- function(endpoint, ...) {
+get_gen <- function(endpoint = NULL, ...) {
 
   stopifnot(exists("endpoint"))
 
@@ -31,11 +31,11 @@ get_gen <- function(endpoint, ...) {
   limit <- rg[2]+1
   pages <- ifelse((rg[3] %% limit) == 0, round(rg[3] / limit)-1, round(rg[3] / limit))
 
-  if(!exists("query")) query <- list()
   responses <- list()
 
-
   for (page in 0:pages) {
+
+    if(!exists("query")) query <- list()
 
     # Ajouter les pages à la requête
     query$page <- page
