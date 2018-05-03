@@ -22,10 +22,12 @@ get_campaigns <- function(site_ids = NULL, dates = NULL, type = NULL, ...){
   if(!is.null(site_ids)){
     sites <- get_sites(ids=site_ids, rce$endpoints$sites)
     fkey_ids <- sapply(sites,function(x) x$body[,"id"])
+  } else {
+    fkey_ids <- NULL
   }
 
   # tests args to set iterator
-  len_args <- c(length(site_ids),length(dates))
+  len_args <- c(length(site_ids),length(dates),length(type))
   len <- unique(len_args[which(len_args>0)])
 
   responses <- list()
