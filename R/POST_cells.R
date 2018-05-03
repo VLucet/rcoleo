@@ -1,12 +1,11 @@
-#' Retourne les campagnes d'un site ou un ensemble de sites.
+#' Publication d'une cellule sur la base de données de Coléo
 #'
-#' @param data une liste contenant pour chaque niveau l'information d'une cellule. 
-#' @return Un objet de la classe \emph{responses} (liste) contenant les codes de status (201 ou 500).
-#' @examples
-#' data(cells)
-#' post_cells(cells[1:10])
+#' Cette fonction applique la méthode POST sur le point d'entrées `cells` de l'API de Coleo
+#'
+#' @param data une liste ou chacun des niveaux corresponds aux données attribuées au ednpoint.
+#' @return Un objet \code{list}, dont chacun des niveaux corresponds à la réponse de l'API. La réponse peut être de classe \code{postError} ou \code{postSuccess}.
+#' @seealso \code{\link{post_gen}} pour la structure de sortie de la fonction.
 #' @export
-
 post_cells <- function(data) {
 
   responses <- list()

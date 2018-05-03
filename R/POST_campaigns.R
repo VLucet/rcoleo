@@ -1,11 +1,8 @@
-#' Publication d'une campagne attachée à un site sur la base de données de Coléo
+#' Publication d'une campagne sur la base de données de Coléo
 #'
-#' Cette fonction applique la méthode POST sur le point d'entrées \code{campagnes} de l'API de Coleo
-#' @param data une liste ou chacun des niveaux corresponds aux données attribuées à une campagne.
-#' @return Un objet \code{list}, dont chacun des niveaux corresponds à la réponse de l'API. La réponse peut être de classe \code{postError} ou \code{postSuccess}.
-#' @examples
-#' post_campaigns()
-#' @seealso \code{\link{post_gen}} pour la structure de sortie de la fonction.
+#' Cette fonction applique la méthode POST sur le point d'entrées `campaigns` de l'API de Coleo
+#'
+#' @inherits post_cells
 #' @export
 
 post_campaigns <- function(data) {
