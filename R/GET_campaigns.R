@@ -9,16 +9,27 @@
 
 get_campaigns <- function(ids=NULL, ...){
 
-  sites <- get_sites(ids, rce$endpoints$sites)
+  ##### Filter by type and date campagne?
+  ### SOL1: rebuild query, avoid using get_ids(), use get_gen()
+  ### Ajout de fonctionnalitees, je veux aller chercher tous les types de campagne vegetation pour injecter en batch l'effort qui est le meme dans ce cas.
 
-  responses <- list()
+  if(!is.null(ids)){
+    sites <- get_sites(ids, rce$endpoints$sites)
 
-  for(id in 1:length(sites)){
-    responses[[id]] <- list(site_code = NULL, campaigns = NULL)
-    responses[[id]]$site_code <- sites[[id]]$body$site_code
-    responses[[id]]$campaigns <- do.call("rbind",sites[[id]]$body$campaigns)
+    responses <- list()
+
+    ## Est-ce que c'est une bonne idee que je perde la structure list(body=body, response=response)?
+    ## Non, write utils called simplify which turn into data.frame the responses
+
+    for(id in 1:length(sites)){
+      responses[[id]] <- list(site_code = NULL, campaigns = NULL)
+      responses[[id]]$site_code <- sites[[id]]$body$site_code
+      responses[[id]]$campaigns <- do.call("rbind",sites[[id]]$body$campaigns)
+    }
+
+    return(responses)
   }
 
-  return(responses)
+
 
 }

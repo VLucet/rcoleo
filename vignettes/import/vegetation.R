@@ -98,7 +98,13 @@ campaigns_ls <- apply(campaigns,1,as.list)
 resp_campaigns <- post_campaigns(campaigns_ls)
 
 ## Effort
-  
+## Pour chacune des campagnes, associé l'effort correspondant:
+## 400m2 pour les arbres
+## 100m2 pour les arbustes et herbacées
+## 10m2 pour les bryophytes
+## Même si pas de bryophytes l'effort est là quand même
+
+# List toutes les campagnes de type vegetation
 
 
 
