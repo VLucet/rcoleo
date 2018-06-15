@@ -38,8 +38,6 @@ sites <- select(sites,-Date_inventaire_estival,-Date_inventaire_printanier)
 
 names(sites) <- c("cell_id","site_code","type","off_station_code_id","lat","lon","date_open")
 
-
-
 ## Garder les entrées unique par site
 sites <- unique(sites)
 
@@ -48,7 +46,7 @@ sites$site_code <- str_replace_all(sites$site_code,"-", "_")
 
 ## CORRECTIONS
 ## Garder monit_prg_station_id juste pour les programmes externes
-sites[stringr::str_detect(sites$off_station_code_id,"(\\d{3})-(\\d{3})"),"off_station_code_id"] <- NA
+sites[str_detect(sites$off_station_code_id,"(\\d{3})-(\\d{3})"),"off_station_code_id"] <- NA
 
 ## Transformer en liste pour injection
 sites_ls <- apply(sites,1,as.list)
@@ -89,28 +87,80 @@ campaigns[is.na(campaigns$opened_at),"opened_at"] <- campaigns[is.na(campaigns$o
 ## Remplacer les barres de soulignement par des tirets
 campaigns$site_code <- str_replace_all(campaigns$site_code,"-", "_")
 
+
 # Transforme en list
 campaigns_ls <- apply(campaigns,1,as.list)
+
+
+# Ajout de l'effort d'échantillonnage
+campaigns_ls <- lapply(campaigns_ls, function(x) {
+  x$efforts <- list(
+    list(stratum = "bryophytes", samp_surf = "10", samp_surf_unit = "m2"),
+    list(stratum = "arbustes/herbacées", samp_surf = "100", samp_surf_unit = "m2"),
+    list(stratum = "arbres", samp_surf = "400", samp_surf_unit = "m2")
+  )
+  return(x)
+})
+
+########
+# TODO #
+########
+
+# Ajout des landmarks
+# Étape 1. Clean taxonomy
+unique(toupper(c(df$Essence,df$Essence__1)))
+
+# Champ à considérer
+#   `No_de_l'arbre_repère_A_(AR-A)` <chr>, Essence <chr>,
+#   `DHP_(mm)_AR-A` <chr>, `Azimut_(o)_AR-A` <chr>, `Distance_AR-A_(cm)` <chr>,
+#   `Latitute_AR-A` <chr>, `Londitude_AR-A` <chr>, WP__1 <chr>,
+#   `No_de_l'arbre_repère_B_(AR-B)` <chr>, Essence__1 <chr>,
+#   `DHP_(mm)_AR-B` <chr>, `Azimut_(o)_AR-B` <chr>, `Distance_AR-B_(cm)` <chr>,
+#   `Latitute_AR-B` <chr>, `Londitude_AR-B` <chr>, WP__2 <chr>,
+
 
 ##############################
 ##### POST sur campaigns #####
 ##############################
 resp_campaigns <- post_campaigns(campaigns_ls)
 
-## Effort
-## Pour chacune des campagnes, associé l'effort correspondant:
-## 400m2 pour les arbres
-## 100m2 pour les arbustes et herbacées
-## 10m2 pour les bryophytes
-## Même si pas de bryophytes l'effort est là quand même
 
-# List toutes les campagnes de type vegetation
+####################################
+##### POST sur les techniciens #####
+####################################
+techCampaigns <- unique(select(df,No_de_référence_du_site,Date_inventaire_printanier, Nom_observateur_1__1, Nom_observateur_2__1,Date_inventaire_estival,Nom_observateur_1, Nom_observateur_2))
+
+techCampaigns$type <- "vegetation"
+
+names(techCampaigns) <- c("site_code","opened_at","tech_1_printemps","tech_2_printemps","closed_at","tech_1_estival","tech_2_estival","type")
+
+# S'il n'y pas de date de fermeture, alors on prend la date d'ouverture et inversement
+techCampaigns[is.na(techCampaigns$closed_at),"closed_at"] <- techCampaigns[is.na(techCampaigns$closed_at),"opened_at"]
+techCampaigns[is.na(techCampaigns$opened_at),"opened_at"] <- techCampaigns[is.na(techCampaigns$opened_at),"closed_at"]
+
+# On fait un melt pour éviter les techniciens en colonnes
+library(reshape2)
+techCampaigns <- melt(techCampaigns,id.vars=c("site_code","type","opened_at","closed_at"),value.name="tech",na.rm=TRUE)
+
+# On retire la colonne variable du melt et on retire les duplicates
+techCampaigns <- select(techCampaigns, -variable)
+
+# On retire les NAs rentré manuellement
+techCampaigns <- techCampaigns[which(techCampaigns$tech != "NA"),]
+
+# On split pour obtenir juste séparer le nom du Prénom
+techCampaigns$name <- word(techCampaigns$tech,1)
+techCampaigns$lastname <- word(techCampaigns$tech,2)
+
+# On drop la colonne tech
+techCampaigns <- select(techCampaigns, -tech)
+
+# On obtient les ids des campaigns
+
+# TODO: Travailler la fonction de post Tech
 
 
 
-## Campaign
-
-## Tech
 
 ## landmarks
 
