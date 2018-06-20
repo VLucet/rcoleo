@@ -28,8 +28,12 @@ get_gen <- function(endpoint = NULL, ...) {
     simplify=TRUE,
     "\\(?[0-9,.]+\\)?"))
 
-  limit <- rg[2]+1
-  pages <- ifelse((rg[3] %% limit) == 0, round(rg[3] / limit)-1, round(rg[3] / limit))
+  if(sum(rg) == 0){
+    pages <- 0
+  }  else {
+    limit <- rg[2]+1
+    pages <- ifelse((rg[3] %% limit) == 0, round(rg[3] / limit)-1, round(rg[3] / limit))
+  }
 
   responses <- list()
 
@@ -50,13 +54,14 @@ get_gen <- function(endpoint = NULL, ...) {
     parsed <- jsonlite::fromJSON(httr::content(resp, type = "text", encoding = "UTF-8"), flatten = TRUE)
 
     if (httr::http_error(resp)) {
-      message(sprintf("La requête sur l'API a échouée: [%s]\n%s", status_code(resp),
+      message(sprintf("La requête sur l'API a échouée: [%s]\n%s", httr::status_code(resp),
         parsed$message), call. = FALSE)
 
       responses[[page + 1]] <- structure(list(body = NULL, response = resp),
           class = "getError")
 
     } else {
+
       responses[[page + 1]] <- structure(list(body = parsed, response = resp),
         class = "getSuccess")
     }
