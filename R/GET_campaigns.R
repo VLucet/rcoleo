@@ -1,9 +1,9 @@
 #' Obtenir l'ensemble des campagnes attachées à un site
 #'
-#' @param site_code `vector` contenant les codes de sites pour lesquelles ont désire récupérer les campagnes (ex. 134_111_F01)
-#' @param opened_at `vector` contenant les dates de début de campagnes (ex. 2017-01-30)
-#' @param closed_at `vector` contenant les dates de fin de campagnes (ex. 2017-01-30)
-#' @param type `character` contenant le type de campagnes d'inventaires réalisé (ex. végétation)
+#' @param site_code `character` vecteur contenant les codes de sites pour lesquelles ont désire récupérer les campagnes (ex. 134_111_F01)
+#' @param opened_at `character` vecteur contenant les dates de début de campagnes (ex. 2017-01-30)
+#' @param closed_at `character` vecteur contenant les dates de fin de campagnes (ex. 2017-01-30)
+#' @param type `character` vecteur contenant le type de campagnes d'inventaires réalisé (ex. végétation)
 #' @inheritParams get_gen
 #' @examples
 #' get_campaigns()

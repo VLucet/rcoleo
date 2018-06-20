@@ -1,5 +1,7 @@
 #' Obtenir les informations sur les cellules depuis l'API de coleo
-#' @param cell_code est un vecteur contenant les identifiants uniques que l'on désire obtenir. Si cell_code n'est pas spécifié, la fonction retournera l'ensemble des entrées présentes dans la table cells.
+#' @param cell_code `character` vecteur contenant les identifiants uniques que l'on désire obtenir. Si cell_code n'est pas spécifié, la fonction retournera l'ensemble des entrées présentes dans la table cells.
+#' @return
+#' Retourne une objet de type `list` contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est `getSuccess` ou `getError`. Une réponse de classe `getSuccess` est une liste à deux niveaux composé du contenu (`body`), et la réponse [httr::response-class]. Une réponse de classe `getError`.
 #' @inheritParams get_gen
 #' @examples
 #' get_cells(cell_code=c('111_91'))

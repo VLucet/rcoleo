@@ -1,4 +1,4 @@
-#' Fonction générique pour retirer (GET) de l'information depuis l'API de Coléo
+#' Fonction générique pour retirer de l'information depuis l'API de Coléo
 #'
 #' @param endpoint `character` désignant le point d'entrée pour le retrait des données. Un point d'entrée peut être vu comme une table de la base de données.
 #' @param ... httr options; arguments de la fonction `httr::GET()`

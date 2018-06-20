@@ -7,9 +7,12 @@
 get_cells(cell_code = NULL, ...)
 }
 \arguments{
-\item{cell_code}{est un vecteur contenant les identifiants uniques que l'on désire obtenir. Si cell_code n'est pas spécifié, la fonction retournera l'ensemble des entrées présentes dans la table cells.}
+\item{cell_code}{\code{character} vecteur contenant les identifiants uniques que l'on désire obtenir. Si cell_code n'est pas spécifié, la fonction retournera l'ensemble des entrées présentes dans la table cells.}
 
 \item{...}{httr options; arguments de la fonction \code{httr::GET()}}
+}
+\value{
+Retourne une objet de type \code{list} contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est \code{getSuccess} ou \code{getError}. Une réponse de classe \code{getSuccess} est une liste à deux niveaux composé du contenu (\code{body}), et la réponse \link[httr:response-class]{httr::response}. Une réponse de classe \code{getError}.
 }
 \description{
 Obtenir les informations sur les cellules depuis l'API de coleo

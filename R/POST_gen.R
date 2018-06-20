@@ -1,4 +1,4 @@
-#' Fonction générique pour envoyer (POST) de l'information vers l'API de Coléo
+#' Fonction générique pour envoyer de l'information vers l'API de Coléo
 #'
 #' @param endpoint Point d'entrée pour le retrait des données.
 #' @param singleton Données à injecter à l'intérieur de la base de données.

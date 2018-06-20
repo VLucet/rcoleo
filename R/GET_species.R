@@ -1,14 +1,17 @@
-#' Obtenir les informations sur les sites depuis l'API de coleo
-#' @param site_code est un vecteur contenant les identifiants uniques que l'on désire obtenir. Si site_code n'est pas spécifié, la fonction retournera l'ensemble des entrées présentes dans la table cells.
+#' Retourne les entrées d'espèces présentes dans la base de données
+#'
+#' @param species `character` vecteur contenant les espèces recherché (sensible à la case)
+#' @param genus `character` vecteur contenant les genres d'espèce recherché (sensible à la case)
+#' @param vernacular `character` vecteur contenant les noms vernaculaires des espèces recherchées (sensible à la case)
 #' @inheritParams get_gen
+#' @return
+#' Retourne une objet de type `list` contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est `getSuccess` ou `getError`. Une réponse de classe `getSuccess` est une liste à deux niveaux composé du contenu (`body`), et la réponse [httr::response-class]. Une réponse de classe `getError`.
 #' @examples
 #' get_species(vernacular=c('Érable'))
 #' get_species()
 #' @export
 
-#' Retourne les entrées d'espèces présentes dans la base de données
-
-get_species <- function(species = NULL, genre = NULL, vernacular = NULL,...) {
+get_species <- function(species = NULL, genus = NULL, vernacular = NULL, type = NULL,...) {
 
   responses <- list()
   endpoint <- rce$endpoints$species

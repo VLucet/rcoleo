@@ -7,11 +7,14 @@
 get_techs(name = NULL, lastname = NULL, ...)
 }
 \arguments{
-\item{name}{\code{vector} contenant le prénom du technicien (sensible à la case)}
+\item{name}{\code{character} vecteur contenant le prénom du technicien (sensible à la case)}
 
-\item{lastname}{\code{vector} contenant le nom du technicien (sensible à la case)}
+\item{lastname}{\code{character} vecteur contenant le nom du technicien (sensible à la case)}
 
 \item{...}{httr options; arguments de la fonction \code{httr::GET()}}
+}
+\value{
+Retourne une objet de type \code{list} contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est \code{getSuccess} ou \code{getError}. Une réponse de classe \code{getSuccess} est une liste à deux niveaux composé du contenu (\code{body}), et la réponse \link[httr:response-class]{httr::response}. Une réponse de classe \code{getError}.
 }
 \description{
 Obtenir l'ensemble des techiciens attachés à une campagne

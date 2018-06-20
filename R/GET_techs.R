@@ -1,8 +1,10 @@
 #' Obtenir l'ensemble des techiciens attachés à une campagne
 #'
-#' @param name `vector` contenant le prénom du technicien (sensible à la case)
-#' @param lastname `vector` contenant le nom du technicien (sensible à la case)
+#' @param name `character` vecteur contenant le prénom du technicien (sensible à la case)
+#' @param lastname `character` vecteur contenant le nom du technicien (sensible à la case)
 #' @inheritParams get_gen
+#' @return
+#' Retourne une objet de type `list` contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est `getSuccess` ou `getError`. Une réponse de classe `getSuccess` est une liste à deux niveaux composé du contenu (`body`), et la réponse [httr::response-class]. Une réponse de classe `getError`.
 #' @examples
 #' get_techs(name="Caroline")
 #' @export

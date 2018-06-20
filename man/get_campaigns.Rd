@@ -8,13 +8,13 @@ get_campaigns(site_code = NULL, opened_at = NULL, closed_at = NULL,
   type = NULL, ...)
 }
 \arguments{
-\item{site_code}{\code{vector} contenant les codes de sites pour lesquelles ont désire récupérer les campagnes (ex. 134_111_F01)}
+\item{site_code}{\code{character} vecteur contenant les codes de sites pour lesquelles ont désire récupérer les campagnes (ex. 134_111_F01)}
 
-\item{opened_at}{\code{vector} contenant les dates de début de campagnes (ex. 2017-01-30)}
+\item{opened_at}{\code{character} vecteur contenant les dates de début de campagnes (ex. 2017-01-30)}
 
-\item{closed_at}{\code{vector} contenant les dates de fin de campagnes (ex. 2017-01-30)}
+\item{closed_at}{\code{character} vecteur contenant les dates de fin de campagnes (ex. 2017-01-30)}
 
-\item{type}{\code{character} contenant le type de campagnes d'inventaires réalisé (ex. végétation)}
+\item{type}{\code{character} vecteur contenant le type de campagnes d'inventaires réalisé (ex. végétation)}
 
 \item{...}{httr options; arguments de la fonction \code{httr::GET()}}
 }
