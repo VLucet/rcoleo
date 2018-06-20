@@ -1,7 +1,7 @@
 #' Fonction générique pour retirer de l'information depuis l'API de Coléo
 #'
 #' @param endpoint `character` désignant le point d'entrée pour le retrait des données. Un point d'entrée peut être vu comme une table de la base de données.
-#' @param ... Arguments de la fonction generique [httr::GET()]
+#' @param ... httr options; arguments de la fonction `httr::GET()`
 #' @return
 #' Retourne une objet de type `list` contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est `getSuccess` ou `getError`. Une réponse de classe `getSuccess` est une liste à deux niveaux composé du contenu (`body`), et la réponse [httr::response-class]. Une réponse de classe `getError`.
 #' @details
@@ -28,6 +28,7 @@ get_gen <- function(endpoint = NULL, ...) {
     simplify=TRUE,
     "\\(?[0-9,.]+\\)?"))
 
+  # Préparation de l'itérateur
   if(sum(rg) == 0){
     pages <- 0
   }  else {
@@ -37,6 +38,7 @@ get_gen <- function(endpoint = NULL, ...) {
 
   responses <- list()
 
+  # Boucle sur les pages
   for (page in 0:pages) {
 
     if(!exists("query")) query <- list()

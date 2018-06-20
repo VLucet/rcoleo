@@ -1,5 +1,6 @@
 #' Obtenir les informations sur les sites depuis l'API de coleo
 #' @param site_code est un vecteur contenant les identifiants uniques que l'on désire obtenir. Si site_code n'est pas spécifié, la fonction retournera l'ensemble des entrées présentes dans la table cells.
+#' @inheritParams get_gen
 #' @examples
 #' get_sites(site_code=c('135_104_H01'))
 #' get_sites()

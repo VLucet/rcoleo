@@ -2,10 +2,10 @@
 #'
 #' Cette fonction applique la méthode POST sur le point d'entrées `sites` de l'API de Coleo
 #'
-#' @inherits post_cells
+#' @inheritParams post_cells
 #' @export
 
-post_sites <- function(data) {
+post_sites <- function(data, ...) {
 
   responses <- list()
   endpoint <- rce$endpoints$sites
@@ -14,7 +14,7 @@ post_sites <- function(data) {
     # On retourne l'id unique de la table cell
     # Le unlist c'est pour les pages, mais je sais que la réponse contient une seule page (match sur un code)
     data[[i]]$cell_id <- unlist(get_cells(data[[i]]$cell_id),recursive=FALSE)$body[,c("id")]
-    responses[[i]] <- post_gen(endpoint, data[[i]])
+    responses[[i]] <- post_gen(endpoint, data[[i]], ...)
   }
 
   return(responses)

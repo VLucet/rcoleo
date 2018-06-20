@@ -8,6 +8,8 @@ get_sites(site_code = NULL, ...)
 }
 \arguments{
 \item{site_code}{est un vecteur contenant les identifiants uniques que l'on désire obtenir. Si site_code n'est pas spécifié, la fonction retournera l'ensemble des entrées présentes dans la table cells.}
+
+\item{...}{httr options; arguments de la fonction \code{httr::GET()}}
 }
 \description{
 Obtenir les informations sur les sites depuis l'API de coleo

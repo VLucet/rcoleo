@@ -10,6 +10,8 @@ post_gen(endpoint, singleton, ...)
 \item{endpoint}{Point d'entrée pour le retrait des données.}
 
 \item{singleton}{Données à injecter à l'intérieur de la base de données.}
+
+\item{...}{httr options; arguments de la fonction \code{httr::POST()}}
 }
 \value{
 Retourne une objet de type \code{list} contenant les réponses de l'API. Chaque niveau de la liste correspond à la réponse de l'API. Pour chacun des appels POST sur l'API, la classe retourné est \code{postSuccess} ou \code{postError}. Une réponse de classe \code{postSuccess} ou \code{postError} est une liste à deux niveaux composée du \code{body}, et de la réponse \link[httr:response-class]{httr::response}. Si le réponse est de classe \code{postSucces}, le \code{body} contiendra les données injectées sinon il contiendra le message d'erreur retourné par l'API.

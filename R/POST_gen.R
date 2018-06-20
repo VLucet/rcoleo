@@ -2,6 +2,7 @@
 #'
 #' @param endpoint Point d'entrée pour le retrait des données.
 #' @param singleton Données à injecter à l'intérieur de la base de données.
+#' @param ... httr options; arguments de la fonction `httr::POST()`
 #' @return
 #' Retourne une objet de type `list` contenant les réponses de l'API. Chaque niveau de la liste correspond à la réponse de l'API. Pour chacun des appels POST sur l'API, la classe retourné est `postSuccess` ou `postError`. Une réponse de classe `postSuccess` ou `postError` est une liste à deux niveaux composée du `body`, et de la réponse [httr::response-class]. Si le réponse est de classe `postSucces`, le `body` contiendra les données injectées sinon il contiendra le message d'erreur retourné par l'API.
 #' @export

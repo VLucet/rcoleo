@@ -10,6 +10,8 @@ get_techs(name = NULL, lastname = NULL, ...)
 \item{name}{\code{vector} contenant le prénom du technicien (sensible à la case)}
 
 \item{lastname}{\code{vector} contenant le nom du technicien (sensible à la case)}
+
+\item{...}{httr options; arguments de la fonction \code{httr::GET()}}
 }
 \description{
 Obtenir l'ensemble des techiciens attachés à une campagne

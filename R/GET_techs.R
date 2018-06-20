@@ -2,6 +2,7 @@
 #'
 #' @param name `vector` contenant le prénom du technicien (sensible à la case)
 #' @param lastname `vector` contenant le nom du technicien (sensible à la case)
+#' @inheritParams get_gen
 #' @examples
 #' get_techs(name="Caroline")
 #' @export
@@ -14,7 +15,7 @@ get_techs <- function(name = NULL, lastname = NULL, ...){
   if (all(is.null(name),is.null(lastname))) {
 
     # Obtenir tous les sites
-    responses <- get_gen(endpoint)
+    responses <- get_gen(endpoint, ...)
 
   } else {
 
@@ -29,7 +30,7 @@ get_techs <- function(name = NULL, lastname = NULL, ...){
       query <- list(lastname = lastname[r],
                     name = name[r])
 
-      responses[[r]] <- get_gen(endpoint,query=query)
+      responses[[r]] <- get_gen(endpoint,query=query, ...)
     }
   }
 

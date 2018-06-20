@@ -9,7 +9,7 @@ get_gen(endpoint = NULL, ...)
 \arguments{
 \item{endpoint}{\code{character} désignant le point d'entrée pour le retrait des données. Un point d'entrée peut être vu comme une table de la base de données.}
 
-\item{...}{Arguments de la fonction generique \code{\link[httr:GET]{httr::GET()}}}
+\item{...}{httr options; arguments de la fonction \code{httr::GET()}}
 }
 \value{
 Retourne une objet de type \code{list} contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est \code{getSuccess} ou \code{getError}. Une réponse de classe \code{getSuccess} est une liste à deux niveaux composé du contenu (\code{body}), et la réponse \link[httr:response-class]{httr::response}. Une réponse de classe \code{getError}.

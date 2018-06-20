@@ -4,10 +4,12 @@
 \alias{post_cells}
 \title{Publication d'une cellule sur la base de données de Coléo}
 \usage{
-post_cells(data)
+post_cells(data, ...)
 }
 \arguments{
 \item{data}{une liste ou chacun des niveaux corresponds aux données attribuées au ednpoint.}
+
+\item{...}{httr options; arguments de la fonction \code{httr::POST()}}
 }
 \value{
 Un objet \code{list}, dont chacun des niveaux corresponds à la réponse de l'API. La réponse peut être de classe \code{postError} ou \code{postSuccess}.

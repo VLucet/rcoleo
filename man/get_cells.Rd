@@ -8,6 +8,8 @@ get_cells(cell_code = NULL, ...)
 }
 \arguments{
 \item{cell_code}{est un vecteur contenant les identifiants uniques que l'on désire obtenir. Si cell_code n'est pas spécifié, la fonction retournera l'ensemble des entrées présentes dans la table cells.}
+
+\item{...}{httr options; arguments de la fonction \code{httr::GET()}}
 }
 \description{
 Obtenir les informations sur les cellules depuis l'API de coleo

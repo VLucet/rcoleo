@@ -4,6 +4,7 @@
 #' @param opened_at `vector` contenant les dates de début de campagnes (ex. 2017-01-30)
 #' @param closed_at `vector` contenant les dates de fin de campagnes (ex. 2017-01-30)
 #' @param type `character` contenant le type de campagnes d'inventaires réalisé (ex. végétation)
+#' @inheritParams get_gen
 #' @examples
 #' get_campaigns()
 #' @export
@@ -16,7 +17,7 @@ get_campaigns <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, 
   # Si tous les arguments sont nuls
   if(all(is.null(site_code), is.null(opened_at), is.null(closed_at), is.null(type))){
 
-    responses <- get_gen(endpoint)
+    responses <- get_gen(endpoint, ...)
 
   } else {
 
@@ -44,7 +45,7 @@ get_campaigns <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, 
                     closed_at = closed_at[r],
                     type = type[r])
 
-      responses[[r]] <- get_gen(endpoint,query=query)
+      responses[[r]] <- get_gen(endpoint,query=query, ...)
     }
   }
 

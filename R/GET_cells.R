@@ -1,5 +1,6 @@
 #' Obtenir les informations sur les cellules depuis l'API de coleo
 #' @param cell_code est un vecteur contenant les identifiants uniques que l'on désire obtenir. Si cell_code n'est pas spécifié, la fonction retournera l'ensemble des entrées présentes dans la table cells.
+#' @inheritParams get_gen
 #' @examples
 #' get_cells(cell_code=c('111_91'))
 #' get_cells()
@@ -13,7 +14,7 @@ get_cells <- function(cell_code = NULL, ...) {
   if (is.null(cell_code)) {
 
     # Obtenir tous les sites
-    responses <- get_gen(endpoint)
+    responses <- get_gen(endpoint, ...)
 
   } else {
 
@@ -21,7 +22,7 @@ get_cells <- function(cell_code = NULL, ...) {
     for (id in 1:length(cell_code)) {
 
       # prep query
-      responses[[id]] <- unlist(get_gen(endpoint, query = list(cell_code = cell_code[id])), recursive=FALSE)
+      responses[[id]] <- unlist(get_gen(endpoint, query = list(cell_code = cell_code[id]), ...), recursive=FALSE)
 
       if (length(responses[[id]]$body) == 0) {
 
