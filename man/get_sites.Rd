@@ -2,20 +2,17 @@
 % Please edit documentation in R/GET_sites.R
 \name{get_sites}
 \alias{get_sites}
-\title{Obtenir les informations sur un ou des sites depuis l'API de coleo}
+\title{Obtenir les informations sur les sites depuis l'API de coleo}
 \usage{
-get_sites(ids = NULL, ...)
+get_sites(site_code = NULL, ...)
 }
 \arguments{
-\item{ids}{est un vecteur contenant les identifiants uniques des sites que l'on désire obtenir. Si ids n'est pas spécifié, la fonction retournera l'ensemble des sites présents dans la base de données.}
-}
-\value{
-Un objet \code{list}, dont chacun des niveaux corresponds à la réponse de l'API. La réponse peut être de classe \code{getError} ou \code{getSuccess}.
+\item{site_code}{est un vecteur contenant les identifiants uniques que l'on désire obtenir. Si site_code n'est pas spécifié, la fonction retournera l'ensemble des entrées présentes dans la table cells.}
 }
 \description{
-Obtenir les informations sur un ou des sites depuis l'API de coleo
+Obtenir les informations sur les sites depuis l'API de coleo
 }
 \examples{
-get_sites(ids=c('135_104_H01'))
+get_sites(site_code=c('135_104_H01'))
 get_sites()
 }

@@ -2,22 +2,10 @@
 % Please edit documentation in R/POST_campaigns.R
 \name{post_campaigns}
 \alias{post_campaigns}
-\title{Publication d'une campagne attachée à un site sur la base de données de Coléo}
+\title{Publication d'une campagne sur la base de données de Coléo}
 \usage{
 post_campaigns(data)
 }
-\arguments{
-\item{data}{une liste ou chacun des niveaux corresponds aux données attribuées à une campagne.}
-}
-\value{
-Un objet \code{list}, dont chacun des niveaux corresponds à la réponse de l'API. La réponse peut être de classe \code{postError} ou \code{postSuccess}.
-}
 \description{
-Cette fonction applique la méthode POST sur le point d'entrées \code{campagnes} de l'API de Coleo
-}
-\examples{
-post_campaigns()
-}
-\seealso{
-\code{\link{post_gen}} pour la structure de sortie de la fonction.
+Cette fonction applique la méthode POST sur le point d'entrées \code{campaigns} de l'API de Coleo
 }

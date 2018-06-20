@@ -2,25 +2,17 @@
 % Please edit documentation in R/GET_cells.R
 \name{get_cells}
 \alias{get_cells}
-\title{Obtenir les informations sur des cellules depuis l'API de coleo}
+\title{Obtenir les informations sur les cellules depuis l'API de coleo}
 \usage{
-get_cells(ids = NULL, ...)
+get_cells(cell_code = NULL, ...)
 }
 \arguments{
-\item{ids}{est un vecteur contenant les identifiants uniques que l'on désire obtenir. Si ids n'est pas spécifié, la fonction retournera l'ensemble des sites présents dans la base de données.}
-
-\item{...}{Arguments de la fonction generique \code{\link[httr:GET]{httr::GET()}}}
-}
-\value{
-Retourne une objet de type \code{list} contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est \code{getSuccess} ou \code{getError}. Une réponse de classe \code{getSuccess} est une liste à deux niveaux composé du contenu (\code{body}), et la réponse \link[httr:response-class]{httr::response}. Une réponse de classe \code{getError}.
+\item{cell_code}{est un vecteur contenant les identifiants uniques que l'on désire obtenir. Si cell_code n'est pas spécifié, la fonction retournera l'ensemble des entrées présentes dans la table cells.}
 }
 \description{
-Obtenir les informations sur des cellules depuis l'API de coleo
-}
-\details{
-Les points d'accès de l'API sont énuméré dans l'environment de coléo, voir \code{print(rce$endpoints)}
+Obtenir les informations sur les cellules depuis l'API de coleo
 }
 \examples{
-get_cells(ids=c('111_91'))
+get_cells(cell_code=c('111_91'))
 get_cells()
 }

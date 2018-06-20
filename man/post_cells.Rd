@@ -2,20 +2,19 @@
 % Please edit documentation in R/POST_cells.R
 \name{post_cells}
 \alias{post_cells}
-\title{Retourne les campagnes d'un site ou un ensemble de sites.}
+\title{Publication d'une cellule sur la base de données de Coléo}
 \usage{
 post_cells(data)
 }
 \arguments{
-\item{data}{une liste contenant pour chaque niveau l'information d'une cellule.}
+\item{data}{une liste ou chacun des niveaux corresponds aux données attribuées au ednpoint.}
 }
 \value{
-Un objet de la classe \emph{responses} (liste) contenant les codes de status (201 ou 500).
+Un objet \code{list}, dont chacun des niveaux corresponds à la réponse de l'API. La réponse peut être de classe \code{postError} ou \code{postSuccess}.
 }
 \description{
-Retourne les campagnes d'un site ou un ensemble de sites.
+Cette fonction applique la méthode POST sur le point d'entrées \code{cells} de l'API de Coleo
 }
-\examples{
-data(cells)
-post_cells(cells[1:10])
+\seealso{
+\code{\link{post_gen}} pour la structure de sortie de la fonction.
 }

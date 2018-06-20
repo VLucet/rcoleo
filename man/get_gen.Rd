@@ -4,10 +4,10 @@
 \alias{get_gen}
 \title{Fonction générique pour retirer de l'information depuis l'API de Coléo}
 \usage{
-get_gen(endpoint, ...)
+get_gen(endpoint = NULL, ...)
 }
 \arguments{
-\item{endpoint}{Point d'entrée pour le retrait des données. Un point d'entrée peut être vu comme une table de la base de données.}
+\item{endpoint}{\code{character} désignant le point d'entrée pour le retrait des données. Un point d'entrée peut être vu comme une table de la base de données.}
 
 \item{...}{Arguments de la fonction generique \code{\link[httr:GET]{httr::GET()}}}
 }

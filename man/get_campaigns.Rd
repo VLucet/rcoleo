@@ -2,18 +2,22 @@
 % Please edit documentation in R/GET_campaigns.R
 \name{get_campaigns}
 \alias{get_campaigns}
-\title{Retourne les campagnes d'un site ou un ensemble de sites.}
+\title{Obtenir l'ensemble des campagnes attachées à un site}
 \usage{
-get_campaigns(ids = NULL)
+get_campaigns(site_code = NULL, opened_at = NULL, closed_at = NULL,
+  type = NULL, ...)
 }
 \arguments{
-\item{id}{Un vecteur contenant la liste des codes de sites.}
-}
-\value{
-Un objet de la classe \emph{data.frame} (tableau) contenant la liste des campagnes. Si le vecteur \emph{id} est d'une dimension supérieur à 1, une liste sera retourné. Chaque niveau de la liste correspondra à un site en particulier avec à l'intérieur un tableau decrivant les campagnes attachées à ce site.
+\item{opened_at}{\code{vector} contenant les dates de début de campagnes (ex. 2017-01-30)}
+
+\item{closed_at}{\code{vector} contenant les dates de fin de campagnes (ex. 2017-01-30)}
+
+\item{type}{\code{character} contenant le type de campagnes d'inventaires réalisé (ex. végétation)}
+
+\item{site_ids}{\code{vector} contenant les codes de sites pour lesquelles ont désire récupérer les campagnes (ex. 134_111_F01)}
 }
 \description{
-Retourne les campagnes d'un site ou un ensemble de sites.
+Obtenir l'ensemble des campagnes attachées à un site
 }
 \examples{
 get_campaigns()
