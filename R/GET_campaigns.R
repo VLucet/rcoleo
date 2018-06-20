@@ -1,42 +1,52 @@
 #' Obtenir l'ensemble des campagnes attachées à un site
 #'
-#' @param site_ids `vector` contenant les codes de sites pour lesquelles ont désire récupérer les campagnes (ex. 134_111_F01)
-#' @param dates `vector` contenant les dates de début de campagnes (ex. 2017-01-30)
+#' @param site_code `vector` contenant les codes de sites pour lesquelles ont désire récupérer les campagnes (ex. 134_111_F01)
+#' @param opened_at `vector` contenant les dates de début de campagnes (ex. 2017-01-30)
+#' @param closed_at `vector` contenant les dates de fin de campagnes (ex. 2017-01-30)
 #' @param type `character` contenant le type de campagnes d'inventaires réalisé (ex. végétation)
 #' @examples
 #' get_campaigns()
 #' @export
 
-get_campaigns <- function(site_ids = NULL, opened_at = NULL, closed_at = NULL, type = NULL, ...){
+get_campaigns <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, type = NULL, ...){
 
   endpoint <- rce$endpoints$campaigns
 
-  # Retrieve the site id
-  if(!is.null(site_ids)){
-    sites <- get_sites(ids=site_ids, rce$endpoints$sites)
-    fkey_ids <- sapply(sites,function(x) x$body[,"id"])
+
+  # Si tous les arguments sont nuls
+  if(all(is.null(site_code), is.null(opened_at), is.null(closed_at), is.null(type))){
+
+    responses <- get_gen(endpoint)
+
   } else {
-    fkey_ids <- NULL
+
+    responses <- list()
+
+    # Retrieve the site id
+    if(!is.null(site_ids)){
+      sites <- get_sites(ids=site_code, rce$endpoints$sites)
+      site_ids <- sapply(sites,function(x) x$body[,"id"])
+    } else {
+      site_ids <- NULL
+    }
+
+    # tests args to set iterator
+    len_args <- c(length(site_code),length(opened_at),length(closed_at),length(type))
+    len <- unique(len_args[which(len_args>0)])
+    stopifnot(length(len)==1)
+
+
+    # Prep query
+    for(r in 1:len){
+
+      query <- list(site_id=site_ids[r],
+                    opened_at = opened_at[r],
+                    closed_at = closed_at[r],
+                    type = type[r])
+
+      responses[[r]] <- get_gen(endpoint,query=query)
+    }
   }
-
-  # tests args to set iterator
-  len_args <- c(length(site_ids),length(opened_at),length(closed_at),length(type))
-  len <- unique(len_args[which(len_args>0)])
-  stopif(length(len)>1, "Les vecteurs site_ids, opened_at, closed_at, type n'ont pas la même longueur")
-
-  responses <- list()
-
-  # Prep query
-  for(r in 1:len){
-
-    query <- list(site_id=fkey_ids[r],
-                  opened_at = opened_at[r],
-                  closed_at = closed_at[r],
-                  type = type[r])
-
-    responses[[r]] <- get_gen(endpoint,query=query)
-  }
-
 
   return(responses)
 
