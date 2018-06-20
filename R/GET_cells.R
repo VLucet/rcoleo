@@ -32,7 +32,7 @@ get_cells <- function(cell_code = NULL, ...) {
 
       } else if (nrow(responses[[id]]$body) > 1) {
 
-        message(nrow(responses[[id]]$body), " entrées pour le numéro du site: ",
+        message(nrow(responses[[id]]$body), " entrées pour le code de cellule: ",
           cell_code[id])
 
       }

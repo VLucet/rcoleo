@@ -35,7 +35,7 @@ get_sites <- function(site_code = NULL, ...) {
 
       } else if (nrow(responses[[id]]$body) > 1) {
 
-        message(nrow(responses[[id]]$body), " entrées pour le numéro du site: ",
+        message(nrow(responses[[id]]$body), " entrées pour le code du site: ",
           site_code[id])
 
       }

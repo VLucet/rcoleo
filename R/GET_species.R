@@ -11,35 +11,32 @@
 #' get_species()
 #' @export
 
-get_species <- function(species = NULL, genus = NULL, vernacular = NULL, type = NULL,...) {
+get_species <- function(species = NULL, genus = NULL, vernacular = NULL,...) {
 
   responses <- list()
   endpoint <- rce$endpoints$species
 
 
-  if (is.null(query)) {
+  if (all(is.null(species),is.null(genus),is.null(vernacular))) {
 
     # Obtenir toutes les cellules
     responses <- get_gen(endpoint, ...)
 
   } else {
 
+    # tests args to set iterator
+    len_args <- c(length(species),length(genus),length(vernacular))
+    len <- unique(len_args[which(len_args>0)])
+    stopifnot(length(len)==1)
 
     # Obtenir des cellules specifiques (query)
-    for (c in 1:length(query)) {
+    for (r in 1:len) {
 
-      responses[[c]] <- get_gen(endpoint, query = list(q = query[c]), ...)
+      query <- list(species=species[r],
+                    genus = genus[r],
+                    vernacular = vernacular[r])
 
-      if (length(responses[[c]]$content) == 0) {
-
-        message(query[c], " n'est pas présent dans la base de données")
-
-      } else if (nrow(responses[[c]]$content) > 1) {
-
-        message(nrow(responses[[c]]$content), " entrées ont été retourné par la base de données pour le numéro du site: ",
-          query[c])
-
-      }
+      responses[[r]] <- get_gen(endpoint,query=query, ...)
 
     }
   }
