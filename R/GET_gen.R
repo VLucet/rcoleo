@@ -1,6 +1,7 @@
 #' Fonction générique pour retirer de l'information depuis l'API de Coléo
 #'
 #' @param endpoint `character` désignant le point d'entrée pour le retrait des données. Un point d'entrée peut être vu comme une table de la base de données.
+#' @param query `list` de paramètres à passer avec l'appel sur le endpoint.
 #' @param ... httr options; arguments de la fonction `httr::GET()`
 #' @return
 #' Retourne une objet de type `list` contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est `getSuccess` ou `getError`. Une réponse de classe `getSuccess` est une liste à deux niveaux composé du contenu (`body`), et la réponse [httr::response-class]. Une réponse de classe `getError`.
@@ -13,7 +14,7 @@
 #' class(resp[[1]])
 #' @export
 
-get_gen <- function(endpoint = NULL, ...) {
+get_gen <- function(endpoint = NULL, query = NULL, ...) {
 
   stopifnot(exists("endpoint"))
 
@@ -21,7 +22,7 @@ get_gen <- function(endpoint = NULL, ...) {
 
   # Premier appel pour avoir le nombre de page
   resp <- httr::GET(url, config = httr::add_headers(`Content-type` = "application/json",
-    Authorization = paste("Bearer", rce$bearer)),rce$ua, ... )
+    Authorization = paste("Bearer", rce$bearer)),rce$ua, query = query, ... )
 
   # Denombrement du nombre de page
   rg <- as.numeric(stringr::str_extract_all(httr::headers(resp)["content-range"],
@@ -33,21 +34,18 @@ get_gen <- function(endpoint = NULL, ...) {
     pages <- 0
   }  else {
     limit <- rg[2]+1
-    pages <- ifelse((rg[3] %% limit) == 0, round(rg[3] / limit)-1, round(rg[3] / limit))
+    pages <- ifelse((rg[3] %% limit) != 0, round(rg[3] / limit), round(rg[3] / limit)-1)
   }
 
   responses <- list()
 
   # Boucle sur les pages
   for (page in 0:pages) {
-
-    if(!exists("query")) query <- list()
-
     # Ajouter les pages à la requête
     query$page <- page
 
     resp <- httr::GET(url, config = httr::add_headers(`Content-type` = "application/json",
-      Authorization = paste("Bearer", rce$bearer)), rce$ua, ...)
+      Authorization = paste("Bearer", rce$bearer)), rce$ua, query = query, ...)
 
     if (httr::http_type(resp) != "application/json") {
       stop("L'API n'a pas retourné un JSON", call. = FALSE)
@@ -71,6 +69,7 @@ get_gen <- function(endpoint = NULL, ...) {
   }
 
  # Si une seule page pas besoin de le transmettre en list
-  return(responses)
+ return(responses)
+
 
 }

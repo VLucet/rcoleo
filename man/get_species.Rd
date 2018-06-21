@@ -4,16 +4,19 @@
 \alias{get_species}
 \title{Retourne les entrées d'espèces présentes dans la base de données}
 \usage{
-get_species(species = NULL, genus = NULL, vernacular = NULL, ...)
+get_species(searchEntry = NULL, species = NULL, genus = NULL,
+  vernacular = NULL, ...)
 }
 \arguments{
-\item{species}{\code{character} vecteur contenant les espèces recherché (sensible à la case)}
+\item{species}{\code{character} vecteur contenant les espèces recherché (sensible à la case) - Obsolète si l'argument query est spécifié}
 
-\item{genus}{\code{character} vecteur contenant les genres d'espèce recherché (sensible à la case)}
+\item{genus}{\code{character} vecteur contenant les genres d'espèce recherché (sensible à la case) - Obsolète si l'argument query est spécifié}
 
-\item{vernacular}{\code{character} vecteur contenant les noms vernaculaires des espèces recherchées (sensible à la case)}
+\item{vernacular}{\code{character} vecteur contenant les noms vernaculaires des espèces recherchées (sensible à la case) - Obsolète si l'argument query est spécifié}
 
 \item{...}{httr options; arguments de la fonction \code{httr::GET()}}
+
+\item{search}{\code{character} vecteur contenant les mots clés (recherche sur l'intégralité de la table)}
 }
 \value{
 Retourne une objet de type \code{list} contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est \code{getSuccess} ou \code{getError}. Une réponse de classe \code{getSuccess} est une liste à deux niveaux composé du contenu (\code{body}), et la réponse \link[httr:response-class]{httr::response}. Une réponse de classe \code{getError}.
