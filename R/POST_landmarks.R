@@ -10,8 +10,6 @@ post_landmarks <- function(data, ...) {
   responses <- list()
   endpoint <- rce$endpoints$landmarks
 
-  data <- landmarks_ls
-
   for (i in 1:length(data)) {
 
     # On retourne l'id unique pour la campagne à laquelle est rattaché les repères
