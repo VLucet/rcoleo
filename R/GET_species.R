@@ -1,6 +1,6 @@
 #' Retourne les entrées d'espèces présentes dans la base de données
 #'
-#' @param search `character` vecteur contenant les mots clés (recherche sur l'intégralité de la table)
+#' @param searchEntry `character` vecteur contenant les mots clés (recherche sur l'intégralité de la table)
 #' @param species `character` vecteur contenant les espèces recherché (sensible à la case) - Obsolète si l'argument query est spécifié
 #' @param genus `character` vecteur contenant les genres d'espèce recherché (sensible à la case) - Obsolète si l'argument query est spécifié
 #' @param vernacular `character` vecteur contenant les noms vernaculaires des espèces recherchées (sensible à la case) - Obsolète si l'argument query est spécifié
