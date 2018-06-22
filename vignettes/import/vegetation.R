@@ -128,41 +128,71 @@ campaigns_ls <- lapply(campaigns_ls, function(x) {
   return(x)
 })
 
-
-
-#################
-# TODO LANDMARK #
-#################
-
-# Ajout des landmarks
-landmarks <- unique(df[,c("No_de_référence_du_site","Date_inventaire_printanier","Date_inventaire_estival", "No_de_l'arbre_repère_A_(AR-A)", "Essence", "DHP_(mm)_AR-A", "Azimut_(o)_AR-A", "Distance_AR-A_(cm)","Latitute_AR-A","Londitude_AR-A", "WP__1", "No_de_l'arbre_repère_B_(AR-B)", "Essence__1", "DHP_(mm)_AR-B", "Azimut_(o)_AR-B", "Distance_AR-B_(cm)", "Latitute_AR-B", "Londitude_AR-B", "WP__2")])
-campaigns$type <- "végétation"
-names(campaigns) <- c("site_code","opened_at","closed_at","Obs1","Obs2","Obs3","Obs4","type")
-campaigns$key <- rownames(campaigns)
-
-# S'il n'y pas de date de fermeture, alors on prend la date d'ouverture et inversement
-campaigns[is.na(campaigns$closed_at),"closed_at"] <- campaigns[is.na(campaigns$closed_at),"opened_at"]
-campaigns[is.na(campaigns$opened_at),"opened_at"] <- campaigns[is.na(campaigns$opened_at),"closed_at"]
-
-## Remplacer les barres de soulignement par des tirets
-campaigns$site_code <- str_replace_all(campaigns$site_code,"-", "_")
-
-
-# Étape 1. Clean taxonomy
-unique(toupper(c(df$Essence,df$Essence__1)))
-
-# Champ à considérer
-#   `No_de_l'arbre_repère_A_(AR-A)` <chr>, Essence <chr>,
-#   `DHP_(mm)_AR-A` <chr>, `Azimut_(o)_AR-A` <chr>, `Distance_AR-A_(cm)` <chr>,
-#   `Latitute_AR-A` <chr>, `Londitude_AR-A` <chr>, WP__1 <chr>,
-#   `No_de_l'arbre_repère_B_(AR-B)` <chr>, Essence__1 <chr>,
-#   `DHP_(mm)_AR-B` <chr>, `Azimut_(o)_AR-B` <chr>, `Distance_AR-B_(cm)` <chr>,
-#   `Latitute_AR-B` <chr>, `Londitude_AR-B` <chr>, WP__2 <chr>,
-
 ##### POST Campaigns
 responses <- post_campaigns(campaigns_ls)
 
-## landmarks
+
+###################
+# AJOUT LANDMARKs #
+###################
+
+# Ajout des landmarks
+landmarks_A <- unique(df[,c("No_de_référence_du_site","Date_inventaire_printanier","Date_inventaire_estival", "No_de_l'arbre_repère_A_(AR-A)", "Essence", "DHP_(mm)_AR-A", "Azimut_(o)_AR-A", "Distance_AR-A_(cm)","Latitute_AR-A","Londitude_AR-A")])
+landmarks_A$type <- "végétation"
+names(landmarks_A) <- c("site_code","opened_at","closed_at", "tree_code","sp","dbh","azimut","distance","lat","lon","type")
+
+# Ajout des landmarks
+landmarks_B <- unique(df[,c("No_de_référence_du_site","Date_inventaire_printanier","Date_inventaire_estival", "No_de_l'arbre_repère_B_(AR-B)", "Essence__1", "DHP_(mm)_AR-B", "Azimut_(o)_AR-B", "Distance_AR-B_(cm)", "Latitute_AR-B", "Londitude_AR-B")])
+landmarks_B$type <- "végétation"
+names(landmarks_B) <- c("site_code","opened_at","closed_at", "tree_code","sp","dbh","azimut","distance","lat","lon","type")
+
+# Binding sur les lignes
+landmarks <- bind_rows(landmarks_A,landmarks_B)
+
+# S'il n'y pas de date de fermeture, alors on prend la date d'ouverture et inversement
+landmarks[is.na(landmarks$closed_at),"closed_at"] <- landmarks[is.na(landmarks$closed_at),"opened_at"]
+landmarks[is.na(landmarks$opened_at),"opened_at"] <- landmarks[is.na(landmarks$opened_at),"closed_at"]
+
+## Remplacer les barres de soulignement par des tirets
+landmarks$site_code <- str_replace_all(landmarks$site_code,"-", "_")
+
+## Retirer les campagnes qui ne disposent pas de landmarks
+landmarks <- landmarks[-which(landmarks[,c(4:8)]=="NA" | is.na(landmarks[,c(4:8)])),]
+
+# Clean taxonomy
+landmarks$sp <- toupper(landmarks$sp)
+
+# Créer la correspondance avec les codes
+species_code <- data.frame(code=c("ES","SB","PU","EO","BG","BP","BJ"), vernacular = c("Érable à sucre", "Sapin baumier", "Cerisier tardif", "Érable rouge", "Bouleau gris", "Bouleau à papier", "Bouleau jaune"))
+# TODO: Valider les correspondances, surtout pour prunus et érable rouge
+
+species_ls <- list()
+for(i in 1:nrow(species_code)) species_ls[[i]] <- get_species(vernacular = species_code[i,"vernacular"])
+species_code <- bind_cols(species_code,bind_rows(lapply(unlist(species_ls,recursive=FALSE), function(x) return(x[[1]]$body[,c("id","vernacular")]))))
+
+landmarks$sp_id <- species_code[match(landmarks$sp,species_code$code),"id"]
+landmarks$type <- "both"
+
+## Final touch, prep loc et data
+landmarks_ls <- apply(landmarks,1,as.list)
+
+loc <- apply(landmarks,1, function(x){
+  if(!any(is.na(x["lat"]),is.na(x["lon"]))){
+  return(geojson_list(as.numeric(c(x["lat"],x["lon"])))$features[[1]]$geometry)
+} else {
+  return(NA)
+}})
+
+# Fusionner les deux listes (locations + sites)
+for(i in 1:length(landmarks_ls)){
+  landmarks_ls[[i]]$loc <- loc[i][[1]]
+  if(is.list(landmarks_ls[[i]]$loc)){
+    landmarks_ls[[i]]$loc$crs <- list(type="name",properties=list(name="EPSG:4326"))
+  }
+}
+
+# Post landmarks
+resp <- post_landmarks(landmarks_ls)
 
 ## Observations
 

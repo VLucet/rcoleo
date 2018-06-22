@@ -4,7 +4,7 @@
 #' @param query `list` de paramètres à passer avec l'appel sur le endpoint.
 #' @param ... httr options; arguments de la fonction `httr::GET()`
 #' @return
-#' Retourne une objet de type `list` contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est `getSuccess` ou `getError`. Une réponse de classe `getSuccess` est une liste à deux niveaux composé du contenu (`body`), et la réponse [httr::response-class]. Une réponse de classe `getError`.
+#' Retourne une objet de type `list` contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est `getSuccess` ou `getError`. Une réponse de classe `getSuccess` est une liste à deux niveaux composé du contenu (`body`), et la réponse [httr::response]. Une réponse de classe `getError` dispose de la même structure mais ne contiendra pas de body, seulement la réponse de l'API.
 #' @details
 #' Les points d'accès de l'API sont énuméré dans l'environment de coléo, voir `print(rce$endpoints)`
 #' @examples
