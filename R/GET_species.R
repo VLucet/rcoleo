@@ -57,6 +57,3 @@ get_species <- function(searchEntry=NULL, species = NULL, genus = NULL, vernacul
   return(responses)
 
 }
-
-# TODO: #1 - Problème avec le passage de la query
-# TODO: #2 - Deux runtimes ...

@@ -25,6 +25,7 @@ endpoints$medias <- "/medias"
 endpoints$observations <- "/observations"
 endpoints$species <- "/species"
 endpoints$technicians <- "/technicians"
+endpoints$landmarks <- "/landmarks"
 
 assign("endpoints", endpoints, envir = rce)
 

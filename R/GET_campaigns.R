@@ -24,11 +24,11 @@ get_campaigns <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, 
     responses <- list()
 
     # Retrieve the site id
-    if(!is.null(site_ids)){
-      sites <- get_sites(ids=site_code, rce$endpoints$sites)
-      site_ids <- sapply(sites,function(x) x$body[,"id"])
+    if(!is.null(site_code)){
+      sites <- get_sites(site_code=site_code, rce$endpoints$sites)
+      site_code <- sapply(sites,function(x) x$body[,"id"])
     } else {
-      site_ids <- NULL
+      site_code <- NULL
     }
 
     # tests args to set iterator
@@ -36,11 +36,10 @@ get_campaigns <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, 
     len <- unique(len_args[which(len_args>0)])
     stopifnot(length(len)==1)
 
-
     # Prep query
     for(r in 1:len){
 
-      query <- list(site_id=site_ids[r],
+      query <- list(site_id=site_code[r],
                     opened_at = opened_at[r],
                     closed_at = closed_at[r],
                     type = type[r])
