@@ -37,6 +37,7 @@ get_gen <- function(endpoint = NULL, query = NULL, ...) {
     pages <- ifelse((rg[3] %% limit) != 0, round(rg[3] / limit), round(rg[3] / limit)-1)
   }
 
+  # On prépare la liste pour le renvoi de la fonction
   responses <- list()
 
   # Boucle sur les pages
@@ -53,6 +54,9 @@ get_gen <- function(endpoint = NULL, query = NULL, ...) {
 
     parsed <- jsonlite::fromJSON(httr::content(resp, type = "text", encoding = "UTF-8"), flatten = TRUE)
 
+    # On regarde la longueur du jeu de données renvoyer pour faire les tests logiques
+    if(is.null(dim(parsed))){ n_matches <- 0} else { n_matches <- nrow(parsed)}
+
     if (httr::http_error(resp)) {
       message(sprintf("La requête sur l'API a échouée: [%s]\n%s", httr::status_code(resp),
         parsed$message), call. = FALSE)
@@ -64,12 +68,14 @@ get_gen <- function(endpoint = NULL, query = NULL, ...) {
 
       responses[[page + 1]] <- structure(list(body = parsed, response = resp),
         class = "getSuccess")
+
     }
+
+    attr(responses[[page + 1]]$body, "n_records") <- n_matches
 
   }
 
- # Si une seule page pas besoin de le transmettre en list
- return(responses)
+  return(responses)
 
 
 }
