@@ -22,9 +22,7 @@ get_techs <- function(name = NULL, lastname = NULL, ...){
   } else {
 
     # tests args to set iterator
-    len_args <- c(length(name),length(lastname))
-    len <- unique(len_args[which(len_args>0)])
-    stopifnot(length(len)==1)
+    len <- max(c(length(name),length(lastname)))
 
     # Prep query
     for(r in 1:len){
