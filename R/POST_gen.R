@@ -30,7 +30,7 @@ post_gen <- function(endpoint, singleton, ...) {
 
   } else if (resp$status == 201) {
 
-    structure(list(body = singleton, response = resp), class = "postSuccess")
+    structure(list(body = jsonlite::fromJSON(httr::content(resp, "text")), response = resp), class = "postSuccess")
 
   } else if (resp$status == 500) {
 
