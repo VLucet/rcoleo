@@ -39,7 +39,6 @@ get_sites <- function(site_code = NULL, ...) {
           site_code[id])
 
       }
-
     }
   }
 
