@@ -1,4 +1,3 @@
-
 library(readxl)
 library(dplyr)
 library(stringr)
@@ -18,11 +17,11 @@ sheet <- "Végétation"
 nms <- names(read_excel("./extdata/V2_CompilationDonnées_2016-2018.xlsx",sheet=sheet))
 
 ## Gerer les dates (eviter la conversion automatique)
-ct <- ifelse(grepl("^Date", nms,ignore.case = TRUE), "date", "guess")
+ct <- ifelse(grepl("^Date", nms, ignore.case = TRUE), "date", "guess")
 
 
 ## deuxieme lecture de la page et ignore le type dans la ligne 2
-df <- read_excel("./extdata/CompilationDonnées_2016-2018.xlsx",sheet=sheet,col_types = ct,trim_ws=TRUE)[-1,]
+df <- read_excel("./extdata/V2_CompilationDonnées_2016-2018.xlsx",sheet=sheet,col_types = ct,trim_ws=TRUE)[-1,]
 
 ## replacer les espaces par des barres de soulignement dans les noms de colonnes
 names(df) <- str_replace_all(names(df)," ", "_")
@@ -36,7 +35,7 @@ sites$date_open <- as.Date(sites$date_open)
 ## Retirer les dates estivales et printannière
 sites <- select(sites,-Date_inventaire_estival,-Date_inventaire_printanier)
 
-names(sites) <- c("cell_id","site_code","type","off_station_code_id","lat","lon","date_open")
+names(sites) <- c("cell_id","site_code","type","off_station_code_id","lat","lon","opened_at")
 
 ## Garder les entrées unique par site
 sites <- unique(sites)
@@ -95,9 +94,6 @@ techs <- select(campaigns,key,Obs1,Obs2,Obs3,Obs4)
 techs <- melt(techs,id.vars=c("key"),na.rm=TRUE)
 techs <- techs[which(techs$value != "NA"),]
 techs <- unique(select(techs, -variable))
-techs$name <- word(techs$value,1)
-techs$lastname <- word(techs$value,2)
-techs <- select(techs, -value)
 
 # On enlève les champs Observateurs des campagnes
 campaigns <- select(campaigns,-Obs1,-Obs2,-Obs3,-Obs4)
@@ -106,15 +102,10 @@ campaigns <- select(campaigns,-Obs1,-Obs2,-Obs3,-Obs4)
 campaigns_ls <- apply(campaigns,1,as.list)
 
 # On loop sur la liste pour ajouter les techniciens
-for(l in 1:length(campaigns)){
+for(l in 1:length(campaigns_ls)){
   k <- as.numeric(campaigns_ls[[l]]$key)
-  tech_add <- subset(techs, key == k)
-  campaigns_ls[[l]]$technicians <- list()
-
-  for(i in 1:nrow(tech_add)){
-      campaigns_ls[[l]]$technicians[[i]] <- list(name=tech_add[i,"name"], lastname=tech_add[i,"lastname"])
-  }
-
+  tech_add <- unique(subset(techs, key == k))
+  campaigns_ls[[l]]$technicians <- tech_add$value
 }
 
 
@@ -163,12 +154,12 @@ landmarks <- landmarks[-which(landmarks[,c(4:8)]=="NA" | is.na(landmarks[,c(4:8)
 landmarks$sp <- toupper(landmarks$sp)
 
 # Créer la correspondance avec les codes
-species_code <- data.frame(code=c("ES","SB","PU","EO","BG","BP","BJ"), vernacular = c("Érable à sucre", "Sapin baumier", "Cerisier tardif", "Érable rouge", "Bouleau gris", "Bouleau à papier", "Bouleau jaune"))
+species_code <- data.frame(code=c("ES","SB","PU","EO","BG","BP","BJ"), vernacular_fr = c("Érable à sucre", "Sapin baumier", "Pruche de l'Est", "Érable rouge", "Bouleau gris", "Bouleau à papier", "Bouleau jaune"))
 # TODO: Valider les correspondances, surtout pour prunus et érable rouge
 
 species_ls <- list()
-for(i in 1:nrow(species_code)) species_ls[[i]] <- get_species(vernacular = species_code[i,"vernacular"])
-species_code <- bind_cols(species_code,bind_rows(lapply(unlist(species_ls,recursive=FALSE), function(x) return(x[[1]]$body[,c("id","vernacular")]))))
+for(i in 1:nrow(species_code)) species_ls[[i]] <- get_species(vernacular_fr = species_code[i,"vernacular_fr"])
+species_code <- bind_cols(species_code,bind_rows(lapply(unlist(species_ls,recursive=FALSE), function(x) return(x[[1]]$body[,c("id","vernacular_fr")]))))
 
 landmarks$sp_id <- species_code[match(landmarks$sp,species_code$code),"id"]
 landmarks$type <- "both"
@@ -186,6 +177,7 @@ loc <- apply(landmarks,1, function(x){
 # Fusionner les deux listes (locations + sites)
 for(i in 1:length(landmarks_ls)){
   landmarks_ls[[i]]$loc <- loc[i][[1]]
+
   if(is.list(landmarks_ls[[i]]$loc)){
     landmarks_ls[[i]]$loc$crs <- list(type="name",properties=list(name="EPSG:4326"))
   }
@@ -194,6 +186,73 @@ for(i in 1:length(landmarks_ls)){
 # Post landmarks
 resp <- post_landmarks(landmarks_ls)
 
-## Observations
+##################
+## Observations ##
+##################
 
-## ObsSpecies
+obs <- select(df,No_de_référence_du_site,Date_inventaire_estival,Date_inventaire_printanier,Type_de_végétation,Espèce,"Recouvrement_(%)")
+
+## Fix observations dates
+obs$Date_obs <- obs$Date_inventaire_printanier
+obs[which(is.na(obs$Date_obs)),"Date_obs"] <- obs[which(is.na(obs$Date_obs)),"Date_inventaire_estival"]
+
+## Fix columnNames
+names(obs) <- c("site_code","closed_at","opened_at","stratum","species","recouvrement","date_obs")
+
+## Fix sur date ouverture et fermeture
+# S'il n'y pas de date de fermeture, alors on prend la date d'ouverture et inversement
+obs[is.na(obs$closed_at),"closed_at"] <- obs[is.na(obs$closed_at),"opened_at"]
+obs[is.na(obs$opened_at),"opened_at"] <- obs[is.na(obs$opened_at),"closed_at"]
+
+## species
+# saveRDS(unique(obs$species),file="./vignettes/import/code_sp/sp_veg.rds")
+# Toutes les espèces ont été intégré dans la table ref_species. Fichier de traitement dans ./import/code_sp/cleanup.r
+
+## On récupère le code de l'espèce
+resp <- get_species(vernacular_fr=obs$species)
+sp_id <- unlist(lapply(resp,function(x) return(x[[1]]$body$id)))
+rec <- unlist(lapply(resp, function(x) return(attributes(x[[1]]$body)$n_records)))
+
+## Non REPRODUCTIBLE
+obs$species[which(rec == 0)] <- c("pruche de l'est","canneberge commune","saule","frêne de pennsylvanie","amélanchier","pruche de l'est", "amélanchier","petit thé")
+
+# On recommence avec les noms vernaculaires modifiés
+resp <- get_species(vernacular_fr=obs$species)
+sp_id <- unlist(lapply(resp,function(x) return(x[[1]]$body$id)))
+rec <- unlist(lapply(resp, function(x) return(attributes(x[[1]]$body)$n_records)))
+
+if(length(sp_id) == nrow(obs)) obs$sp_id <- sp_id
+
+# On documente l'attribut de Recouvrement
+resp <- post_attributes(data=list(list(name="recouvrement",description="évaluation du recouvrement à l’intérieur de la placette", unit="%")))
+attr_id <- resp[[1]]$body$id
+
+# On set le id du attribute
+obs$attr_id <- attr_id
+
+obs <- as.data.frame(obs)
+obs$site_code <- str_replace_all(obs$site_code,"-","_")
+obs$recouvrement <- as.numeric(obs$recouvrement)
+
+injection_obs <- list()
+
+for(i in 1:nrow(obs)){
+  injection_obs[[i]] <- list(
+    date_obs = as.Date(obs[i,"date_obs"]),
+    is_valid = "true",
+    stratum = tolower(obs[i,"stratum"]),
+    campaign_info = list(
+      site_code = obs[i,"site_code"],
+      closed_at = as.Date(obs[i,"closed_at"]),
+      opened_at = as.Date(obs[i,"opened_at"]),
+      type = "végétation"
+    ),
+    obs_species = list(
+      sp_id = obs[i,"sp_id"],
+      attr_id = attr_id,
+      value = obs[i,"recouvrement"]
+    )
+  )
+}
+
+responses <- post_observations(injection_obs)
