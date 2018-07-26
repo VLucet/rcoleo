@@ -32,9 +32,7 @@ get_campaigns <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, 
     }
 
     # tests args to set iterator
-    len_args <- c(length(site_code),length(opened_at),length(closed_at),length(type))
-    len <- unique(len_args[which(len_args>0)])
-    stopifnot(length(len)==1)
+    len <- max(c(length(site_code),length(opened_at),length(closed_at),length(type)))
 
     # Prep query
     for(r in 1:len){
