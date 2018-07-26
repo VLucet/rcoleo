@@ -31,7 +31,7 @@ get_cells <- function(cell_code = NULL,name = NULL, ...) {
       # prep query
       responses[[id]] <- unlist(get_gen(endpoint, query = list(
         cell_code = cell_code[id],
-        name = paste0("%",name[id],"%")
+        name = name[id]
       ), ...), recursive=FALSE)
 
       if (length(responses[[id]]$body) == 0) {
