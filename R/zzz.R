@@ -23,10 +23,12 @@ endpoints$sites <- "/sites"
 endpoints$campaigns <- "/campaigns"
 endpoints$medias <- "/medias"
 endpoints$observations <- "/observations"
-endpoints$species <- "/species"
+endpoints$taxa <- "/taxa"
 endpoints$technicians <- "/technicians"
 endpoints$landmarks <- "/landmarks"
 endpoints$attributes <- "/attributes"
+endpoints$traps <- "/traps"
+endpoints$samples <- "/samples"
 
 assign("endpoints", endpoints, envir = rce)
 
