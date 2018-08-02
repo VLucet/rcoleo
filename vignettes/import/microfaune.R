@@ -230,9 +230,124 @@ df <- read_excel("./extdata/V2_CompilationDonnées_2016-2018.xlsx",sheet=sheet,c
 ## replacer les espaces par des barres de soulignement dans les noms de colonnes
 names(df) <- str_replace_all(names(df)," ", "_")
 
-## Contrôle sur la taxonomie
-taxa <- read.csv2("./vignettes/import/code_sp/taxa_microfaunes.csv",stringsAsFactors=FALSE)
-taxa <- select(taxa, vernacular_fr, taxa=name, tsn, rank)
-all_taxa <- jsonlite::fromJSON("./vignettes/import/code_sp/refSpecies.json")
-all_taxa <- rbind(all_taxa,taxa)
-jsonlite::write_json(all_taxa,"./vignettes/import/code_sp/refSpecies2.json")
+## On prend les colonnes que l'on a besoin
+## On retire les carabidées car ils sont identifiés à l'espèce
+df <- filter(df, groupe_taxonomique !=  "carabes")
+df$groupe_taxonomique <- str_replace_all(df$groupe_taxonomique, "autres", "inconnu")
+
+## PROBLÈME ICI, certains sites ne disposent pas de code
+df <- subset(df,No_réf._du_site != "NA")
+
+## On prépare les données pour injection autre qu'à l'échelle de l'espèce
+obs <- unique(select(df,date_obs=Date_de_récolte,sample_code=No_échantillon, site_code="No_réf._du_site", vernacular_fr=groupe_taxonomique, value=abondance, trap_code=No_de_piège))
+obs$attr_id <- 2
+obs$type <- "microfaunes"
+
+## On regarde si toutes les taxons sont présent dans la BD
+resp_taxon <- get_species(vernacular_fr=obs$vernacular_fr)
+sp_id <- unlist(lapply(resp_taxon, function(x) return(x[[1]]$body[,c("id")])))
+
+## On récupère les identifiants unique d'échantillon
+resp_samples <- get_samples(sample_code=obs$sample_code)
+sample_id <- unlist(lapply(resp_samples, function(x) return(x[[1]]$body[,c("id")])))
+trap_id <- unlist(lapply(resp_samples, function(x) return(x[[1]]$body[,c("trap_id")])))
+
+## On récupère le code de campaign à partir des traps
+resp_traps <- list()
+for(i in 1:length(trap_id)){
+  resp_traps[[i]] <- httr::content(httr::GET(url=paste0(rce$server,"/api/v1/traps/",trap_id[i]), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", rce$bearer)),rce$ua), simplify = TRUE)
+}
+
+campaign_id <- unlist(lapply(resp_traps, function(x) return(x$campaign_id)))
+
+## Valider que les dates d'échantillonages présent dans traps
+## correspondent bien à ceux présent à l'observation
+obs$campaign_id <- campaign_id
+obs$trap_id <- trap_id
+obs$sample_id <- sample_id
+obs$sp_id <- sp_id
+
+obs <- as.data.frame(obs)
+
+injection_obs <- list()
+
+for(i in 1:nrow(obs)){
+  injection_obs[[i]] <- list(
+    date_obs = obs[i,"date_obs"],
+    is_valid = "true",
+    campaign_id = obs[i,"campaign_id"],
+    sample_id = obs[i, "sample_id"],
+    obs_species = list(
+      sp_id = obs[i,"sp_id"],
+      attr_id = obs[i,"attr_id"],
+      value = obs[i,"value"]
+    )
+  )
+}
+
+responses <- post_observations(injection_obs)
+
+## Injection des carabes identifie à l'espèce en laboratoire
+
+sheet <- "Carabidae_ID"
+
+nms <- names(read_excel("./extdata/V2_CompilationDonnées_2016-2018.xlsx",sheet=sheet))
+
+## Gerer les dates (eviter la conversion automatique)
+ct <- ifelse(grepl("^Date|Heure", nms, ignore.case = TRUE), "date", "guess")
+
+## deuxieme lecture de la page et ignore le type dans la ligne 2
+df <- read_excel("./extdata/V2_CompilationDonnées_2016-2018.xlsx",sheet=sheet,col_types = ct)[-1,]
+
+## replacer les espaces par des barres de soulignement dans les noms de colonnes
+names(df) <- str_replace_all(names(df)," ", "_")
+
+### On normalise la taxonomie
+df_taxa <- data.frame(famille=df$Famille,species=paste(df$Genre, df$Espèce),stringsAsFactors=FALSE)
+df_taxa$taxa_lookup <- apply(df_taxa,1,function(x) ifelse(x["species"] == "NA sp", return(x["famille"]), return(x["species"])))
+df_taxa[which(df_taxa$taxa_lookup == "Platynus decentis (decens)"),"taxa_lookup"] <- "Platynus decentis"
+
+## On ajoute la nouvelle colonne de taxonomie
+df$taxa <- df_taxa$taxa_lookup
+
+## On sélectionne les champs dont on a besoin pour l'injection
+## On prépare les données pour injection autre qu'à l'échelle de l'espèce
+obs <- unique(select(df,date_obs=Date_récolte,sample_code=Échantillon, site_code="No._Site", taxa, value=Nombre))
+obs$attr_id <- 2
+obs$type <- "microfaunes"
+
+## On regarde si toutes les taxons sont présent dans la BD
+resp_taxon <- get_species(name=obs$taxa)
+obs$sp_id <- unlist(lapply(resp_taxon, function(x) return(x[[1]]$body[,c("id")])))
+
+## On récupère les identifiants unique d'échantillon
+resp_samples <- get_samples(sample_code=obs$sample_code)
+obs$sample_id <- unlist(lapply(resp_samples, function(x) return(x[[1]]$body[,c("id")])))
+obs$trap_id <- unlist(lapply(resp_samples, function(x) return(x[[1]]$body[,c("trap_id")])))
+
+## On récupère le code de campaign à partir des traps
+resp_traps <- list()
+for(i in 1:length(trap_id)){
+  resp_traps[[i]] <- httr::content(httr::GET(url=paste0(rce$server,"/api/v1/traps/",trap_id[i]), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", rce$bearer)),rce$ua), simplify = TRUE)
+}
+
+obs$campaign_id <- unlist(lapply(resp_traps, function(x) return(x$campaign_id)))
+obs <- as.data.frame(obs)
+
+injection_obs <- list()
+
+for(i in 1:nrow(obs)){
+  injection_obs[[i]] <- list(
+    date_obs = obs[i,"date_obs"],
+    is_valid = "true",
+    campaign_id = obs[i,"campaign_id"],
+    sample_id = obs[i, "sample_id"],
+    obs_species = list(
+      sp_id = obs[i,"sp_id"],
+      attr_id = obs[i,"attr_id"],
+      value = obs[i,"value"]
+    )
+  )
+}
+
+responses <- post_observations(injection_obs)
