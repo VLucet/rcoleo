@@ -2,6 +2,8 @@
 #'
 #' @param endpoint `character` désignant le point d'entrée pour le retrait des données. Un point d'entrée peut être vu comme une table de la base de données.
 #' @param query `list` de paramètres à passer avec l'appel sur le endpoint.
+#' @param flatten `logical` aplatir automatiquement un data.frame imbriqués dans un seul `data.frame` (obsolete si l'objet retourné n'est pas un data.frame)
+#' @param type `character` choix du type d'objet retourné: `data.frame`, `list`, `json`
 #' @param ... httr options; arguments de la fonction `httr::GET()`
 #' @return
 #' Retourne une objet de type `list` contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est `getSuccess` ou `getError`. Une réponse de classe `getSuccess` est une liste à deux niveaux composé du contenu (`body`), et la réponse [httr::response]. Une réponse de classe `getError` dispose de la même structure mais ne contiendra pas de body, seulement la réponse de l'API.
@@ -14,7 +16,7 @@
 #' class(resp[[1]])
 #' @export
 
-get_gen <- function(endpoint = NULL, query = NULL, ...) {
+get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, type = 'data.frame', ...) {
 
   stopifnot(exists("endpoint"))
 
@@ -22,6 +24,9 @@ get_gen <- function(endpoint = NULL, query = NULL, ...) {
 
   # On remplace les NAs dans l'objet query avec des NULLs
   if(!is.null(query)) query[which(is.na(query) | query == "NA")] <- NULL
+
+  # On affiche un simple warning pour flatten
+  if(flatten=TRUE & type != "data.frame") warning(cat("L'option flatten est obsolète car le type d'objet désiré est:", type, "\n"))
 
   # Premier appel pour avoir le nombre de page
   resp <- httr::GET(url, config = httr::add_headers(`Content-type` = "application/json",
@@ -55,21 +60,31 @@ get_gen <- function(endpoint = NULL, query = NULL, ...) {
       stop("L'API n'a pas retourné un JSON", call. = FALSE)
     }
 
-    parsed <- jsonlite::fromJSON(httr::content(resp, type = "text", encoding = "UTF-8"), flatten = TRUE)
+    # On spécifie le type de sortie
+    if(type == 'json'){
+      body <- httr::content(resp, type = "text", encoding = "UTF-8"), flatten = flatten, simplifyVector = simplify
+    } ifelse(type == 'list') {
+      body <- jsonlite::fromJSON(httr::content(resp, type = "text", encoding = "UTF-8"), simplifyVector = FALSE)
+    } else {
+      body <- jsonlite::fromJSON(httr::content(resp, type = "text", encoding = "UTF-8"), flatten = flatten, simplifyVector = TRUE)
+    }
+
+
+
 
     # On regarde la longueur du jeu de données renvoyer pour faire les tests logiques
-    if(is.null(dim(parsed))){ n_matches <- 0} else { n_matches <- nrow(parsed)}
+    if(is.null(dim(body))){ n_matches <- 0} else { n_matches <- nrow(body)}
 
     if (httr::http_error(resp)) {
       message(sprintf("La requête sur l'API a échouée: [%s]\n%s", httr::status_code(resp),
-        parsed$message), call. = FALSE)
+        body$message), call. = FALSE)
 
       responses[[page + 1]] <- structure(list(body = NULL, response = resp),
           class = "getError")
 
     } else {
 
-      responses[[page + 1]] <- structure(list(body = parsed, response = resp),
+      responses[[page + 1]] <- structure(list(body = body, response = resp),
         class = "getSuccess")
 
     }
