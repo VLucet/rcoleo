@@ -21,7 +21,7 @@ get_gen <- function(endpoint = NULL, query = NULL, ...) {
   url <- httr::modify_url(rce$server, path = paste0(rce$base, endpoint))
 
   # On remplace les NAs dans l'objet query avec des NULLs
-  query[which(is.na(query) | query == "NA")] <- NULL
+  if(!is.null(query)) query[which(is.na(query) | query == "NA")] <- NULL
 
   # Premier appel pour avoir le nombre de page
   resp <- httr::GET(url, config = httr::add_headers(`Content-type` = "application/json",
