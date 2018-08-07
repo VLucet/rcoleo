@@ -1,16 +1,6 @@
-library(readxl)
-library(dplyr)
-library(stringr)
-library(tibble)
-library(tidyr)
-library(rgdal)
-library(geojsonio)
-
-
 ###################################
 ####### PREP POST sur sites #######
 ###################################
-source("./vignettes/import/microfaune.R")
 sheet <- "odonate"
 
 nms <- names(read_excel("./extdata/V2_CompilationDonnées_2016-2018.xlsx",sheet=sheet))

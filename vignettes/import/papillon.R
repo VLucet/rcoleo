@@ -1,17 +1,7 @@
-library(readxl)
-library(dplyr)
-library(stringr)
-library(tibble)
-library(tidyr)
-library(rgdal)
-library(geojsonio)
-
-devtools::load_all()
-
 ###################################
 ####### PREP POST sur sites #######
 ###################################
-source("./vignettes/import/vegetation.R")
+
 sheet <- "papillon"
 
 nms <- names(read_excel("./extdata/V2_CompilationDonnées_2016-2018.xlsx",sheet=sheet))
@@ -178,3 +168,4 @@ for(i in 1:nrow(obs)){
 }
 
 responses <- post_observations(injection_obs)
+diagnostic(responses)

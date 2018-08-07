@@ -1,16 +1,6 @@
-library(readxl)
-library(dplyr)
-library(stringr)
-library(tibble)
-library(tidyr)
-library(rgdal)
-library(geojsonio)
-
-
 ###################################
 ####### PREP POST sur sites #######
 ###################################
-source("./vignettes/import/papillon.R")
 sheet <- "Carabes_Installation"
 
 nms <- names(read_excel("./extdata/V2_CompilationDonnées_2016-2018.xlsx",sheet=sheet))
@@ -31,8 +21,14 @@ sites <- unique(select(df,cell_id=No_de_référence_de_la_cellule,site_code=No_d
 sites$site_code <- str_replace_all(sites$site_code,"-", "_")
 
 ## On regarde si les sites existent
-exist_sites <- get_sites(site_code=unique(sites$site_code))
-key_sites <- lapply(exist_sites,function(x) ifelse(attributes(x$body)["n_records"]!=0,return(x$body),return()))
+exist_sites <- get_sites(site_code=unique(sites$site_code),type="data.frame",flatten=TRUE)
+key_sites <- plyr::compact(lapply(exist_sites,function(x){
+  if(is.data.frame(x$body)){
+    return(x$body)
+  } else {
+    return()
+  }}
+))
 key_sites <- unique(do.call(rbind,key_sites)$site_code)
 sites <- sites[-which(sites$site_code %in% key_sites),]
 
@@ -72,7 +68,7 @@ for(i in 1:length(sites_ls)){
 }
 
 responses <- post_sites(sites_ls)
-
+diagnostic(responses)
 ###################################
 ##### PREP POST sur campaigns #####
 ###################################
@@ -144,6 +140,7 @@ for(l in 1:length(campaigns_ls)){
 
 responses <- post_campaigns(campaigns_ls)
 
+
 #### Traps + landmarks (GPS)
 # On prépare le jeux de données pour insertion dans la table Traps
 
@@ -169,6 +166,7 @@ traps_ls <- lapply(traps_ls, function(x) {
 })
 
 responses <- post_traps(traps_ls)
+diagnostic(responses)
 
 ##### Ajout des échantillons dans la table
 library(reshape2)
@@ -214,6 +212,7 @@ samples_ls <- apply(samples,1,as.list)
 names(samples_ls) <- NULL
 
 responses <- post_samples(samples_ls)
+diagnostic(responses)
 
 #### Observations + ObsSpecies
 
@@ -286,7 +285,7 @@ for(i in 1:nrow(obs)){
 }
 
 responses <- post_observations(injection_obs)
-
+diagnostic(responses)
 ## Injection des carabes identifie à l'espèce en laboratoire
 
 sheet <- "Carabidae_ID"
@@ -328,7 +327,7 @@ obs$trap_id <- unlist(lapply(resp_samples, function(x) return(x[[1]]$body[,c("tr
 ## On récupère le code de campaign à partir des traps
 resp_traps <- list()
 for(i in 1:length(trap_id)){
-  resp_traps[[i]] <- httr::content(httr::GET(url=paste0(rce$server,"/api/v1/traps/",trap_id[i]), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", rce$bearer)),rce$ua), simplify = TRUE)
+  resp_traps[[i]] <- httr::content(httr::GET(url=paste0(rce$server,"/api/v1/traps/",obs$trap_id[i]), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", rce$bearer)),rce$ua), simplify = TRUE)
 }
 
 obs$campaign_id <- unlist(lapply(resp_traps, function(x) return(x$campaign_id)))
@@ -351,3 +350,4 @@ for(i in 1:nrow(obs)){
 }
 
 responses <- post_observations(injection_obs)
+diagnostic(responses)

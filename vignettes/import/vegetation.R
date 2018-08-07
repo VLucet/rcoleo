@@ -1,16 +1,6 @@
-library(readxl)
-library(dplyr)
-library(stringr)
-library(tibble)
-library(tidyr)
-library(rgdal)
-library(geojsonio)
-
-
 ###################################
 ####### PREP POST sur sites #######
 ###################################
-source("vignettes/import/cells.R")
 
 sheet <- "Végétation"
 
@@ -249,7 +239,7 @@ for(i in 1:nrow(obs)){
     ),
     obs_species = list(
       sp_id = obs[i,"sp_id"],
-      attr_id = attr_id,
+      attr_id = 1,
       value = obs[i,"recouvrement"]
     )
   )
