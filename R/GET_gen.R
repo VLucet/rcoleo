@@ -16,7 +16,7 @@
 #' class(resp[[1]])
 #' @export
 
-get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, type = 'data.frame', ...) {
+get_gen <- function(endpoint = NULL, query = NULL, flatten = NULL, type = 'data.frame', ...) {
 
   stopifnot(exists("endpoint"))
 
@@ -24,9 +24,6 @@ get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, type = 'data.
 
   # On remplace les NAs dans l'objet query avec des NULLs
   if(!is.null(query)) query[which(is.na(query) | query == "NA")] <- NULL
-
-  # On affiche un simple warning pour flatten
-  if(flatten=TRUE & type != "data.frame") warning(cat("L'option flatten est obsolète car le type d'objet désiré est:", type, "\n"))
 
   # Premier appel pour avoir le nombre de page
   resp <- httr::GET(url, config = httr::add_headers(`Content-type` = "application/json",
@@ -62,18 +59,17 @@ get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, type = 'data.
 
     # On spécifie le type de sortie
     if(type == 'json'){
-      body <- httr::content(resp, type = "text", encoding = "UTF-8"), flatten = flatten, simplifyVector = simplify
-    } ifelse(type == 'list') {
+      body <- httr::content(resp, type = "text", encoding = "UTF-8")
+    } else if(type == 'list') {
       body <- jsonlite::fromJSON(httr::content(resp, type = "text", encoding = "UTF-8"), simplifyVector = FALSE)
-    } else {
+    } else if(type == 'data.frame') {
       body <- jsonlite::fromJSON(httr::content(resp, type = "text", encoding = "UTF-8"), flatten = flatten, simplifyVector = TRUE)
     }
 
-
-
-
     # On regarde la longueur du jeu de données renvoyer pour faire les tests logiques
-    if(is.null(dim(body))){ n_matches <- 0} else { n_matches <- nrow(body)}
+    n_matches <- 0
+    if(type == 'data.frame') n_matches <- nrow(body)
+    if(type == 'list') n_matches <- length(body)
 
     if (httr::http_error(resp)) {
       message(sprintf("La requête sur l'API a échouée: [%s]\n%s", httr::status_code(resp),
