@@ -16,7 +16,7 @@
 #' class(resp[[1]])
 #' @export
 
-get_gen <- function(endpoint = NULL, query = NULL, flatten = NULL, type = 'data.frame', ...) {
+get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, type = 'data.frame', ...) {
 
   stopifnot(exists("endpoint"))
 
@@ -63,13 +63,12 @@ get_gen <- function(endpoint = NULL, query = NULL, flatten = NULL, type = 'data.
     } else if(type == 'list') {
       body <- jsonlite::fromJSON(httr::content(resp, type = "text", encoding = "UTF-8"), simplifyVector = FALSE)
     } else if(type == 'data.frame') {
-      body <- jsonlite::fromJSON(httr::content(resp, type = "text", encoding = "UTF-8"), flatten = flatten, simplifyVector = TRUE)
+      body <- jsonlite::fromJSON(httr::content(resp, type = "text", encoding = "UTF-8"), flatten = flatten, simplifyDataFrame = TRUE)
     }
 
     # On regarde la longueur du jeu de données renvoyer pour faire les tests logiques
-    n_matches <- 0
-    if(type == 'data.frame') n_matches <- nrow(body)
-    if(type == 'list') n_matches <- length(body)
+    if(is.data.frame(body)) n_matches <- nrow(body)
+    if(is.list(body)) n_matches <- length(body)
 
     if (httr::http_error(resp)) {
       message(sprintf("La requête sur l'API a échouée: [%s]\n%s", httr::status_code(resp),
