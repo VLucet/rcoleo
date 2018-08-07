@@ -10,8 +10,8 @@ library(geojsonio)
 ###################################
 ####### PREP POST sur sites #######
 ###################################
-source("./vignettes/import/microfaune.R")
-sheet <- "odonate"
+# source("./vignettes/import/microfaune.R")
+sheet <- "Inv. mammifère"
 
 nms <- names(read_excel("./extdata/V2_CompilationDonnées_2016-2018.xlsx",sheet=sheet))
 
@@ -25,10 +25,12 @@ df <- read_excel("./extdata/V2_CompilationDonnées_2016-2018.xlsx",sheet=sheet,c
 names(df) <- str_replace_all(names(df)," ", "_")
 
 ## On sélectionne les colonnes d'intérêts
-sites <- unique(select(df,cell_id=No_de_référence_de_la_cellule,site_code=No_de_référence_du_site,type_de_milieu=Type_de_milieu,opened_at="Date_d'inventaire",closed_at="Date_d'inventaire",lat=Latitude, lon=Longitude))
+sites <- unique(select(df,cell_id=No_de_référence_de_la_cellule,site_code=No_de_référence_du_site,type=Type_de_milieu,opened_at="Date_d'installation",lat=Latitude, lon=Longitude))
+
 
 ## Transformer en liste pour injection
 sites_ls <- apply(sites,1,as.list)
+
 
 # Creer geom points
 loc <- apply(sites,1, function(x){
@@ -46,7 +48,6 @@ for(i in 1:length(sites_ls)){
   }
 }
 
-## TODO: Améliorer la fonction de POST - s'asssurer que le site n'éxite pas déjà
 responses <- post_sites(sites_ls)
 
 ###################################
@@ -58,137 +59,41 @@ library(reshape2)
 campaigns <- unique(select(
   df,
   site_code=No_de_référence_du_site,
-  opened_at="Date_d'inventaire",
-  Heure_début,
-  Heure_fin,
-  ## ENV
-  "Temp._(celsius)",
-  Vent,
-  Ciel
+  opened_at="Date_d'installation"
 ))
 
-campaigns$type <- "odonates"
-campaigns$closed_at <- campaigns$opened_at
+campaigns$type <- "mésocarnivores"
+
+## Remplacer les barres de soulignement par des tirets
+campaigns$site_code <- str_replace_all(campaigns$site_code,"-", "_")
 
 # Transforme en list
 campaigns_ls <- apply(campaigns,1,as.list)
 
-
 techs <- unique(select(
   df,
   site_code = No_de_référence_du_site,
-  opened_at="Date_d'inventaire",
-  Observateur=Nom_observateur_1
+  opened_at = "Date_d'installation",
+  Observateur1 = Nom_observateur_1,
+  Observateur2 = Nom_observateur_2
 ))
 
-techs$closed_at <- techs$opened_at
-
+# On melt le jeux de données d'Observateurs
+techs <- melt(techs, id.vars=c("site_code","opened_at"), value.name="Observateur", na.rm =TRUE)
+techs <- select(techs, -variable)
 
 # On ajoute les technicians
 campaigns_ls <- lapply(campaigns_ls, function(x){
-  x$technicians <- as.list(techs[which(techs$site_code == x$site_code & as.character(techs$opened_at) == x$opened_at & as.character(techs$closed_at) == x$closed_at),]$Observateur)
+  x$technicians <- as.list(techs[which(techs$site_code == x$site_code & as.character(techs$opened_at) == x$opened_at),]$Observateur)
   return(x)
 })
 
+##### AJOUT DEVICES
 
-# Ajout de l'effort d'échantillonnage
-campaigns_ls <- lapply(campaigns_ls, function(x) {
-  x$efforts <- list(
-    list(samp_surf = "70685.83", samp_surf_unit = "m2", time_finish=as.character(strsplit(x$Heure_fin," ")[[1]][2]), time_start=as.character(strsplit(x$Heure_début," ")[[1]][2])
-  ))
-  return(x)
-})
 
-# Ajout de l'environments
-campaigns_ls <- lapply(campaigns_ls, function(x) {
-  x$environment <- list(
-    list(sky = tolower(x$Ciel), wind = tolower(x$Vent), temp_c=x[['Temp._(celsius)']])
-  )
-  return(x)
-})
+##### AJOUT LEURRES
+
 
 ##### POST Campaigns
 responses <- post_campaigns(campaigns_ls)
-diagnostic(responses)
-
-##### TODO
-#######################################
-####### PREP POST sur observations ####
-#######################################
-
-# On selectionne les colonnes que l'on a besoin pour les Observations
-obs <- select(df,site_code=No_de_référence_du_site,opened_at="Date_d'inventaire",espece="Esp._Odonate",value=nombre)
-obs$type <- "odonates"
-obs$closed_at <- obs$opened_at
-obs$date_obs <- obs$opened_at
-
-obs <- subset(obs, !is.na(espece))
-substr(obs$espece, 1, 1) <- toupper(substr(obs$espece, 1, 1))
-
-# # # On uniformise la taxo
-# species <- select(obs, espece)
-# names(species) <- "name"
-# species$rank <- "espèce"
-# species$vernacular_fr <- "NA"
-# species[str_detect(species$name, "sp.$"),"rank"] <- "genre"
-# # On essaye d'aller chercher les noms latins
-# library(rvest)
-# odonates_ls <-
-# read_html("http://entomofaune.qc.ca/entomofaune/odonates/Liste_especes.html") %>%
-# html_nodes("table") %>%
-# .[[2]] %>%
-#  html_table(header=TRUE, trim=TRUE)
-# #
-# names(odonates_ls) <- str_replace_all(names(odonates_ls), " ", "_")
-# odonates_ls <- subset(odonates_ls, !is.na(Répartition))
-# odonates_ls$Nom_scientifique <- str_replace_all(odonates_ls$Nom_scientifique, "[\r]" , " ")
-# odonates_ls$Nom_scientifique <- str_replace_all(odonates_ls$Nom_scientifique, "[\n]" , "")
-# odonates_ls$tsn <- taxize::get_tsn(odonates_ls$Nom_scientifique)
-# write.csv2(odonates_ls,file="./vignettes/import/code_sp/odonates.csv",  row.names=FALSE)
-# odonates_ls <- read.csv2("./vignettes/import/code_sp/odonates.csv",stringsAsFactors=FALSE)
-# base_sp <- jsonlite::fromJSON(readLines("./vignettes/import/code_sp/refSpecies.json"))
-# base_sp <- rbind(base_sp,odonates_ls)
-# writeLines(jsonlite::toJSON(base_sp,auto_unbox=FALSE),con=file("./vignettes/import/code_sp/refSpecies.json"))
-
-# On regarde si toutes les especes sont dans la table de reference
-obs$espece <- str_replace_all(obs$espece, "Calopterys", "Calopteryx")
-obs$espece <- str_replace_all(obs$espece, "Leste ", "Lestes ")
-obs$espece <- str_replace_all(obs$espece, " sp.$", "")
-obs$espece <- str_replace_all(obs$espece, "Inconnu", "inconnu")
-
-responses <- get_species(name=obs$espece)
-obs$sp_id <- unlist(lapply(responses, function(x)
-if(is.null(x[[1]]$body$id)){ return(NA) } else {return(x[[1]]$body$id)}
-))
-
-responses <- get_species(vernacular_fr=obs[is.na(obs$sp_id),"espece"])
-obs[is.na(obs$sp_id),"sp_id"] <- unlist(lapply(responses, function(x)
-if(is.null(x[[1]]$body$id)){ return(NA) } else {return(x[[1]]$body$id)}
-))
-
-
-## On prépare la structure pour l'injection des données
-obs <- as.data.frame(obs)
-
-injection_obs <- list()
-
-for(i in 1:nrow(obs)){
-  injection_obs[[i]] <- list(
-    date_obs = obs[i,"opened_at"],
-    is_valid = "true",
-    campaign_info = list(
-      site_code = obs[i,"site_code"],
-      closed_at = obs[i,"closed_at"],
-      opened_at = obs[i,"opened_at"],
-      type = "odonates"
-    ),
-    obs_species = list(
-      sp_id = obs[i,"sp_id"],
-      attr_id = attr_id,
-      value = obs[i,"value"]
-    )
-  )
-}
-
-responses <- post_observations(injection_obs)
 diagnostic(responses)

@@ -50,18 +50,18 @@ sites$site_code <- str_replace_all(sites$site_code,"-", "_")
 sites_ls <- apply(sites,1,as.list)
 
 # Creer geom points
-loc <- apply(sites,1, function(x){
+geom <- apply(sites,1, function(x){
   if(!any(is.na(x["lat"]),is.na(x["lon"]))){
   return(geojson_list(as.numeric(c(x["lat"],x["lon"])))$features[[1]]$geometry)
 } else {
   return(NA)
 }})
 
-# Fusionner les deux listes (locations + sites)
+# Fusionner les deux listes (geomations + sites)
 for(i in 1:length(sites_ls)){
-  sites_ls[[i]]$loc <- loc[i][[1]]
-  if(is.list(sites_ls[[i]]$loc)){
-    sites_ls[[i]]$loc$crs <- list(type="name",properties=list(name="EPSG:4326"))
+  sites_ls[[i]]$geom <- geom[i][[1]]
+  if(is.list(sites_ls[[i]]$geom)){
+    sites_ls[[i]]$geom$crs <- list(type="name",properties=list(name="EPSG:4326"))
   }
 }
 

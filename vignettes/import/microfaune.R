@@ -56,18 +56,18 @@ sites <- select(sites,cell_id,site_code,type=type_de_milieu,opened_at,lat,lon)
 sites_ls <- apply(sites,1,as.list)
 
 # Creer geom points
-loc <- apply(sites,1, function(x){
+geom <- apply(sites,1, function(x){
   if(!any(is.na(x["lat"]),is.na(x["lon"]))){
   return(geojson_list(as.numeric(c(x["lat"],x["lon"])))$features[[1]]$geometry)
 } else {
   return(NA)
 }})
 
-# Fusionner les deux listes (locations + sites)
+# Fusionner les deux listes (geomations + sites)
 for(i in 1:length(sites_ls)){
-  sites_ls[[i]]$loc <- loc[i][[1]]
-  if(is.list(sites_ls[[i]]$loc)){
-    sites_ls[[i]]$loc$crs <- list(type="name",properties=list(name="EPSG:4326"))
+  sites_ls[[i]]$geom <- geom[i][[1]]
+  if(is.list(sites_ls[[i]]$geom)){
+    sites_ls[[i]]$geom$crs <- list(type="name",properties=list(name="EPSG:4326"))
   }
 }
 
@@ -155,14 +155,14 @@ names(traps_ls) <- NULL
 traps_ls <- lapply(traps_ls, function(x) {
 
   if(any(!is.na(x$lat_trap),!is.na(x$lon_trap))){
-    loc <- geojson_list(as.numeric(c(x$lat_trap,x$lon_trap)))$features[[1]]$geometry
+    geom <- geojson_list(as.numeric(c(x$lat_trap,x$lon_trap)))$features[[1]]$geometry
   } else {
-    loc <- NULL
+    geom <- NULL
   }
 
   if(any(x$closed_at == "NA" | is.na(x$closed_at))){ x$closed_at <- NULL }
 
-  x$landmarks <- list(list(loc = loc))
+  x$landmarks <- list(list(geom = geom))
 
   return(x)
 
