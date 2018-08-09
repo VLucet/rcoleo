@@ -3,10 +3,10 @@
 #' @param endpoint `character` désignant le point d'entrée pour le retrait des données. Un point d'entrée peut être vu comme une table de la base de données.
 #' @param query `list` de paramètres à passer avec l'appel sur le endpoint.
 #' @param flatten `logical` aplatir automatiquement un data.frame imbriqués dans un seul `data.frame` (obsolete si l'objet retourné n'est pas un data.frame)
-#' @param type `character` choix du type d'objet retourné: `data.frame`, `list`, `json`
+#' @param output `character` choix du type d'objet retourné: `data.frame`, `list`, `json`
 #' @param ... httr options; arguments de la fonction `httr::GET()`
 #' @return
-#' Retourne une objet de type `list` contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est `getSuccess` ou `getError`. Une réponse de classe `getSuccess` est une liste à deux niveaux composé du contenu (`body`), et la réponse [httr::response]. Une réponse de classe `getError` dispose de la même structure mais ne contiendra pas de body, seulement la réponse de l'API.
+#' Retourne un objet de type `list` contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est `getSuccess` ou `getError`. Une réponse de classe `getSuccess` est une liste à deux niveaux composé du contenu (`body`), et la réponse [httr::response]. Une réponse de classe `getError` dispose de la même structure mais ne contiendra pas de body, seulement la réponse de l'API.
 #' @details
 #' Les points d'accès de l'API sont énuméré dans l'environment de coléo, voir `print(rce$endpoints)`
 #' @examples
@@ -16,7 +16,7 @@
 #' class(resp[[1]])
 #' @export
 
-get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, type = 'data.frame', ...) {
+get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, output = 'data.frame',...) {
 
   stopifnot(exists("endpoint"))
 
@@ -35,12 +35,8 @@ get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, type = 'data.
     "\\(?[0-9,.]+\\)?"))
 
   # Préparation de l'itérateur
-  if(sum(rg) == 0){
-    pages <- 0
-  }  else {
-    limit <- rg[2]+1
-    pages <- ifelse((rg[3] %% limit) != 0, round(rg[3] / limit), round(rg[3] / limit)-1)
-  }
+  limit <- 100
+  pages <- ceiling(rg[3] / limit) - 1
 
   # On prépare la liste pour le renvoi de la fonction
   responses <- list()
@@ -58,11 +54,11 @@ get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, type = 'data.
     }
 
     # On spécifie le type de sortie
-    if(type == 'json'){
+    if(output == 'json'){
       body <- httr::content(resp, type = "text", encoding = "UTF-8")
-    } else if(type == 'list') {
-      body <- jsonlite::fromJSON(httr::content(resp, type = "text", encoding = "UTF-8"), simplifyVector = FALSE)
-    } else if(type == 'data.frame') {
+    } else if(output == 'list') {
+      body <- jsonlite::fromJSON(httr::content(resp, type = "text", encoding = "UTF-8"), simplify = FALSE)
+    } else if(output == 'data.frame') {
       body <- jsonlite::fromJSON(httr::content(resp, type = "text", encoding = "UTF-8"), flatten = flatten, simplifyDataFrame = TRUE)
     }
 
