@@ -151,9 +151,9 @@ obs$sp_id <- unlist(lapply(responses, function(x)
 if(is.null(x[[1]]$body$id)){ return(NA) } else {return(x[[1]]$body$id)}
 ))
 
-responses <- get_species(vernacular_fr=obs[is.na(obs$sp_id),"espece"])
+responses <- get_species(vernacular_fr=obs[is.na(obs$sp_id),]$espece)
 obs[is.na(obs$sp_id),"sp_id"] <- unlist(lapply(responses, function(x)
-if(is.null(x[[1]]$body$id)){ return(NA) } else {return(x[[1]]$body$id)}
+  x[[1]]$body$id
 ))
 
 
