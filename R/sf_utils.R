@@ -11,19 +11,22 @@
 #' @export
 
 cl_to_sf <- function(responses = responses) {
-
+  
   # Check for getSuccess classes
-  all(lapply(responses,class) == "getSuccess")
+  stopifnot(all(lapply(unlist(responses,recursive=FALSE),class) == "getSuccess"))
 
   # get features
-  features <- unlist(lapply(responses, function(page){
-    feature <- apply(page$body, 1, function(feature){
-      return(list(type="Feature", geometry=list(type=feature$geom.type,coordinates=feature$geom.coordinates)))
+  features <- lapply(responses, function(request){
+    lapply(request, function(page){
+      features <- apply(page$body, 1, function(feature){
+        return(list(type="Feature", geometry=list(type=feature$geom.type,coordinates=feature$geom.coordinates)))
+      })
+      names(features) <- NULL
+      return(features)
     })
-    return(feature)
-  }), recursive=FALSE)
+  })
 
-  names(features) <- NULL
+  features <- unlist(unlist(features,recursive=FALSE),recursive=FALSE)
 
   # get Data
   geom_s <- sf::read_sf(
@@ -35,7 +38,13 @@ cl_to_sf <- function(responses = responses) {
     )
   )
 
-  geom_df <- lapply(responses, function(x) dplyr::select(x$body, -geom.type, -geom.coordinates))
+  geom_df <- lapply(responses, function(request){
+    all_pages <- lapply(request, function(page){
+      dplyr::select(page$body, -geom.type, -geom.coordinates)
+    })
+    return(do.call(rbind,all_pages))
+  })
+
   geom_df <- do.call(rbind,geom_df)
 
   # Data binding
