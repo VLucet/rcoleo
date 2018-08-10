@@ -17,7 +17,7 @@ get_cells <- function(cell_code = NULL,name = NULL, ...) {
   if (is.null(cell_code) & is.null(name)) {
 
     # Obtenir tous les sites
-    responses <- get_gen(endpoint, ...)
+    responses[[1]] <- get_gen(endpoint, ...)
 
   } else {
 

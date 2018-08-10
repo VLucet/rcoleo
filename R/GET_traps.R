@@ -19,7 +19,7 @@ get_traps <- function(trap_code = NULL, campaign_id = NULL,...) {
   if (is.null(trap_code)) {
 
     # Obtenir toutes les cellules
-    responses <- get_gen(endpoint, ...)
+    responses[[1]] <- get_gen(endpoint, ...)
 
   } else {
 

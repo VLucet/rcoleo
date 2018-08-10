@@ -17,7 +17,7 @@ get_sites <- function(site_code = NULL, ...) {
   if (is.null(site_code)) {
 
     # Obtenir tous les sites
-    responses <- get_gen(endpoint)
+    responses[[1]] <- get_gen(endpoint)
 
   } else {
 

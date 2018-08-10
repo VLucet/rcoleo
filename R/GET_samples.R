@@ -18,7 +18,7 @@ get_samples <- function(sample_code = NULL, ...) {
   if (is.null(sample_code)) {
 
     # Obtenir toutes les cellules
-    responses <- get_gen(endpoint, ...)
+    responses[[1]] <- get_gen(endpoint, ...)
 
   } else {
 

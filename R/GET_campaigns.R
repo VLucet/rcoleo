@@ -13,11 +13,10 @@ get_campaigns <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, 
 
   endpoint <- rce$endpoints$campaigns
 
-
   # Si tous les arguments sont nuls
   if(all(is.null(site_code), is.null(opened_at), is.null(closed_at), is.null(type))){
 
-    responses <- get_gen(endpoint, ...)
+    responses[[1]] <- get_gen(endpoint, ...)
 
   } else {
 

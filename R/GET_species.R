@@ -20,7 +20,7 @@ get_species <- function(name = NULL, rank = NULL, vernacular_fr = NULL,...) {
   if (all(is.null(name),is.null(rank),is.null(vernacular_fr))) {
 
     # Obtenir toutes les cellules
-    responses <- get_gen(endpoint, ...)
+    responses[[1]] <- get_gen(endpoint, ...)
 
   } else {
 

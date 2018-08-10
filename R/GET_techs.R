@@ -17,7 +17,7 @@ get_techs <- function(name = NULL, lastname = NULL, ...){
   if (all(is.null(name),is.null(lastname))) {
 
     # Obtenir tous les sites
-    responses <- get_gen(endpoint, ...)
+    responses[[1]] <- get_gen(endpoint, ...)
 
   } else {
 
