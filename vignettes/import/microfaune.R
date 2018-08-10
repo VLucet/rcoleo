@@ -145,6 +145,12 @@ responses <- post_campaigns(campaigns_ls)
 # On prépare le jeux de données pour insertion dans la table Traps
 
 ## On le transforme en liste pour l'injection finale
+traps$campaign_id <- unlist(lapply(get_campaigns(
+                        site_code=traps$site_code,
+                        opened_at=traps$opened_at,
+                        closed_at=traps$closed_at,
+                        type=rep("microfaunes",nrow(traps))), function(x) return(x[[1]]$body$id)))
+
 traps_ls <- apply(traps,1,as.list)
 names(traps_ls) <- NULL
 
@@ -159,7 +165,7 @@ traps_ls <- lapply(traps_ls, function(x) {
 
   if(any(x$closed_at == "NA" | is.na(x$closed_at))){ x$closed_at <- NULL }
 
-  x$landmarks <- list(list(geom = geom))
+  x$landmarks <- list(list(campaign_id=x$campaign_id,geom = geom))
 
   return(x)
 
