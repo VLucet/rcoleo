@@ -12,7 +12,7 @@ base <- function() "/api/v1"
 bearer <- function() "e6086afb109505fe9abd57dd1779ce5c78196ba939ff3e2323868de0d3cec0b9"
 ua <- function() httr::user_agent("rcoleo")
 
-# Point d'entrées pour le retrait ou l'analyse des données
+# Point d'entrées de l'API
 endpoints <- function(){
   list(
     cells = "/cells",
@@ -21,7 +21,6 @@ endpoints <- function(){
     medias = "/medias",
     observations = "/observations",
     taxa = "/taxa",
-    technicians = "/technicians",
     landmarks = "/landmarks",
     attributes = "/attributes",
     traps = "/traps",
