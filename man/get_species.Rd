@@ -4,12 +4,12 @@
 \alias{get_species}
 \title{Retourne les entrées d'espèces présentes dans la base de données}
 \usage{
-get_species(species = NULL, genus = NULL, vernacular_fr = NULL, ...)
+get_species(name = NULL, rank = NULL, vernacular_fr = NULL, ...)
 }
 \arguments{
-\item{species}{\code{character} vecteur contenant les espèces recherché (sensible à la case) - Obsolète si l'argument query est spécifié}
+\item{name}{\code{character} vecteur contenant les noms taxonomiques recherché (sensible à la case) - Obsolète si l'argument query est spécifié}
 
-\item{genus}{\code{character} vecteur contenant les genres d'espèce recherché (sensible à la case) - Obsolète si l'argument query est spécifié}
+\item{rank}{\code{character} vecteur contenant les rangs taxonomiques recherché (sensible à la case) - Obsolète si l'argument query est spécifié}
 
 \item{vernacular_fr}{\code{character} vecteur contenant les noms vernaculaires en francais des espèces recherchées (sensible à la case) - Obsolète si l'argument query est spécifié}
 

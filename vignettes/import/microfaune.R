@@ -260,7 +260,7 @@ trap_id <- unlist(lapply(resp_samples, function(x) return(x[[1]]$body[,c("trap_i
 ## On récupère le code de campaign à partir des traps
 resp_traps <- list()
 for(i in 1:length(trap_id)){
-  resp_traps[[i]] <- httr::content(httr::GET(url=paste0(rce$server,"/api/v1/traps/",trap_id[i]), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", rce$bearer)),rce$ua), simplify = TRUE)
+  resp_traps[[i]] <- httr::content(httr::GET(url=paste0(server,"/api/v1/traps/",trap_id[i]), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", bearer())),ua()), simplify = TRUE)
 }
 
 campaign_id <- unlist(lapply(resp_traps, function(x) return(x$campaign_id)))
@@ -333,7 +333,7 @@ obs$trap_id <- unlist(lapply(resp_samples, function(x) return(x[[1]]$body[,c("tr
 ## On récupère le code de campaign à partir des traps
 resp_traps <- list()
 for(i in 1:length(obs$trap_id)){
-  resp_traps[[i]] <- httr::content(httr::GET(url=paste0(rce$server,"/api/v1/traps/",obs$trap_id[i]), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", rce$bearer)),rce$ua), simplify = TRUE)
+  resp_traps[[i]] <- httr::content(httr::GET(url=paste0(server,"/api/v1/traps/",obs$trap_id[i]), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", bearer())),ua()), simplify = TRUE)
 }
 
 obs$campaign_id <- unlist(lapply(resp_traps, function(x) return(x$campaign_id)))
