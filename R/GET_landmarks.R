@@ -10,10 +10,10 @@
 get_landmarks <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, type = NULL, ...) {
 
   # DEBUG
-  # site_code="137_107_F01"
+  # site_code=NULL
   # opened_at = NULL
   # closed_at = NULL
-  # type = NULL
+  # type = "végétation"
 
   # 1 call = 1 combinaison de filters
   endpoint <- rce$endpoints$landmarks
@@ -36,26 +36,73 @@ get_landmarks <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, 
                     closed_at = closed_at[r],
                     type = type[r]), function(x) return(x[[1]]$body$id)))
 
-      # On récupère les landmarks pour la campanes concernée
+      # On récupère les landmarks pour la campagne concernée
       for(i in 1:length(campaigns_ids)) responses[[i]] <- get_gen(endpoint, query=list(campaign_id=campaigns_ids[i]))
 
       # On ajoute les informations sur la campagne
       responses <- lapply(responses, function(x){
-        campaign_id <- unique(x[[1]]$body$campaign_id)
-        stopifnot(length(campaign_id) == 1)
+        if(attributes(x[[1]]$body)$n_records != 0){
 
-        # Campagne info
-        campaign_info <- httr::content(httr::GET(url=paste0(rce$server,"/api/v1/campaigns/",campaign_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", rce$bearer)),rce$ua), simplify = TRUE)
-        # Code du site
-        site_code <- httr::content(httr::GET(url=paste0(rce$server,"/api/v1/sites/",campaign_info$site_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", rce$bearer)),rce$ua), simplify = TRUE)$site_code
+          campaign_id <- unique(x[[1]]$body$campaign_id)
+          stopifnot(length(campaign_id) == 1)
 
-        # On prepare la sortie
-        x[[1]]$body$site_code <- site_code
-        x[[1]]$body$opened_at <- campaign_info$opened_at
-        x[[1]]$body$closed_at <- campaign_info$closed_at
-        x[[1]]$body$type <- campaign_info$type
+          # Campagne info
+          campaign_info <- httr::content(httr::GET(url=paste0(rce$server,"/api/v1/campaigns/",campaign_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", rce$bearer)),rce$ua), simplify = TRUE)
+          # Code du site
+          site_code <- httr::content(httr::GET(url=paste0(rce$server,"/api/v1/sites/",campaign_info$site_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", rce$bearer)),rce$ua), simplify = TRUE)$site_code
 
-        return(x)
+          # Species info
+          species_info <- apply(x[[1]]$body,1, function(rec){
+            if(rec$type == "tree" | rec$type == "both"){
+              httr::content(httr::GET(url=paste0(rce$server,"/api/v1/taxa/",rec$sp_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", rce$bearer)),rce$ua), simplify = TRUE)[c("vernacular_fr","name","rank","tsn")]
+            } else {
+              return(rep(NA,4))
+            }
+          })
+
+          species_info <- do.call(rbind,species_info)
+
+
+          # On prepare la sortie
+          x[[1]]$body$site_code <- site_code
+          x[[1]]$body$opened_at <- campaign_info$opened_at
+          x[[1]]$body$closed_at <- campaign_info$closed_at
+          x[[1]]$body$type <- campaign_info$type
+          x[[1]]$body <- cbind(x[[1]]$body,species_info)
+
+          x[[1]]$body <- dplyr::select(x[[1]]$body,
+            id,
+            site_code,
+            opened_at,
+            closed_at,
+            type,
+            campaign_id,
+            trap_id,
+            lure_id,
+            device_id,
+            tree_code,
+            vernacular_fr,
+            name,
+            rank,
+            tsn,
+            dbh,
+            dbh_unit,
+            azimut,
+            distance,
+            distance_unit,
+            notes,
+            created_at,
+            updated_at
+          )
+
+          return(x)
+
+        } else {
+
+          return(x)
+
+        }
+
       })
     }
   }
