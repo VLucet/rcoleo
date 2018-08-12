@@ -1,8 +1,3 @@
-# Cache env
-rce <- new.env()
-
-assign("server", "http://localhost:3001", envir = rce)
-
 ###### Debug #####
 con <- RPostgreSQL::dbConnect("PostgreSQL",user="postgres",host="localhost",dbname="coleo_dev")
 bearer <- RPostgreSQL::dbGetQuery(con,"SELECT token FROM api_keys LIMIT 1")
@@ -10,26 +5,26 @@ saveRDS(bearer,file=".httr-oauth")
 RPostgreSQL::dbDisconnect(con)
 ####################
 
-
 # Config de base
-assign("base", "/api/v1", envir = rce)
-assign("bearer", readRDS(".httr-oauth"), envir = rce)
-assign("ua", httr::user_agent("rcoleo"), envir = rce )
+server <- function() "http://localhost:3001"
+base <- function() "/api/v1"
+# bearer <- function() as.character(readRDS(".httr-oauth"))
+bearer <- function() "e6086afb109505fe9abd57dd1779ce5c78196ba939ff3e2323868de0d3cec0b9"
+ua <- function() httr::user_agent("rcoleo")
 
 # Point d'entrées pour le retrait ou l'analyse des données
-endpoints <- list()
-endpoints$cells <- "/cells"
-endpoints$sites <- "/sites"
-endpoints$campaigns <- "/campaigns"
-endpoints$medias <- "/medias"
-endpoints$observations <- "/observations"
-endpoints$taxa <- "/taxa"
-endpoints$technicians <- "/technicians"
-endpoints$landmarks <- "/landmarks"
-endpoints$attributes <- "/attributes"
-endpoints$traps <- "/traps"
-endpoints$samples <- "/samples"
-
-assign("endpoints", endpoints, envir = rce)
-
-lockEnvironment(rce)
+endpoints <- function(){
+  list(
+    cells = "/cells",
+    sites = "/sites",
+    campaigns = "/campaigns",
+    medias = "/medias",
+    observations = "/observations",
+    taxa = "/taxa",
+    technicians = "/technicians",
+    landmarks = "/landmarks",
+    attributes = "/attributes",
+    traps = "/traps",
+    samples = "/samples"
+  )
+}
