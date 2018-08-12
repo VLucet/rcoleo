@@ -11,7 +11,10 @@ Imports:
   RPostgreSQL,
   httr,
   jsonlite,
-  stringr
+  stringr,
+  dplyr,
+  plyr,
+  sf
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
