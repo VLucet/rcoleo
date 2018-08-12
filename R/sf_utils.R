@@ -11,7 +11,7 @@
 #' @export
 
 cl_to_sf <- function(responses = responses) {
-  
+
   # Check for getSuccess classes
   stopifnot(all(lapply(unlist(responses,recursive=FALSE),class) == "getSuccess"))
 
@@ -40,7 +40,7 @@ cl_to_sf <- function(responses = responses) {
 
   geom_df <- lapply(responses, function(request){
     all_pages <- lapply(request, function(page){
-      dplyr::select(page$body, -geom.type, -geom.coordinates)
+      dplyr::select(page$body, -dplyr::one_of("geom.type","geom.coordinates"))
     })
     return(do.call(rbind,all_pages))
   })
