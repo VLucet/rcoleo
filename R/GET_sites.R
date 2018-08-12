@@ -12,7 +12,7 @@
 get_sites <- function(site_code = NULL, ...) {
 
   responses <- list()
-  endpoint <- rce$endpoints$sites
+  endpoint <- endpoints()$sites
 
   if (is.null(site_code)) {
 

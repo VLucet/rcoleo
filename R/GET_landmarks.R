@@ -16,7 +16,7 @@ get_landmarks <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, 
   # type = "végétation"
 
   # 1 call = 1 combinaison de filters
-  endpoint <- rce$endpoints$landmarks
+  endpoint <- endpoints()$landmarks
   responses <- list()
 
   # Si tous les arguments sont nuls
@@ -47,14 +47,14 @@ get_landmarks <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, 
           stopifnot(length(campaign_id) == 1)
 
           # Campagne info
-          campaign_info <- httr::content(httr::GET(url=paste0(rce$server,"/api/v1/campaigns/",campaign_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", rce$bearer)),rce$ua), simplify = TRUE)
+          campaign_info <- httr::content(httr::GET(url=paste0(server,"/api/v1/campaigns/",campaign_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", bearer)),ua), simplify = TRUE)
           # Code du site
-          site_code <- httr::content(httr::GET(url=paste0(rce$server,"/api/v1/sites/",campaign_info$site_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", rce$bearer)),rce$ua), simplify = TRUE)$site_code
+          site_code <- httr::content(httr::GET(url=paste0(server,"/api/v1/sites/",campaign_info$site_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", bearer)),ua), simplify = TRUE)$site_code
 
           # Species info
           species_info <- apply(x[[1]]$body,1, function(rec){
             if(rec$type == "tree" | rec$type == "both"){
-              httr::content(httr::GET(url=paste0(rce$server,"/api/v1/taxa/",rec$sp_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", rce$bearer)),rce$ua), simplify = TRUE)[c("vernacular_fr","name","rank","tsn")]
+              httr::content(httr::GET(url=paste0(server,"/api/v1/taxa/",rec$sp_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", bearer)),ua), simplify = TRUE)[c("vernacular_fr","name","rank","tsn")]
             } else {
               return(rep(NA,4))
             }
@@ -71,28 +71,28 @@ get_landmarks <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, 
           x[[1]]$body <- cbind(x[[1]]$body,species_info)
 
           x[[1]]$body <- dplyr::select(x[[1]]$body,
-            id,
-            site_code,
-            opened_at,
-            closed_at,
-            type,
-            campaign_id,
-            trap_id,
-            lure_id,
-            device_id,
-            tree_code,
-            vernacular_fr,
-            name,
-            rank,
-            tsn,
-            dbh,
-            dbh_unit,
-            azimut,
-            distance,
-            distance_unit,
-            notes,
-            created_at,
-            updated_at
+            "id",
+            "site_code",
+            "opened_at",
+            "closed_at",
+            "type",
+            "campaign_id",
+            "trap_id",
+            "lure_id",
+            "device_id",
+            "tree_code",
+            "vernacular_fr",
+            "name",
+            "rank",
+            "tsn",
+            "dbh",
+            "dbh_unit",
+            "azimut",
+            "distance",
+            "distance_unit",
+            "notes",
+            "created_at",
+            "updated_at"
           )
 
           return(x)

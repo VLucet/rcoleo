@@ -14,7 +14,7 @@ get_traps <- function(trap_code = NULL, campaign_id = NULL,...) {
 
   responses <- list()
   query <- list()
-  endpoint <- rce$endpoints$traps
+  endpoint <- endpoints()$traps
 
   if (is.null(trap_code)) {
 

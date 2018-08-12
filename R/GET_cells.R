@@ -12,7 +12,7 @@
 get_cells <- function(cell_code = NULL,name = NULL, ...) {
 
   responses <- list()
-  endpoint <- rce$endpoints$cells
+  endpoint <- endpoints()$cells
 
   if (is.null(cell_code) & is.null(name)) {
 
@@ -23,7 +23,6 @@ get_cells <- function(cell_code = NULL,name = NULL, ...) {
 
     # tests args to set iterator
     len <- max(c(length(cell_code),length(name)))
-
 
     # Obtenir les sites définis dans ids
     for (id in 1:len) {

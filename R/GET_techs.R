@@ -12,7 +12,7 @@
 get_techs <- function(name = NULL, lastname = NULL, ...){
 
   responses <- list()
-  endpoint <- rce$endpoints$technicians
+  endpoint <- endpoints()$technicians
 
   if (all(is.null(name),is.null(lastname))) {
 

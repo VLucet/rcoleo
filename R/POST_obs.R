@@ -8,7 +8,7 @@
 post_observations <- function(data, ...) {
 
   responses <- list()
-  endpoint <- rce$endpoints$observations
+  endpoint <- endpoints()$observations
 
   for (i in 1:length(data)) {
     responses[[i]] <- post_gen(endpoint, data[[i]], ...)

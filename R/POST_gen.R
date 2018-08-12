@@ -13,11 +13,11 @@ post_gen <- function(endpoint, singleton, ...) {
     stop("Le point d'accès aux données est manquant (ex. /cells)")
   }
 
-  url <- httr::modify_url(rce$server, path = paste0(rce$base, endpoint))
+  url <- httr::modify_url(server(), path = paste0(base(), endpoint))
 
   resp <- httr::POST(url, body = jsonlite::toJSON(singleton, auto_unbox = TRUE),
     config = httr::add_headers(`Content-type` = "application/json", Authorization = paste("Bearer",
-      rce$bearer)), ...)
+      bearer())), ...)
 
   if (resp$status == 401) {
 

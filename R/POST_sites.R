@@ -8,7 +8,7 @@
 post_sites <- function(data, ...) {
 
   responses <- list()
-  endpoint <- rce$endpoints$sites
+  endpoint <- endpoints()$sites
 
   for (i in 1:length(data)) {
     # On retourne l'id unique de la table cell

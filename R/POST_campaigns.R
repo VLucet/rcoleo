@@ -8,7 +8,7 @@
 post_campaigns <- function(data, ...) {
 
   responses <- list()
-  endpoint <- rce$endpoints$campaigns
+  endpoint <- endpoints()$campaigns
 
   for (i in 1:length(data)) {
     # On retourne l'id unique de la table sites

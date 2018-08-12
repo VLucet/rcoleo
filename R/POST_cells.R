@@ -10,7 +10,7 @@
 post_cells <- function(data, ...) {
 
   responses <- list()
-  endpoint <- rce$endpoints$cells
+  endpoint <- endpoints()$cells
 
   for (i in 1:length(data)) {
     responses[[i]] <- post_gen(endpoint, data[[i]], ...)

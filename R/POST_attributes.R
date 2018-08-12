@@ -8,7 +8,7 @@
 post_attributes <- function(data, ...) {
 
   responses <- list()
-  endpoint <- rce$endpoints$attributes
+  endpoint <- endpoints()$attributes
 
   for (i in 1:length(data)) {
     responses[[i]] <- post_gen(endpoint, data[[i]], ...)

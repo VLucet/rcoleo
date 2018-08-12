@@ -8,7 +8,7 @@
 post_samples <- function(data, ...) {
 
   responses <- list()
-  endpoint <- rce$endpoints$samples
+  endpoint <- endpoints()$samples
 
   for (i in 1:length(data)) {
 

@@ -13,7 +13,7 @@ get_samples <- function(sample_code = NULL, ...) {
 
   responses <- list()
   query <- list()
-  endpoint <- rce$endpoints$samples
+  endpoint <- endpoints()$samples
 
   if (is.null(sample_code)) {
 

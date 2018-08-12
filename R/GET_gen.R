@@ -8,9 +8,9 @@
 #' @return
 #' Retourne un objet de type `list` contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est `getSuccess` ou `getError`. Une réponse de classe `getSuccess` est une liste à deux niveaux composé du contenu (`body`), et la réponse [httr::response]. Une réponse de classe `getError` dispose de la même structure mais ne contiendra pas de body, seulement la réponse de l'API.
 #' @details
-#' Les points d'accès de l'API sont énuméré dans l'environment de coléo, voir `print(rce$endpoints)`
+#' Les points d'accès de l'API sont énuméré dans l'environment de coléo, voir `print(endpoints)`
 #' @examples
-#' resp <- get_gen(rce$endpoints$cells)
+#' resp <- get_gen(endpoints()$cells)
 #' length(resp) # Nombre de pages retourné par l'appel sur le point d'accès de l'API.
 #' str(resp[[1]])
 #' class(resp[[1]])
@@ -20,14 +20,14 @@ get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, output = 'dat
 
   stopifnot(exists("endpoint"))
 
-  url <- httr::modify_url(rce$server, path = paste0(rce$base, endpoint))
+  url <- httr::modify_url(server(), path = paste0(base(), endpoint))
 
   # On remplace les NAs dans l'objet query avec des NULLs
   if(!is.null(query)) query[which(is.na(query) | query == "NA")] <- NULL
 
   # Premier appel pour avoir le nombre de page
   resp <- httr::GET(url, config = httr::add_headers(`Content-type` = "application/json",
-    Authorization = paste("Bearer", rce$bearer)),rce$ua, query = query, ... )
+    Authorization = paste("Bearer", bearer())),ua(), query = query, ... )
 
   # Denombrement du nombre de page
   rg <- as.numeric(stringr::str_extract_all(httr::headers(resp)["content-range"],
@@ -48,7 +48,7 @@ get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, output = 'dat
     query$page <- page
 
     resp <- httr::GET(url, config = httr::add_headers(`Content-type` = "application/json",
-      Authorization = paste("Bearer", rce$bearer)), rce$ua, query = query, ...)
+      Authorization = paste("Bearer", bearer())), ua(), query = query, ...)
 
     if (httr::http_type(resp) != "application/json") {
       stop("L'API n'a pas retourné un JSON", call. = FALSE)

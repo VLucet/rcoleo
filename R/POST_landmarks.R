@@ -8,7 +8,7 @@
 post_landmarks <- function(data, ...) {
 
   responses <- list()
-  endpoint <- rce$endpoints$landmarks
+  endpoint <- endpoints()$landmarks
 
   for (i in 1:length(data)) {
 

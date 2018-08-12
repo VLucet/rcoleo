@@ -15,7 +15,7 @@ get_species <- function(name = NULL, rank = NULL, vernacular_fr = NULL,...) {
 
   responses <- list()
   query <- list()
-  endpoint <- rce$endpoints$taxa
+  endpoint <- endpoints()$taxa
 
   if (all(is.null(name),is.null(rank),is.null(vernacular_fr))) {
 

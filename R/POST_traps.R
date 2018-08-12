@@ -8,7 +8,7 @@
 post_traps <- function(data, ...) {
 
   responses <- list()
-  endpoint <- rce$endpoints$traps
+  endpoint <- endpoints()$traps
 
   for (i in 1:length(data)) {
 
