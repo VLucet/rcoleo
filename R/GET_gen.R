@@ -10,10 +10,12 @@
 #' @details
 #' Les points d'accès de l'API sont énuméré dans l'environment de coléo, voir `print(endpoints)`
 #' @examples
+#'\dontrun{
 #' resp <- get_gen(endpoints()$cells)
 #' length(resp) # Nombre de pages retourné par l'appel sur le point d'accès de l'API.
 #' str(resp[[1]])
 #' class(resp[[1]])
+#' }
 #' @export
 
 get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, output = 'data.frame',...) {
