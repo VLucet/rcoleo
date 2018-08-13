@@ -16,7 +16,7 @@ Retourne un objet de type \code{list} contenant les réponses de l'API. Chaque n
 Fonction générique pour convertir les sorties de l'API en objet de classe spatiale (sf)
 }
 \details{
-L'objet d'entrée doit contenir une colonne \code{geom.type} & \code{geom.coordinates}
+L'objet d'entrée doit contenir les colonnes \code{geom.type} & \code{geom.coordinates}
 }
 \examples{
 resp <- get_sites()

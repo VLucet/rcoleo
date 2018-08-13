@@ -6,7 +6,7 @@
 #' @examples
 #' resp <- get_sites()
 #' plot(cl_to_sf(resp))
-#' @details L'objet d'entrée doit contenir une colonne `geom.type` & `geom.coordinates`
+#' @details L'objet d'entrée doit contenir les colonnes `geom.type` & `geom.coordinates`
 #' @seelso [cells_sf()], [sites_cf()]
 #' @export
 
