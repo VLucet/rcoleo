@@ -1,4 +1,4 @@
-# Documentation du paquet `rcoleo` <img src="man/figures/rcoleo.svg" width="130" height="150" align="right"/>
+# Documentation du paquet `rcoleo` <img src="man/figures/logo.svg" width="130" height="150" align="right"/>
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 
