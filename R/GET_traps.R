@@ -30,11 +30,8 @@ get_traps <- function(trap_code = NULL, campaign_id = NULL,...) {
 
     # Obtenir des cellules specifiques (query)
     for (r in 1:len) {
+
       query <- list(trap_code = trap_code[r], campaign_id = campaign_id[r])
-
-      # Make sure NULL is passed to the query instead of NA
-      query[which(is.na(query))] <- list(NULL)
-
       responses[[r]] <- get_gen(endpoint, query = query, ...)
 
     }

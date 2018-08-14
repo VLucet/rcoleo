@@ -29,11 +29,8 @@ get_samples <- function(sample_code = NULL, ...) {
 
     # Obtenir des cellules specifiques (query)
     for (r in 1:len) {
+      
       query <- list(sample_code = sample_code[r])
-
-      # Make sure NULL is passed to the query instead of NA
-      query[which(is.na(query))] <- list(NULL)
-
       responses[[r]] <- get_gen(endpoint, query = query, ...)
 
     }

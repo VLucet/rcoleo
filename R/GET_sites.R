@@ -30,15 +30,15 @@ get_sites <- function(site_code = NULL, ...) {
     for (id in 1:length(site_code)) {
 
       # prep query
-      responses[[id]] <- unlist(get_gen(endpoint, query = list(site_code = site_code[id])), recursive=FALSE)
+      responses[[id]] <- get_gen(endpoint, query = list(site_code = site_code[id]), ...)
 
-      if (length(responses[[id]]$body) == 0) {
+      if (length(responses[[id]][[1]]$body) == 0) {
 
         message(site_code[id], " n'est pas présent dans la base de données")
 
-      } else if (nrow(responses[[id]]$body) > 1) {
+      } else if (nrow(responses[[id]][[1]]$body) > 1) {
 
-        message(nrow(responses[[id]]$body), " entrées pour le code du site: ",
+        message(nrow(responses[[id]][[1]]$body), " entrées pour le code du site: ",
           site_code[id])
 
       }
