@@ -2,7 +2,7 @@
 % Please edit documentation in R/sf_utils.R
 \name{sites_sf}
 \alias{sites_sf}
-\title{Fonction retournant les celsites dans un objet de classe spatiale (sf)}
+\title{Fonction retournant les sites dans un objet de classe spatiale (sf)}
 \usage{
 sites_sf(...)
 }
@@ -10,7 +10,7 @@ sites_sf(...)
 \item{...}{arguments de la fonction \code{httr::GET()} et \code{rcoleo::get_sites()}}
 }
 \description{
-Fonction retournant les celsites dans un objet de classe spatiale (sf)
+Fonction retournant les sites dans un objet de classe spatiale (sf)
 }
 \seealso{
 \code{\link[=get_sites]{get_sites()}}
