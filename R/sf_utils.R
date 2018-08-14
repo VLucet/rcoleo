@@ -62,7 +62,7 @@ cells_sf <- function(...){
   return(cl_to_sf(get_cells(...)))
 }
 
-#' Fonction retournant les celsites dans un objet de classe spatiale (sf)
+#' Fonction retournant les sites dans un objet de classe spatiale (sf)
 #'
 #' @param ... arguments de la fonction `httr::GET()` et `rcoleo::get_sites()`
 #' @seealso [get_sites()]
