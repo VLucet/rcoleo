@@ -4,9 +4,13 @@
 \alias{cells_sf}
 \title{Fonction retournant les cellules dans un objet de classe spatiale (sf)}
 \usage{
-cells_sf(...)
+cells_sf(cell_code = NULL, name = NULL, ...)
 }
 \arguments{
+\item{cell_code}{\code{character} vecteur contenant les identifiants uniques que l'on désire obtenir. Si cell_code n'est pas spécifié, la fonction retournera l'ensemble des entrées présentes dans la table cells.}
+
+\item{name}{\code{character} vecteur contenant les noms de la cellules que l'on veut obtenir.}
+
 \item{...}{arguments de la fonction \code{httr::GET()} et \code{rcoleo::get_cells()}}
 }
 \description{

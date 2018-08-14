@@ -4,10 +4,12 @@
 \alias{sites_sf}
 \title{Fonction retournant les sites dans un objet de classe spatiale (sf)}
 \usage{
-sites_sf(...)
+sites_sf(site_code = NULL, ...)
 }
 \arguments{
-\item{...}{arguments de la fonction \code{httr::GET()} et \code{rcoleo::get_sites()}}
+\item{site_code}{\code{character} vecteur contenant les identifiants uniques que l'on désire obtenir. Si site_code n'est pas spécifié, la fonction retournera l'ensemble des entrées présentes dans la table cells.}
+
+\item{...}{arguments de la fonction \code{httr::GET()}}
 }
 \description{
 Fonction retournant les sites dans un objet de classe spatiale (sf)
