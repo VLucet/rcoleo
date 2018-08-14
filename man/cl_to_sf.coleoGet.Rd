@@ -22,3 +22,6 @@ L'objet d'entrée doit contenir les colonnes \code{geom.type} & \code{geom.coord
 resp <- get_sites()
 plot(cl_to_sf(resp))
 }
+\seealso{
+\code{\link[=cells_sf]{cells_sf()}}, \code{\link[=sites_cf]{sites_cf()}}
+}

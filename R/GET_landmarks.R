@@ -37,6 +37,7 @@ get_landmarks <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, 
 
       # On ajoute les informations sur la campagne
       responses <- lapply(responses, function(x){
+
         if(attributes(x[[1]]$body)$n_records != 0){
 
           campaign_id <- unique(x[[1]]$body$campaign_id)

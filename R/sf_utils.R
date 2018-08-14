@@ -7,7 +7,7 @@
 #' resp <- get_sites()
 #' plot(cl_to_sf(resp))
 #' @details L'objet d'entrée doit contenir les colonnes `geom.type` & `geom.coordinates`
-#' @seelso [cells_sf()], [sites_cf()]
+#' @seealso [cells_sf()], [sites_cf()]
 #' @export
 
 cl_to_sf.coleoGet <- function(responses = responses) {
