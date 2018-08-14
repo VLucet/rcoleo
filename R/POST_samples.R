@@ -7,7 +7,10 @@
 
 post_samples <- function(data, ...) {
 
+  # Preparation de l'objet de sortie
   responses <- list()
+  class(responses) <- "coleoPostResp"
+  
   endpoint <- endpoints()$samples
 
   for (i in 1:length(data)) {

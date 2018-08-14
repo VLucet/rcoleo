@@ -7,7 +7,10 @@
 
 post_landmarks <- function(data, ...) {
 
+  # Preparation de l'objet de sortie
   responses <- list()
+  class(responses) <- "coleoPostResp"
+
   endpoint <- endpoints()$landmarks
 
   for (i in 1:length(data)) {

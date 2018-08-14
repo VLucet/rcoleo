@@ -7,7 +7,10 @@
 
 post_campaigns <- function(data, ...) {
 
+  # Preparation de l'objet de sortie
   responses <- list()
+  class(responses) <- "coleoGetResp"
+
   endpoint <- endpoints()$campaigns
 
   for (i in 1:length(data)) {

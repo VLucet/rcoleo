@@ -11,7 +11,10 @@
 
 get_cells <- function(cell_code = NULL,name = NULL, ...) {
 
+  # Preparation de l'objet de sortie
   responses <- list()
+  class(responses) <- "coleoResponses"
+
   endpoint <- endpoints()$cells
 
   if (is.null(cell_code) & is.null(name)) {

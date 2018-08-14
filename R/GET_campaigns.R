@@ -11,7 +11,10 @@
 
 get_campaigns <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, type = NULL, ...){
 
+  # Preparation de l'objet de sortie
   responses <- list()
+  class(responses) <- "coleoGetResp"
+  
   endpoint <- endpoints()$campaigns
 
   # Si tous les arguments sont nuls

@@ -11,7 +11,10 @@
 
 get_sites <- function(site_code = NULL, ...) {
 
+  # Preparation de l'objet de sortie
   responses <- list()
+  class(responses) <- "coleoGetResp"
+
   endpoint <- endpoints()$sites
 
   if (is.null(site_code)) {

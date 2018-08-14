@@ -9,7 +9,10 @@
 #' @export
 post_cells <- function(data, ...) {
 
+  # Preparation de l'objet de sortie
   responses <- list()
+  class(responses) <- "coleoGetResp"
+
   endpoint <- endpoints()$cells
 
   for (i in 1:length(data)) {

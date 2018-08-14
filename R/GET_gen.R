@@ -89,5 +89,4 @@ get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, output = 'dat
 
   return(responses)
 
-
 }

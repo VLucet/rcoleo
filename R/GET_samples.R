@@ -11,8 +11,10 @@
 
 get_samples <- function(sample_code = NULL, ...) {
 
+  # Preparation de l'objet de sortie
   responses <- list()
-  query <- list()
+  class(responses) <- "coleoGetResp"
+
   endpoint <- endpoints()$samples
 
   if (is.null(sample_code)) {

@@ -9,15 +9,11 @@
 
 get_landmarks <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, type = NULL, ...) {
 
-  # DEBUG
-  # site_code=NULL
-  # opened_at = NULL
-  # closed_at = NULL
-  # type = "végétation"
-
-  # 1 call = 1 combinaison de filters
   endpoint <- endpoints()$landmarks
+
+  # Preparation de l'objet de sortie
   responses <- list()
+  class(responses) <- "coleoGetResp"
 
   # Si tous les arguments sont nuls
   if(all(is.null(site_code), is.null(opened_at), is.null(closed_at), is.null(type))){

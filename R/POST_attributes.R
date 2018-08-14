@@ -7,7 +7,10 @@
 
 post_attributes <- function(data, ...) {
 
+  # Preparation de l'objet de sortie
   responses <- list()
+  class(responses) <- "coleoGetResp"
+
   endpoint <- endpoints()$attributes
 
   for (i in 1:length(data)) {

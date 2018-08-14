@@ -13,8 +13,10 @@
 
 get_species <- function(name = NULL, rank = NULL, vernacular_fr = NULL,...) {
 
+  # Preparation de l'objet de sortie
   responses <- list()
-  query <- list()
+  class(responses) <- "coleoGetResp"
+
   endpoint <- endpoints()$taxa
 
   if (all(is.null(name),is.null(rank),is.null(vernacular_fr))) {

@@ -12,8 +12,10 @@
 
 get_traps <- function(trap_code = NULL, campaign_id = NULL,...) {
 
+  # Preparation de l'objet de sortie
   responses <- list()
-  query <- list()
+  class(responses) <- "coleoGetResp"
+
   endpoint <- endpoints()$traps
 
   if (is.null(trap_code)) {

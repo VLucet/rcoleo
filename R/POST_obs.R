@@ -7,7 +7,10 @@
 
 post_observations <- function(data, ...) {
 
+  # Preparation de l'objet de sortie
   responses <- list()
+  class(responses) <- "coleoPostResp"
+  
   endpoint <- endpoints()$observations
 
   for (i in 1:length(data)) {
