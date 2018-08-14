@@ -163,7 +163,8 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>get_sites</span>(<span class='kw'>site_code</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>'135_104_H01'</span>))</div><div class='output co'>#&gt; [[1]]
-#&gt; [[1]]$body
+#&gt; [[1]][[1]]
+#&gt; $body
 #&gt;   id cell_id off_station_code_id   site_code   type  opened_at notes
 #&gt; 1  1     134                  NA 135_104_H01 marais 2016-06-23    NA
 #&gt;                 created_at               updated_at
@@ -173,16 +174,21 @@
 #&gt;   geom.type  geom.coordinates
 #&gt; 1     Point 46.8088, -72.2994
 #&gt; 
-#&gt; [[1]]$response
+#&gt; $response
 #&gt; Response [http://localhost:3001/api/v1/sites?site_code=135_104_H01&amp;page=0]
-#&gt;   Date: 2018-08-14 01:15
+#&gt;   Date: 2018-08-14 18:07
 #&gt;   Status: 200
 #&gt;   Content-Type: application/json; charset=utf-8
 #&gt;   Size: 1.01 kB
 #&gt; 
 #&gt; 
-#&gt; </div><div class='input'><span class='fu'>get_sites</span>()</div><div class='output co'>#&gt; [[1]]
-#&gt; [[1]]
+#&gt; attr(,"class")
+#&gt; [1] "getSuccess"
+#&gt; 
+#&gt; 
+#&gt; attr(,"class")
+#&gt; [1] "coleoGetResp"</div><div class='input'><span class='fu'>get_sites</span>()</div><div class='output co'>#&gt; [[1]]
+#&gt; [[1]][[1]]
 #&gt; $body
 #&gt;    id cell_id off_station_code_id   site_code          type  opened_at notes
 #&gt; 1  42     495                &lt;NA&gt;  80_175_T01    toundrique 2017-08-18    NA
@@ -303,7 +309,7 @@
 #&gt; 
 #&gt; $response
 #&gt; Response [http://localhost:3001/api/v1/sites?page=0]
-#&gt;   Date: 2018-08-14 01:15
+#&gt;   Date: 2018-08-14 18:07
 #&gt;   Status: 200
 #&gt;   Content-Type: application/json; charset=utf-8
 #&gt;   Size: 22.4 kB
@@ -312,9 +318,9 @@
 #&gt; attr(,"class")
 #&gt; [1] "getSuccess"
 #&gt; 
+#&gt; 
 #&gt; attr(,"class")
-#&gt; [1] "singlePage"
-#&gt; </div></pre>
+#&gt; [1] "coleoGetResp"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

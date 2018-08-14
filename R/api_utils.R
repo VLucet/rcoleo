@@ -1,12 +1,3 @@
-#' Effectuer un diagnotic rapide de l'ensemble des appels sur l'API
-#'
-#' @param responses liste de réponse des fonctions de GET/POST
-#' @export
-
-diagnostic <- function(responses=responses){
-  do.call(plyr::rbind.fill,lapply(responses,function(x) as.data.frame(httr::http_status(x$response))))
-}
-
 #' Transformer la liste de réponses en data.frame
 #'
 #' @param responses liste de réponse des fonctions de GET/POST
@@ -14,7 +5,7 @@ diagnostic <- function(responses=responses){
 
 as.data.frame.coleoGetResp <- function(responses=responses){
 
-  stopifnot(is.coleoGet(responses))
+  stopifnot(is.coleoGetResp(responses))
 
   # Loop over query
   all_body <- lapply(responses, function(query){
@@ -31,7 +22,12 @@ as.data.frame.coleoGetResp <- function(responses=responses){
 
 }
 
-#' S3 Validators
+#' Test sur la classe `coleoGetResp` (Objet S3)
+#' @param x Objet à tester
+#' @export
+is.coleoGetResp <- function(x) inherits(x,'coleoGetResp')
 
-is.coleoGet <- function(x) inherits(x,'coleoGetResp')
-is.coleoPost <- function(x) inherits(x,'coleoPostResp')
+#' Test sur la classe `coleoPostResp` (Objet S3)
+#' @param x Objet à tester
+#' @export
+is.coleoPostResp <- function(x) inherits(x,'coleoPostResp')

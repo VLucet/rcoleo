@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Fonction retournant les cellules dans un objet de classe spatiale (sf) — cells_sf • rcoleo</title>
+<title>Fonction retournant les repères utilisé dans le cadre d'une campagne dans un objet de classe spatiale (sf) — landmarks_sf • rcoleo</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -36,9 +36,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Fonction retournant les cellules dans un objet de classe spatiale (sf) — cells_sf" />
+<meta property="og:title" content="Fonction retournant les repères utilisé dans le cadre d'une campagne dans un objet de classe spatiale (sf) — landmarks_sf" />
 
-<meta property="og:description" content="Fonction retournant les cellules dans un objet de classe spatiale (sf)" />
+<meta property="og:description" content="Fonction retournant les repères utilisé dans le cadre d'une campagne dans un objet de classe spatiale (sf)" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -130,39 +130,48 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Fonction retournant les cellules dans un objet de classe spatiale (sf)</h1>
+    <h1>Fonction retournant les repères utilisé dans le cadre d'une campagne dans un objet de classe spatiale (sf)</h1>
     <small class="dont-index">Source: <a href='https://github.com/TheoreticalEcosystemEcology/rcoleo/blob/master/R/sf_utils.R'><code>R/sf_utils.R</code></a></small>
-    <div class="hidden name"><code>cells_sf.Rd</code></div>
+    <div class="hidden name"><code>landmarks_sf.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Fonction retournant les cellules dans un objet de classe spatiale (sf)</p>
+    <p>Fonction retournant les repères utilisé dans le cadre d'une campagne dans un objet de classe spatiale (sf)</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>cells_sf</span>(<span class='kw'>cell_code</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>landmarks_sf</span>(<span class='kw'>site_code</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>opened_at</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>closed_at</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>cell_code</th>
-      <td><p><code>character</code> vecteur contenant les identifiants uniques que l'on désire obtenir. Si cell_code n'est pas spécifié, la fonction retournera l'ensemble des entrées présentes dans la table cells.</p></td>
+      <th>site_code</th>
+      <td><p><code>character</code> vecteur contenant les codes de sites pour lesquelles ont désire récupérer les campagnes (ex. 134_111_F01)</p></td>
     </tr>
     <tr>
-      <th>name</th>
-      <td><p><code>character</code> vecteur contenant les noms de la cellules que l'on veut obtenir.</p></td>
+      <th>opened_at</th>
+      <td><p><code>character</code> vecteur contenant les dates de début de campagnes (ex. 2017-01-30)</p></td>
+    </tr>
+    <tr>
+      <th>closed_at</th>
+      <td><p><code>character</code> vecteur contenant les dates de fin de campagnes (ex. 2017-01-30)</p></td>
+    </tr>
+    <tr>
+      <th>type</th>
+      <td><p><code>character</code> vecteur contenant le type de campagnes d'inventaires réalisé (ex. végétation)</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>arguments de la fonction <code><a href='http://www.rdocumentation.org/packages/httr/topics/GET'>httr::GET()</a></code> et <code><a href='get_cells.html'>rcoleo::get_cells()</a></code></p></td>
+      <td><p>arguments de la fonction <code><a href='http://www.rdocumentation.org/packages/httr/topics/GET'>httr::GET()</a></code> et <code><a href='get_sites.html'>rcoleo::get_sites()</a></code></p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='get_cells.html'>get_cells()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='get_landmarks.html'>get_landmarks()</a></code></p></div>
     
 
   </div>
