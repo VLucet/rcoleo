@@ -10,7 +10,7 @@
 #' @seelso [cells_sf()], [sites_cf()]
 #' @export
 
-cl_to_sf <- function(responses = responses) {
+cl_to_sf.coleoGet <- function(responses = responses) {
 
   # Check for getSuccess classes
   stopifnot(all(lapply(unlist(responses,recursive=FALSE),class) == "getSuccess"))
@@ -55,17 +55,28 @@ cl_to_sf <- function(responses = responses) {
 
 #' Fonction retournant les cellules dans un objet de classe spatiale (sf)
 #'
+#' @inheritParams get_cells
 #' @param ... arguments de la fonction `httr::GET()` et `rcoleo::get_cells()`
 #' @seealso [get_cells()]
 
-cells_sf <- function(...){
+cells_sf <- function(cell_code = NULL, name = NULL, ...){
   return(cl_to_sf(get_cells(...)))
 }
 
 #' Fonction retournant les sites dans un objet de classe spatiale (sf)
 #'
-#' @param ... arguments de la fonction `httr::GET()` et `rcoleo::get_sites()`
+#' @inheritParams get_sites
+#' @param ... arguments de la fonction `httr::GET()`
 #' @seealso [get_sites()]
-sites_sf <- function(...){
+sites_sf <- function(site_code = NULL, ...){
   return(cl_to_sf(get_sites(...)))
+}
+
+#' Fonction retournant les repères utilisé dans le cadre d'une campagne dans un objet de classe spatiale (sf)
+#'
+#' @inheritParams get_landmarks
+#' @param ... arguments de la fonction `httr::GET()` et `rcoleo::get_sites()`
+#' @seealso [get_landmarks()]
+landmarks_sf <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, type = NULL, ...){
+  return(cl_to_sf(get_landmarks(...)))
 }
