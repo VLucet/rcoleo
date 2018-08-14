@@ -25,25 +25,24 @@ Il est fortement recommandé de mettre en cache se jeton d'accès afin de s'assu
 bearer <- "7f8df438e1be96a18436e9dab5d97d68ed0e0441d9b68f59e0ce631b2919f3aa"
 ```
 
-### TODO: Enhancements
+#### TODO: Featuring
 
-- [ ] find the best stratey to manage access token
-- [ ] Setup appVeyor (windows) et travis (linux)
-- [ ] Codecov? sur serveur test?
-
-### Features requested - roadmap
-
-- [ ] List campaigns from site
-- [ ] Map sites (filter date and campaigns)
+- [ ] `coleoGetResp.as.data.frame()`
+- [ ] Get obs from a campaigns (include campaign info + species tables)
+- [x] List campaigns from site
+- [x] Map sites (filter date and campaigns)
 - [ ] Get obs from a campaigns
-- [ ] List of obs (with and w/o external datasets)
 - [ ] Get medias from a campaigns
-- [ ] Extract clim for sites
-- [ ] List of species (add all ids)
-- [ ] Compute indicators (start with alpha-com)
+- [x] List of species (add all ids)
 - [ ] Export shapefiles
 - [ ] Export DwC-A
 
-External dataset: second layer/service with elastic search?
+### TODO: package enhancements
+
+- [x] find the best stratey to manage access token
+- [ ] Setup appVeyor (windows) / travis (linux) / autodeploy docs with travis
+
+
+
 
 *Le jeton d'accès est un exemple ici et n'est aucunement valide.*
