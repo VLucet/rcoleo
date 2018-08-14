@@ -13,7 +13,7 @@ get_cells <- function(cell_code = NULL,name = NULL, ...) {
 
   # Preparation de l'objet de sortie
   responses <- list()
-  class(responses) <- "coleoResponses"
+  class(responses) <- "coleoGetResp"
 
   endpoint <- endpoints()$cells
 
@@ -31,18 +31,18 @@ get_cells <- function(cell_code = NULL,name = NULL, ...) {
     for (id in 1:len) {
 
       # prep query
-      responses[[id]] <- unlist(get_gen(endpoint, query = list(
+      responses[[id]] <- get_gen(endpoint, query = list(
         cell_code = cell_code[id],
         name = name[id]
-      ), ...), recursive=FALSE)
+      ), ...)
 
-      if (length(responses[[id]]$body) == 0) {
+      if (length(responses[[id]][[1]]$body) == 0) {
 
         message(cell_code[id], " n'est pas présent dans la base de données")
 
-      } else if (nrow(responses[[id]]$body) > 1) {
+      } else if (nrow(responses[[id]][[1]]$body) > 1) {
 
-        message(nrow(responses[[id]]$body), " entrées pour le code de cellule: ",
+        message(nrow(responses[[id]][[1]]$body), " entrées pour le code de cellule: ",
           cell_code[id])
 
       }

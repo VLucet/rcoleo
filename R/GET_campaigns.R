@@ -14,7 +14,7 @@ get_campaigns <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, 
   # Preparation de l'objet de sortie
   responses <- list()
   class(responses) <- "coleoGetResp"
-  
+
   endpoint <- endpoints()$campaigns
 
   # Si tous les arguments sont nuls
@@ -27,7 +27,7 @@ get_campaigns <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, 
     # Retrieve the site id
     if(!is.null(site_code)){
       sites <- get_sites(site_code=site_code, endpoints$sites)
-      site_code <- sapply(sites,function(x) x$body[,"id"])
+      site_code <- sapply(sites,function(x) x[[1]]$body[,"id"])
     } else {
       site_code <- NULL
     }
