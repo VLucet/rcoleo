@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Effectuer un diagnotic rapide de l'ensemble des appels sur l'API — diagnostic • rcoleo</title>
+<title>Fonction retournant les sites dans un objet de classe spatiale (sf) — sf_sites • rcoleo</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -36,9 +36,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Effectuer un diagnotic rapide de l'ensemble des appels sur l'API — diagnostic" />
+<meta property="og:title" content="Fonction retournant les sites dans un objet de classe spatiale (sf) — sf_sites" />
 
-<meta property="og:description" content="Effectuer un diagnotic rapide de l'ensemble des appels sur l'API" />
+<meta property="og:description" content="Fonction retournant les sites dans un objet de classe spatiale (sf)" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -130,27 +130,35 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Effectuer un diagnotic rapide de l'ensemble des appels sur l'API</h1>
-    <small class="dont-index">Source: <a href='https://github.com/TheoreticalEcosystemEcology/rcoleo/blob/master/R/summary.R'><code>R/summary.R</code></a></small>
-    <div class="hidden name"><code>diagnostic.Rd</code></div>
+    <h1>Fonction retournant les sites dans un objet de classe spatiale (sf)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/TheoreticalEcosystemEcology/rcoleo/blob/master/R/sf_get.R'><code>R/sf_get.R</code></a></small>
+    <div class="hidden name"><code>sf_sites.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Effectuer un diagnotic rapide de l'ensemble des appels sur l'API</p>
+    <p>Fonction retournant les sites dans un objet de classe spatiale (sf)</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>diagnostic</span>(<span class='kw'>responses</span> <span class='kw'>=</span> <span class='no'>responses</span>)</pre>
+    <pre class="usage"><span class='fu'>sf_sites</span>(<span class='kw'>site_code</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>responses</th>
-      <td><p>liste de réponse des fonctions de GET/POST</p></td>
+      <th>site_code</th>
+      <td><p><code>character</code> vecteur contenant les identifiants uniques que l'on désire obtenir. Si site_code n'est pas spécifié, la fonction retournera l'ensemble des entrées présentes dans la table cells.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>arguments de la fonction <code><a href='http://www.rdocumentation.org/packages/httr/topics/GET'>httr::GET()</a></code></p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='get_sites.html'>get_sites()</a></code></p></div>
     
 
   </div>
@@ -158,7 +166,9 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#see-also">See also</a></li>
+          </ul>
 
   </div>
 </div>
