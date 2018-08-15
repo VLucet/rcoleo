@@ -26,7 +26,7 @@ get_campaigns <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, 
 
     # Retrieve the site id
     if(!is.null(site_code)){
-      sites <- get_sites(site_code=site_code, endpoints$sites)
+      sites <- get_sites(site_code=site_code, endpoints()$sites)
       site_code <- sapply(sites,function(x) x[[1]]$body[,"id"])
     } else {
       site_code <- NULL
