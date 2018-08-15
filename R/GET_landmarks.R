@@ -44,9 +44,9 @@ get_landmarks <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, 
           stopifnot(length(campaign_id) == 1)
 
           # Campagne info
-          campaign_info <- httr::content(httr::GET(url=paste0(server,"/api/v1/campaigns/",campaign_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", bearer)),ua), simplify = TRUE)
+          campaign_info <- httr::content(httr::GET(url=paste0(server(),"/api/v1/campaigns/",campaign_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", bearer)),ua), simplify = TRUE)
           # Code du site
-          site_code <- httr::content(httr::GET(url=paste0(server,"/api/v1/sites/",campaign_info$site_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", bearer)),ua), simplify = TRUE)$site_code
+          site_code <- httr::content(httr::GET(url=paste0(server(),"/api/v1/sites/",campaign_info$site_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", bearer)),ua), simplify = TRUE)$site_code
 
           # Species info
           species_info <- apply(x[[1]]$body,1, function(rec){
