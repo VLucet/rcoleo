@@ -36,17 +36,6 @@ get_cells <- function(cell_code = NULL,name = NULL, ...) {
         name = name[id]
       ), ...)
 
-      if (length(responses[[id]][[1]]$body) == 0) {
-
-        message(cell_code[id], " n'est pas présent dans la base de données")
-
-      } else if (nrow(responses[[id]][[1]]$body) > 1) {
-
-        message(nrow(responses[[id]][[1]]$body), " entrées pour le code de cellule: ",
-          cell_code[id])
-
-      }
-
     }
   }
 
