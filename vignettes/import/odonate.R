@@ -15,7 +15,8 @@ df <- read_excel("./extdata/V2_CompilationDonnées_2016-2018.xlsx",sheet=sheet,c
 names(df) <- str_replace_all(names(df)," ", "_")
 
 ## On sélectionne les colonnes d'intérêts
-sites <- unique(select(df,cell_id=No_de_référence_de_la_cellule,site_code=No_de_référence_du_site,type_de_milieu=Type_de_milieu,opened_at="Date_d'inventaire",closed_at="Date_d'inventaire",lat=Latitude, lon=Longitude))
+sites <- unique(select(df,cell_id=No_de_référence_de_la_cellule,site_code=No_de_référence_du_site,type=Type_de_milieu,opened_at="Date_d'inventaire",lat=Latitude, lon=Longitude))
+sites$closed_at <- sites$opened_at
 
 ## Transformer en liste pour injection
 sites_ls <- apply(sites,1,as.list)
