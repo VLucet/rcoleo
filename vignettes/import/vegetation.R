@@ -214,7 +214,7 @@ rec <- unlist(lapply(resp, function(x) return(attributes(x[[1]]$body)$n_records)
 if(length(sp_id) == nrow(obs)) obs$sp_id <- sp_id
 
 # On documente l'attribut de Recouvrement
-resp <- post_attributes(data=list(list(name="recouvrement",description="évaluation du recouvrement à l’intérieur de la placette", unit="%")))
+resp <- post_attributes(data=list(list(variable="recouvrement",description="évaluation du recouvrement à l’intérieur de la placette", unit="%")))
 attr_id <- resp[[1]]$body$id
 
 # On set le id du attribute

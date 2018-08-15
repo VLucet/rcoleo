@@ -142,7 +142,7 @@ obs$sp_id <- unlist(lapply(responses, function(x) return(x[[1]]$body$id)))
 
 
 ## On ajoute l'attributs d'abondance dans la table de reference
-resp <- post_attributes(data=list(list(name="abondance",description="nombre d'individus observés", unit="")))
+resp <- post_attributes(data=list(list(variable="abondance",description="nombre d'individus observés", unit="")))
 attr_id <- resp[[1]]$body$id
 
 ## On prépare la structure pour l'injection des données
