@@ -17,7 +17,7 @@ post_gen <- function(endpoint, singleton, ...) {
 
   resp <- httr::POST(url, body = jsonlite::toJSON(singleton, auto_unbox = TRUE),
     config = httr::add_headers(`Content-type` = "application/json", Authorization = paste("Bearer",
-      bearer()), ua()), ...)
+      bearer())), ua, ...)
 
   if (resp$status == 401) {
 

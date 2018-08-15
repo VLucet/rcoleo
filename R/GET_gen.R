@@ -29,7 +29,7 @@ get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, output = 'dat
 
   # Premier appel pour avoir le nombre de page
   resp <- httr::GET(url, config = httr::add_headers(`Content-type` = "application/json",
-    Authorization = paste("Bearer", bearer())),ua(), query = query, ... )
+    Authorization = paste("Bearer", bearer())),ua, query = query, ... )
 
   # Denombrement du nombre de page
   rg <- as.numeric(stringr::str_extract_all(httr::headers(resp)["content-range"],
@@ -50,7 +50,7 @@ get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, output = 'dat
     query$page <- page
 
     resp <- httr::GET(url, config = httr::add_headers(`Content-type` = "application/json",
-      Authorization = paste("Bearer", bearer())), ua(), query = query, ...)
+      Authorization = paste("Bearer", bearer())), ua, query = query, ...)
 
     if (httr::http_type(resp) != "application/json") {
       stop("L'API n'a pas retourné un JSON", call. = FALSE)
