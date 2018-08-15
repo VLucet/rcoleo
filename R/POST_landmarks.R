@@ -17,7 +17,7 @@ post_landmarks <- function(data, ...) {
 
     # On retourne l'id unique pour la campagne à laquelle est rattaché les repères
     # Le unlist c'est pour les pages, mais je sais que la réponse contient une seule page (match sur un code)
-    data[[i]]$campaign_id <- unlist(get_campaigns(site_code=data[[i]]$site_code,opened_at=data[[i]]$opened_at,closed_at=data[[i]]$closed_at),recursive=FALSE)[[1]]$body[,"id"]
+    data[[i]]$campaign_id <- as.data.frame(get_campaigns(site_code=data[[i]]$site_code,opened_at=data[[i]]$opened_at,closed_at=data[[i]]$closed_at))$id
 
     responses[[i]] <- post_gen(endpoint, data[[i]], ...)
   }
