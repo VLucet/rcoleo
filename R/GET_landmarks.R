@@ -33,7 +33,7 @@ get_landmarks <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, 
                     type = type[r]), function(x) return(x[[1]]$body$id)))
 
       # On récupère les landmarks pour la campagne concernée
-      for(i in 1:length(campaigns_ids)) responses[[i]] <- get_gen(endpoint, query=list(campaign_id=campaigns_ids[i]))
+      for(i in 1:length(campaigns_ids)) responses[[i]] <- get_gen(endpoint, query=list(campaign_id=campaigns_ids[i]), ...)
 
       # On ajoute les informations sur la campagne
       responses <- lapply(responses, function(x){
