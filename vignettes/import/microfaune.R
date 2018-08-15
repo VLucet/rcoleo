@@ -21,15 +21,8 @@ sites <- unique(select(df,cell_id=No_de_référence_de_la_cellule,site_code=No_d
 sites$site_code <- str_replace_all(sites$site_code,"-", "_")
 
 ## On regarde si les sites existent
-exist_sites <- get_sites(site_code=unique(sites$site_code),type="data.frame",flatten=TRUE)
-key_sites <- plyr::compact(lapply(exist_sites,function(x){
-  if(is.data.frame(x$body)){
-    return(x$body)
-  } else {
-    return()
-  }}
-))
-key_sites <- unique(do.call(rbind,key_sites)$site_code)
+exist_sites <- get_sites(site_code=unique(sites$site_code))
+key_sites <- as.data.frame(exist_sites)$site_code
 sites <- sites[-which(sites$site_code %in% key_sites),]
 
 ## On Transforme les lat et long en numérique
@@ -139,17 +132,17 @@ for(l in 1:length(campaigns_ls)){
 }
 
 responses <- post_campaigns(campaigns_ls)
-
+diagnostic(responses)
 
 #### Traps + landmarks (GPS)
 # On prépare le jeux de données pour insertion dans la table Traps
 
 ## On le transforme en liste pour l'injection finale
-traps$campaign_id <- unlist(lapply(get_campaigns(
+traps$campaign_id <- as.data.frame(get_campaigns(
                         site_code=traps$site_code,
                         opened_at=traps$opened_at,
                         closed_at=traps$closed_at,
-                        type=rep("microfaunes",nrow(traps))), function(x) return(x[[1]]$body$id)))
+                        type=rep("microfaunes",nrow(traps))))$id
 
 traps_ls <- apply(traps,1,as.list)
 names(traps_ls) <- NULL
@@ -260,7 +253,7 @@ trap_id <- unlist(lapply(resp_samples, function(x) return(x[[1]]$body[,c("trap_i
 ## On récupère le code de campaign à partir des traps
 resp_traps <- list()
 for(i in 1:length(trap_id)){
-  resp_traps[[i]] <- httr::content(httr::GET(url=paste0(server,"/api/v1/traps/",trap_id[i]), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", bearer())),ua()), simplify = TRUE)
+  resp_traps[[i]] <- httr::content(httr::GET(url=paste0(server(),"/api/v1/traps/",trap_id[i]), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", bearer())),ua), simplify = TRUE)
 }
 
 campaign_id <- unlist(lapply(resp_traps, function(x) return(x$campaign_id)))
@@ -333,7 +326,7 @@ obs$trap_id <- unlist(lapply(resp_samples, function(x) return(x[[1]]$body[,c("tr
 ## On récupère le code de campaign à partir des traps
 resp_traps <- list()
 for(i in 1:length(obs$trap_id)){
-  resp_traps[[i]] <- httr::content(httr::GET(url=paste0(server,"/api/v1/traps/",obs$trap_id[i]), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", bearer())),ua()), simplify = TRUE)
+  resp_traps[[i]] <- httr::content(httr::GET(url=paste0(server(),"/api/v1/traps/",obs$trap_id[i]), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", bearer())),ua), simplify = TRUE)
 }
 
 obs$campaign_id <- unlist(lapply(resp_traps, function(x) return(x$campaign_id)))
