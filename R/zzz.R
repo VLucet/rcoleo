@@ -10,7 +10,7 @@ server <- function() "http://localhost:3001"
 base <- function() "/api/v1"
 # bearer <- function() as.character(readRDS(".httr-oauth"))
 bearer <- function() "e6086afb109505fe9abd57dd1779ce5c78196ba939ff3e2323868de0d3cec0b9"
-ua <- function() httr::user_agent("rcoleo")
+ua <- httr::user_agent("rcoleo")
 
 # Point d'entrées de l'API
 endpoints <- function(){
