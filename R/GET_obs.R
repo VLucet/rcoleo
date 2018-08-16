@@ -36,7 +36,7 @@ get_obs <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, type =
     }
 
     # On récupère les observations pour la campagne concernée
-    for(i in 1:length(campaigns_ids)) responses[[i]] <- get_gen(endpoint, query=list(campaign_id=campaigns_ids[i]))
+    for(i in 1:length(campaigns_ids)) responses[[i]] <- get_gen(endpoint, query=list(campaign_id=campaigns_ids[i]), ...)
 
     # TODO: Fonction d'extend plus generic
     responses <- lapply(responses, function(response){
@@ -86,7 +86,6 @@ get_obs <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, type =
   }
 
   class(responses) <- "coleoGetResp"
-
   return(responses)
 
 }

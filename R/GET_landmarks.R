@@ -13,7 +13,6 @@ get_landmarks <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, 
 
   # Preparation de l'objet de sortie
   responses <- list()
-  class(responses) <- "coleoGetResp"
 
   # Si tous les arguments sont nuls
   if(all(is.null(site_code), is.null(opened_at), is.null(closed_at), is.null(type))){
@@ -27,20 +26,23 @@ get_landmarks <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, 
 
     # Prep query
     for(r in 1:len){
-      campaigns_ids <- unlist(lapply(get_campaigns(site_code=site_code[r],
+      campaigns_ids <- as.data.frame(get_campaigns(site_code=site_code[r],
                     opened_at = opened_at[r],
                     closed_at = closed_at[r],
-                    type = type[r]), function(x) return(x[[1]]$body$id)))
+                    type = type[r]))$id
+    }
 
-      # On récupère les landmarks pour la campagne concernée
-      for(i in 1:length(campaigns_ids)) responses[[i]] <- get_gen(endpoint, query=list(campaign_id=campaigns_ids[i]), ...)
+    # On récupère les landmarks pour la campagne concernée
+    for(i in 1:length(campaigns_ids)) responses[[i]] <- get_gen(endpoint, query=list(campaign_id=campaigns_ids[i]))
 
-      # On ajoute les informations sur la campagne
-      responses <- lapply(responses, function(x){
+    # On ajoute les informations sur la campagne
+    responses <- lapply(responses, function(response){
 
-        if(attributes(x[[1]]$body)$n_records != 0){
+        lapply(response, function(page){
 
-          campaign_id <- unique(x[[1]]$body$campaign_id)
+          if(attributes(page$body)$n_records == 0) return(page)
+
+          campaign_id <- unique(page$body$campaign_id)
           stopifnot(length(campaign_id) == 1)
 
           # Campagne info
@@ -48,26 +50,13 @@ get_landmarks <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, 
           # Code du site
           site_code <- httr::content(httr::GET(url=paste0(server(),"/api/v1/sites/",campaign_info$site_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", bearer())),ua), simplify = TRUE)$site_code
 
-          # Species info
-          species_info <- apply(x[[1]]$body,1, function(rec){
-            if(rec$type == "tree" | rec$type == "both"){
-              httr::content(httr::GET(url=paste0(server(),"/api/v1/taxa/",rec$sp_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", bearer())),ua), simplify = TRUE)[c("vernacular_fr","name","rank","tsn")]
-            } else {
-              return(rep(NA,4))
-            }
-          })
-
-          species_info <- do.call(rbind,species_info)
-
-
           # On prepare la sortie
-          x[[1]]$body$site_code <- site_code
-          x[[1]]$body$opened_at <- campaign_info$opened_at
-          x[[1]]$body$closed_at <- campaign_info$closed_at
-          x[[1]]$body$type <- campaign_info$type
-          x[[1]]$body <- cbind(x[[1]]$body,species_info)
+          page$body$site_code <- site_code
+          page$body$opened_at <- campaign_info$opened_at
+          page$body$closed_at <- campaign_info$closed_at
+          page$body$type <- campaign_info$type
 
-          x[[1]]$body <- dplyr::select(x[[1]]$body,
+          page$body <- dplyr::select(page$body,
             "id",
             "site_code",
             "opened_at",
@@ -78,10 +67,7 @@ get_landmarks <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, 
             "lure_id",
             "device_id",
             "tree_code",
-            "vernacular_fr",
-            "name",
-            "rank",
-            "tsn",
+            "taxa_name",
             "dbh",
             "dbh_unit",
             "azimut",
@@ -92,18 +78,13 @@ get_landmarks <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, 
             "updated_at"
           )
 
-          return(x)
-
-        } else {
-
-          return(x)
-
-        }
+          return(page)
 
       })
-    }
+    })
   }
 
+  class(responses) <- "coleoGetResp"
   return(responses)
 
 }
