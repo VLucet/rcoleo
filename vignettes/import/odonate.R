@@ -149,14 +149,8 @@ obs$espece <- str_replace_all(obs$espece, "Inconnu", "inconnu")
 
 responses <- get_species(name=obs$espece)
 obs$sp_id <- unlist(lapply(responses, function(x)
-if(is.null(x[[1]]$body$id)){ return(NA) } else {return(x[[1]]$body$name)}
+if(is.null(x[[1]]$body$name)){ return(NA) } else {return(x[[1]]$body$name)}
 ))
-
-responses <- get_species(vernacular_fr=obs[is.na(obs$sp_id),]$espece)
-obs[is.na(obs$sp_id),"sp_id"] <- unlist(lapply(responses, function(x)
-  x[[1]]$body$name
-))
-
 
 ## On prépare la structure pour l'injection des données
 obs <- as.data.frame(obs)
