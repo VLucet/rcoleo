@@ -138,12 +138,12 @@ obs$espece <- str_replace_all(obs$espece, "Azur printanier nordique", "Azur prin
 # On regarde si toutes les especes sont dans la table de reference
 sp <- obs$espece
 responses <- get_species(vernacular_fr=sp)
-obs$sp_id <- unlist(lapply(responses, function(x) return(x[[1]]$body$id)))
+obs$sp_id <- unlist(lapply(responses, function(x) return(x[[1]]$body$name)))
 
 
 ## On ajoute l'attributs d'abondance dans la table de reference
 resp <- post_attributes(data=list(list(variable="abondance",description="nombre d'individus observés", unit="")))
-attr_id <- resp[[1]]$body$id
+attr_id <- resp[[1]]$body$variable
 
 ## On prépare la structure pour l'injection des données
 obs <- as.data.frame(obs)
@@ -160,8 +160,8 @@ for(i in 1:nrow(obs)){
       type = "papilionidés"
     ),
     obs_species = list(
-      sp_id = obs[i,"sp_id"],
-      attr_id = attr_id,
+      taxa_name = obs[i,"sp_id"],
+      variable = attr_id,
       value = obs[i,"value"]
     )
   )

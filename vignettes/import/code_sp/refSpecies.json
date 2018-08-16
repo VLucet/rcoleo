@@ -1939,8 +1939,11 @@
   "tsn": "40105",
   "rank": "espèce"
 }, {
+  "name": "Sphagnum rubellum",
+  "tsn": "548213",
   "vernacular_fr": "sphaigne rouge"
 }, {
+  "name": "sphaigne verte",
   "vernacular_fr": "sphaigne verte"
 }, {
   "vernacular_fr": "onoclée sensible",
@@ -1973,6 +1976,7 @@
   "tsn": "39582",
   "rank": "espèce"
 }, {
+  "name": "pellie sp.",
   "vernacular_fr": "pellie sp."
 }, {
   "vernacular_fr": "viorne trilobée",
@@ -2280,15 +2284,18 @@
   "tsn": "16320",
   "rank": "espèce"
 }, {
+  "name": "Bryophyta",
   "vernacular_fr": "mousse",
   "tsn": "14189",
   "rank": "espèce"
 }, {
+  "name": "Sphagnaceae",
   "vernacular_fr": "sphaigne",
   "tsn": "15682",
   "rank": "espèce"
 }, {
   "vernacular_fr": "polytric",
+  "name": "Polytrichum ",
   "tsn": "15758",
   "rank": "espèce"
 }, {
@@ -2402,6 +2409,7 @@
   "tsn": "690741",
   "rank": "ordre"
 }, {
+  "name": "larve",
   "vernacular_fr": "larve"
 }, {
   "vernacular_fr": "mollusque",
@@ -2409,6 +2417,7 @@
   "tsn": "69458",
   "rank": "embranchement"
 }, {
+  "name": "inconnu",
   "vernacular_fr": "inconnu"
 }, {
   "vernacular_fr": "diptère",

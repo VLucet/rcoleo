@@ -238,12 +238,11 @@ df <- subset(df,No_réf._du_site != "NA")
 
 ## On prépare les données pour injection autre qu'à l'échelle de l'espèce
 obs <- unique(select(df,date_obs=Date_de_récolte,sample_code=No_échantillon, site_code="No_réf._du_site", vernacular_fr=groupe_taxonomique, value=abondance, trap_code=No_de_piège))
-obs$attr_id <- 2
 obs$type <- "microfaunes"
 
 ## On regarde si toutes les taxons sont présent dans la BD
 resp_taxon <- get_species(vernacular_fr=obs$vernacular_fr)
-sp_id <- unlist(lapply(resp_taxon, function(x) return(x[[1]]$body[,c("id")])))
+sp_id <- unlist(lapply(resp_taxon, function(x) return(x[[1]]$body[,c("name")])))
 
 ## On récupère les identifiants unique d'échantillon
 resp_samples <- get_samples(sample_code=obs$sample_code)
@@ -276,8 +275,8 @@ for(i in 1:nrow(obs)){
     campaign_id = obs[i,"campaign_id"],
     sample_id = obs[i, "sample_id"],
     obs_species = list(
-      sp_id = obs[i,"sp_id"],
-      attr_id = obs[i,"attr_id"],
+      taxa_name = obs[i,"sp_id"],
+      variable = "abondance",
       value = obs[i,"value"]
     )
   )
@@ -311,12 +310,11 @@ df$taxa <- df_taxa$taxa_lookup
 ## On sélectionne les champs dont on a besoin pour l'injection
 ## On prépare les données pour injection autre qu'à l'échelle de l'espèce
 obs <- unique(select(df,date_obs=Date_récolte,sample_code=Échantillon, site_code="No._Site", taxa, value=Nombre))
-obs$attr_id <- 2
 obs$type <- "microfaunes"
 
 ## On regarde si toutes les taxons sont présent dans la BD
 resp_taxon <- get_species(name=obs$taxa)
-obs$sp_id <- unlist(lapply(resp_taxon, function(x) return(x[[1]]$body[,c("id")])))
+obs$sp_id <- unlist(lapply(resp_taxon, function(x) return(x[[1]]$body[,c("name")])))
 
 ## On récupère les identifiants unique d'échantillon
 resp_samples <- get_samples(sample_code=obs$sample_code)
@@ -341,8 +339,8 @@ for(i in 1:nrow(obs)){
     campaign_id = obs[i,"campaign_id"],
     sample_id = obs[i, "sample_id"],
     obs_species = list(
-      sp_id = obs[i,"sp_id"],
-      attr_id = obs[i,"attr_id"],
+      taxa_name = obs[i,"sp_id"],
+      variable = "abondance",
       value = obs[i,"value"]
     )
   )

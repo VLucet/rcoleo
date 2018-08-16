@@ -149,12 +149,12 @@ obs$espece <- str_replace_all(obs$espece, "Inconnu", "inconnu")
 
 responses <- get_species(name=obs$espece)
 obs$sp_id <- unlist(lapply(responses, function(x)
-if(is.null(x[[1]]$body$id)){ return(NA) } else {return(x[[1]]$body$id)}
+if(is.null(x[[1]]$body$id)){ return(NA) } else {return(x[[1]]$body$name)}
 ))
 
 responses <- get_species(vernacular_fr=obs[is.na(obs$sp_id),]$espece)
 obs[is.na(obs$sp_id),"sp_id"] <- unlist(lapply(responses, function(x)
-  x[[1]]$body$id
+  x[[1]]$body$name
 ))
 
 
@@ -174,8 +174,8 @@ for(i in 1:nrow(obs)){
       type = "odonates"
     ),
     obs_species = list(
-      sp_id = obs[i,"sp_id"],
-      attr_id = attr_id,
+      taxa_name = obs[i,"sp_id"],
+      variable = "abondance",
       value = obs[i,"value"]
     )
   )

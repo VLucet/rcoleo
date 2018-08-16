@@ -147,11 +147,9 @@ landmarks$sp <- toupper(landmarks$sp)
 species_code <- data.frame(code=c("ES","SB","PU","EO","BG","BP","BJ"), vernacular_fr = c("Érable à sucre", "Sapin baumier", "Pruche de l'Est", "Érable rouge", "Bouleau gris", "Bouleau à papier", "Bouleau jaune"))
 # TODO: Valider les correspondances, surtout pour prunus et érable rouge
 
-species_ls <- list()
-for(i in 1:nrow(species_code)) species_ls[[i]] <- get_species(vernacular_fr = species_code[i,"vernacular_fr"])
-species_code <- bind_cols(species_code,bind_rows(lapply(unlist(species_ls,recursive=FALSE), function(x) return(x[[1]]$body[,c("id","vernacular_fr")]))))
+species_code <- cbind(species_code,as.data.frame(get_species(vernacular_fr = species_code[,"vernacular_fr"])))
 
-landmarks$sp_id <- species_code[match(landmarks$sp,species_code$code),"id"]
+landmarks$taxa_name <- species_code[match(landmarks$sp,species_code$code),"name"]
 landmarks$type <- "both"
 
 ## Final touch, prep geom et data
@@ -200,7 +198,7 @@ obs[is.na(obs$opened_at),"opened_at"] <- obs[is.na(obs$opened_at),"closed_at"]
 
 ## On récupère le code de l'espèce
 resp <- get_species(vernacular_fr=obs$species)
-sp_id <- unlist(lapply(resp,function(x) return(x[[1]]$body$id)))
+sp_id <- unlist(lapply(resp,function(x) return(x[[1]]$body$name)))
 rec <- unlist(lapply(resp, function(x) return(attributes(x[[1]]$body)$n_records)))
 
 ## Non REPRODUCTIBLE
@@ -208,17 +206,16 @@ obs$species[which(rec == 0)] <- c("pruche de l'est","canneberge commune","saule"
 
 # On recommence avec les noms vernaculaires modifiés
 resp <- get_species(vernacular_fr=obs$species)
-sp_id <- unlist(lapply(resp,function(x) return(x[[1]]$body$id)))
+sp_id <- unlist(lapply(resp,function(x) return(x[[1]]$body$name)))
 rec <- unlist(lapply(resp, function(x) return(attributes(x[[1]]$body)$n_records)))
 
 if(length(sp_id) == nrow(obs)) obs$sp_id <- sp_id
 
 # On documente l'attribut de Recouvrement
 resp <- post_attributes(data=list(list(variable="recouvrement",description="évaluation du recouvrement à l’intérieur de la placette", unit="%")))
-attr_id <- resp[[1]]$body$id
 
 # On set le id du attribute
-obs$attr_id <- attr_id
+variable <- "recouvrement"
 
 obs <- as.data.frame(obs)
 obs$site_code <- str_replace_all(obs$site_code,"-","_")
@@ -238,8 +235,8 @@ for(i in 1:nrow(obs)){
       type = "végétation"
     ),
     obs_species = list(
-      sp_id = obs[i,"sp_id"],
-      attr_id = 1,
+      taxa_name = obs[i,"sp_id"],
+      variable = variable,
       value = obs[i,"recouvrement"]
     )
   )
