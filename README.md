@@ -28,10 +28,9 @@ bearer <- "7f8df438e1be96a18436e9dab5d97d68ed0e0441d9b68f59e0ce631b2919f3aa"
 ### TODO: Featuring
 
 - [x] `coleoGetResp.as.data.frame()`
-- [ ] Get obs from a campaigns (include campaign info + species tables)
+- [x] Get obs from a campaigns (include campaign info + species tables)
 - [x] List campaigns from site
 - [x] Map sites (filter date and campaigns)
-- [ ] Get obs from a campaigns
 - [ ] Get medias from a campaigns
 - [x] List of species (add all ids)
 - [ ] Export shapefiles
