@@ -1,15 +1,15 @@
-###### Debug #####
-con <- RPostgreSQL::dbConnect("PostgreSQL",user="postgres",host="localhost",dbname="coleo_dev")
-bearer <- RPostgreSQL::dbGetQuery(con,"SELECT token FROM api_keys LIMIT 1")
-saveRDS(bearer,file=".httr-oauth")
-RPostgreSQL::dbDisconnect(con)
-####################
+# ###### Debug #####
+# con <- RPostgreSQL::dbConnect("PostgreSQL",user="postgres",host="localhost",dbname="coleo_dev")
+# bearer <- RPostgreSQL::dbGetQuery(con,"SELECT token FROM api_keys LIMIT 1")
+# saveRDS(bearer,file=".httr-oauth")
+# RPostgreSQL::dbDisconnect(con)
+# ####################
 
 # Config de base
-server <- function() "http://localhost:3001"
+#server <- function() "http://localhost:3001"
+server <- function() "https://coleo.biodiversite-quebec.ca"
 base <- function() "/api/v1"
-# bearer <- function() as.character(readRDS(".httr-oauth"))
-bearer <- function() "e6086afb109505fe9abd57dd1779ce5c78196ba939ff3e2323868de0d3cec0b9"
+bearer <- function() as.character(readRDS(".httr-oauth"))
 ua <- httr::user_agent("rcoleo")
 
 # Point d'entrées de l'API
