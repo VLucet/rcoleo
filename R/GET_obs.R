@@ -15,12 +15,63 @@ get_obs <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, type =
 
   # Preparation de l'objet de sortie
   responses <- list()
+  class(responses) <- "coleoGetResp"
 
   # Si tous les arguments sont nuls
   if(all(is.null(site_code), is.null(opened_at), is.null(closed_at), is.null(type))){
 
-    # TODO: Need extend HERE
-    responses[[1]] <- get_gen(endpoint, ...)
+    responses[[1]] <- get_gen(endpoint)
+
+    # campaign ids
+    responses[[1]] <- lapply(responses[[1]], function(page){
+
+      # On ajoute les informations des campagnes
+      campaign_ids <- unique(page$body$campaign_id)
+      campaigns_info <- list()
+
+      for(i in 1:length(campaign_ids)){
+        campaign <- httr::content(httr::GET(url=paste0(server(),"/api/v1/campaigns/",campaign_ids[i]), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", bearer())),ua), simplify = TRUE)
+        if(is.null(campaign$closed_at)) campaign$closed_at <- NA
+        campaigns_info[[i]] <- data.frame(campaign_id = campaign$id, site_id=campaign$site_id, opened_at=campaign$opened_at, closed_at=campaign$closed_at, type=campaign$type)
+      }
+
+      campaigns_info <- do.call(plyr::rbind.fill,campaigns_info)
+      page$body <- merge(page$body,campaigns_info, by="campaign_id")
+
+      # On ajoute les informations du site
+      site_ids <- unique(page$body$site_id)
+      sites_info <- list()
+
+      for(i in 1:length(site_ids)){
+        site <- httr::content(httr::GET(url=paste0(server(),"/api/v1/sites/",site_ids[i]), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", bearer())),ua), simplify = TRUE)
+        sites_info[[i]] <- data.frame(site_id = site$id, site_code = site$site_code, cell_code = site$cell$cell_code)
+      }
+
+      sites_info <- do.call(plyr::rbind.fill,sites_info)
+      page$body <- merge(page$body,sites_info, by="site_id")
+
+      # On restructure le data.frame pour la sortie
+      page$body <- dplyr::select(page$body,
+        "id",
+        "cell_code",
+        "site_code",
+        "opened_at",
+        "closed_at",
+        "type",
+        "sample_id",
+        "obs_species.taxa_name",
+        "obs_species.variable",
+        "obs_species.value",
+        "is_valid",
+        "media",
+        "notes",
+        "created_at",
+        "updated_at"
+      )
+
+      return(page)
+    })
+
 
   } else {
 
@@ -52,10 +103,11 @@ get_obs <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, type =
         # Campagne info
         campaign_info <- httr::content(httr::GET(url=paste0(server(),"/api/v1/campaigns/",campaign_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", bearer())),ua), simplify = TRUE)
         # Code du site
-        site_code <- httr::content(httr::GET(url=paste0(server(),"/api/v1/sites/",campaign_info$site_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", bearer())),ua), simplify = TRUE)$site_code
+        site_info <- httr::content(httr::GET(url=paste0(server(),"/api/v1/sites/",campaign_info$site_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", bearer())),ua), simplify = TRUE)
 
         # On ajoute les informations de la campagne
-        page$body$site_code <- site_code
+        page$body$site_code <- site_info$site_code
+        page$body$cell_code <- site_info$cell$cell_code
         page$body$opened_at <- campaign_info$opened_at
         page$body$closed_at <- campaign_info$closed_at
         page$body$type <- campaign_info$type
@@ -63,6 +115,7 @@ get_obs <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, type =
         # On restructure le data.frame pour la sortie
         page$body <- dplyr::select(page$body,
           "id",
+          "cell_code",
           "site_code",
           "opened_at",
           "closed_at",
@@ -85,7 +138,6 @@ get_obs <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, type =
     })
   }
 
-  class(responses) <- "coleoGetResp"
   return(responses)
 
 }
