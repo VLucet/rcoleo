@@ -3,7 +3,7 @@
 #' @param responses liste de réponse des fonctions de GET/POST
 #' @export
 
-as.data.frame.coleoGetResp <- function(responses=responses){
+as.data.frame.coleoGetResp <- function(responses=responses, ...){
 
   stopifnot(is.coleoGetResp(responses))
 
@@ -26,7 +26,7 @@ as.data.frame.coleoGetResp <- function(responses=responses){
     }
   })
 
-  return(as.data.frame(do.call(plyr::rbind.fill, all_body)))
+  return(as.data.frame(do.call(plyr::rbind.fill, all_body), ...))
 }
 
 #' Test sur la classe `coleoGetResp` (Objet S3)
