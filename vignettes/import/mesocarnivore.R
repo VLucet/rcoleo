@@ -26,7 +26,7 @@ sites_ls <- apply(sites,1,as.list)
 # Creer geom points
 geom <- apply(sites,1, function(x){
   if(!any(is.na(x["lat"]),is.na(x["lon"]))){
-  return(geojson_list(as.numeric(c(x["lat"],x["lon"])))$features[[1]]$geometry)
+  return(geojson_list(as.numeric(c(x["lon"],x["lat"])))$features[[1]]$geometry)
 } else {
   return(NA)
 }})
