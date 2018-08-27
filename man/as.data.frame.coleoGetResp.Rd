@@ -4,7 +4,7 @@
 \alias{as.data.frame.coleoGetResp}
 \title{Transformer la liste de réponses en data.frame}
 \usage{
-\method{as.data.frame}{coleoGetResp}(responses = responses)
+\method{as.data.frame}{coleoGetResp}(responses = responses, ...)
 }
 \arguments{
 \item{responses}{liste de réponse des fonctions de GET/POST}

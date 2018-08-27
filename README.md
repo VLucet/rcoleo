@@ -25,23 +25,14 @@ Il est fortement recommandé de mettre en cache se jeton d'accès afin de s'assu
 bearer <- "7f8df438e1be96a18436e9dab5d97d68ed0e0441d9b68f59e0ce631b2919f3aa"
 ```
 
-### TODO: Featuring
+*Le jeton d'accès est un exemple ici et n'est aucunement valide.*
 
-- [x] `coleoGetResp.as.data.frame()`
-- [x] Get obs from a campaigns (include campaign info + species tables)
-- [x] List campaigns from site
-- [x] Map sites (filter date and campaigns)
+### Roadmap to 1.1.0
+
 - [ ] Get medias from a campaigns
-- [x] List of species (add all ids)
 - [ ] Export shapefiles
 - [ ] Export DwC-A
 
-### TODO: package enhancements
+### Roadmap to 2.0.0
 
-- [x] find the best stratey to manage access token
-- [ ] Setup appVeyor (windows) / travis (linux) / autodeploy docs with travis
-
-
-
-
-*Le jeton d'accès est un exemple ici et n'est aucunement valide.*
+- [ ] Use the login page to stored the token

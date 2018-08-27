@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rcoleo</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.0</span>
       </span>
     </div>
 
@@ -172,8 +172,7 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_sites.html'>get_sites</a></span>()
-<span class='fu'>plot</span>(<span class='fu'>cl_to_sf</span>(<span class='no'>resp</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: plotting the first 9 out of 10 attributes; use max.plot = 10 to plot all</span></div><div class='output co'>#&gt; <span class='warning'>Warning: aucun argument trouvé pour min ; Inf est renvoyé</span></div><div class='output co'>#&gt; <span class='warning'>Warning: aucun argument pour max ; -Inf est renvoyé</span></div><div class='img'><img src='cl_to_sf-1.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_sites.html'>get_sites</a></span>()</div><div class='output co'>#&gt; <span class='warning'>Warning: impossible d'ouvrir le fichier compressé '.httr-oauth', cause probable : 'Aucun fichier ou dossier de ce type'</span></div><div class='output co'>#&gt; <span class='error'>Error in gzfile(file, "rb"): impossible d'ouvrir la connexion</span></div><div class='input'><span class='fu'>plot</span>(<span class='fu'>cl_to_sf</span>(<span class='no'>resp</span>))</div><div class='output co'>#&gt; <span class='error'>Error in cl_to_sf(resp): objet 'resp' introuvable</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
