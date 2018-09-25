@@ -3,4 +3,3 @@
 extdata/
 ^_pkgdown\.yml$
 ^docs$
-.httr-oauth

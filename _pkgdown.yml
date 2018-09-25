@@ -29,10 +29,12 @@ navbar:
     articles:
       text: Exemples d'utilisation
       menu:
-      - text: Vignette Title
-        href: articles/explore_fonctions.html
-      - text: UNKNOWN TITLE
-        href: articles/inject_mffp_template.html
+      - text: Obtenir les données
+        href:
+      - text: Télécharger les médias (images et sons) d'une campagne
+        href:
+      - text: Exporter les données en ESRI Shapefiles
+        href:
     github:
       icon: fa-github fa-lg
       href: https://github.com/TheoreticalEcosystemEcology/rcoleo

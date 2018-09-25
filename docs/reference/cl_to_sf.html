@@ -95,12 +95,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/explore_fonctions.html">Vignette Title</a>
-    </li>
-    <li>
-      <a href="../articles/inject_mffp_template.html">UNKNOWN TITLE</a>
-    </li>
+    <li class="dropdown-header">Obtenir les données</li>
+    <li class="dropdown-header">Télécharger les médias (images et sons) d'une campagne</li>
+    <li class="dropdown-header">Exporter les données en ESRI Shapefiles</li>
   </ul>
 </li>
       </ul>
@@ -154,7 +151,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p><code>list</code> de la classe <code>coleoGetResp</code> retourné par les fonctions GET du package coléo (ex. <code><a href='get_sites.html'>get_sites()</a></code>) ou <code>data.frame</code> (as.data.frame) , voir @details</p></td>
+      <td><p><code>list</code> de la classe <code>coleoGetResp</code> retourné par les fonctions GET du package coléo (ex. <code>get_sites()</code>) ou <code>data.frame</code> (as.data.frame) , voir @details</p></td>
     </tr>
     </table>
     
@@ -168,11 +165,11 @@
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='sf_cells.html'>sf_cells()</a></code>, <code><a href='sf_sites.html'>sf_sites()</a></code></p></div>
+    <div class='dont-index'><p><code>sf_cells()</code>, <code>sf_sites()</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_sites.html'>get_sites</a></span>()</div><div class='output co'>#&gt; <span class='warning'>Warning: impossible d'ouvrir le fichier compressé '.httr-oauth', cause probable : 'Aucun fichier ou dossier de ce type'</span></div><div class='output co'>#&gt; <span class='error'>Error in gzfile(file, "rb"): impossible d'ouvrir la connexion</span></div><div class='input'><span class='fu'>plot</span>(<span class='fu'>cl_to_sf</span>(<span class='no'>resp</span>))</div><div class='output co'>#&gt; <span class='error'>Error in cl_to_sf(resp): objet 'resp' introuvable</span></div></pre>
+    <pre class="examples"><div class='input'><span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'>get_sites</span>()</div><div class='output co'>#&gt; <span class='warning'>Warning: impossible d'ouvrir le fichier compressé '.httr-oauth', cause probable : 'Aucun fichier ou dossier de ce type'</span></div><div class='output co'>#&gt; <span class='error'>Error in gzfile(file, "rb"): impossible d'ouvrir la connexion</span></div><div class='input'><span class='fu'>plot</span>(<span class='fu'>cl_to_sf</span>(<span class='no'>resp</span>))</div><div class='output co'>#&gt; <span class='error'>Error in cl_to_sf(resp): objet 'resp' introuvable</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
