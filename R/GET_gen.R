@@ -10,12 +10,10 @@
 #' @details
 #' Les points d'accès de l'API sont énuméré dans l'environment de coléo, voir `print(endpoints)`
 #' @examples
-#'\dontrun{
-#' resp <- get_gen(endpoints()$cells)
+#' resp <- get_gen("/cells")
 #' length(resp) # Nombre de pages retourné par l'appel sur le point d'accès de l'API.
 #' str(resp[[1]])
 #' class(resp[[1]])
-#' }
 #' @export
 
 get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, output = 'data.frame',...) {
@@ -62,7 +60,7 @@ get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, output = 'dat
     } else if(output == 'list') {
       body <- jsonlite::fromJSON(httr::content(resp, type = "text", encoding = "UTF-8"), simplify = FALSE)
     } else if(output == 'data.frame') {
-      body <- jsonlite::fromJSON(httr::content(resp, type = "text", encoding = "UTF-8"), flatten = flatten, simplifyDataFrame = TRUE)
+      body <- tibble::as_tibble(jsonlite::fromJSON(httr::content(resp, type = "text", encoding = "UTF-8"), flatten = flatten, simplifyDataFrame = TRUE))
     }
 
     # On regarde la longueur du jeu de données renvoyer pour faire les tests logiques
