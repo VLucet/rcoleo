@@ -102,7 +102,7 @@ for(l in 1:length(campaigns_ls)){
 # Ajout de l'effort d'échantillonnage
 campaigns_ls <- lapply(campaigns_ls, function(x) {
   x$efforts <- list(
-    list(stratum = "bryophytes", samp_surf = "10", samp_surf_unit = "m2"),
+    list(stratum = "bryophytes", samp_surf = "1", samp_surf_unit = "m2"),
     list(stratum = "arbustes/herbacées", samp_surf = "100", samp_surf_unit = "m2"),
     list(stratum = "arbres", samp_surf = "400", samp_surf_unit = "m2")
   )
