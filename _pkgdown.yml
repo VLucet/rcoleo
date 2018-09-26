@@ -30,11 +30,15 @@ navbar:
       text: Exemples d'utilisation
       menu:
       - text: Obtenir les données
-        href:
+        href: reference/index.html
       - text: Télécharger les médias (images et sons) d'une campagne
-        href:
-      - text: Exporter les données en ESRI Shapefiles
-        href:
+        href: reference/index.html
+      - text: Exporter les données d'observations en ESRI Shapefiles
+        href: reference/index.html
+      - text: Exporter les cellules en ESRI Shapefiles
+        href: reference/index.html
+      - text: Exporter le repères sur le terrain en ESRI Shapefiles
+        href: reference/index.html
     github:
       icon: fa-github fa-lg
       href: https://github.com/TheoreticalEcosystemEcology/rcoleo

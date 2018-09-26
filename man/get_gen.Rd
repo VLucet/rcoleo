@@ -28,10 +28,8 @@ Fonction générique pour retirer de l'information depuis l'API de Coléo
 Les points d'accès de l'API sont énuméré dans l'environment de coléo, voir \code{print(endpoints)}
 }
 \examples{
-\dontrun{
-resp <- get_gen(endpoints()$cells)
+resp <- get_gen("/cells")
 length(resp) # Nombre de pages retourné par l'appel sur le point d'accès de l'API.
 str(resp[[1]])
 class(resp[[1]])
-}
 }

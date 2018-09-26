@@ -25,5 +25,5 @@ Retourne une objet de type \code{list} contenant les réponses de l'API. Chaque 
 Retourne les entrées pour les repères sur le terrain spécifique à une campagne d'inventaires
 }
 \examples{
-get_landmarks()
+head(get_landmarks())
 }

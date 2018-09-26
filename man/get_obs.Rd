@@ -25,5 +25,5 @@ Retourne une objet de type \code{list} contenant les réponses de l'API. Chaque 
 Retourne les entrées présents dans la table observation
 }
 \examples{
-get_obs(type="végétation")
+head(get_obs(type="végétation"))
 }

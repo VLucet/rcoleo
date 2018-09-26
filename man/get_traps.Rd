@@ -21,5 +21,5 @@ Retourne les entrées pour les pièges présents dans la base de données
 }
 \examples{
 get_traps(trap_code=c('MP-22'))
-get_traps()
+head(get_traps())
 }

@@ -19,5 +19,5 @@ Retourne les entrées pour les échantillons présents dans la base de données
 }
 \examples{
 get_samples(trap_code=c('2016-0026'))
-get_samples()
+head(get_samples())
 }

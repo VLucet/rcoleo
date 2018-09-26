@@ -23,5 +23,5 @@ Retourne les entrées d'espèces présentes dans la base de données
 }
 \examples{
 get_species(vernacular_fr=c('Érable'))
-get_species()
+head(get_species())
 }

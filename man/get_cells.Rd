@@ -21,5 +21,5 @@ Obtenir les informations sur les cellules depuis l'API de coleo
 }
 \examples{
 get_cells(cell_code=c('111_91'))
-get_cells()
+head(get_cells())
 }

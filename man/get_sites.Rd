@@ -19,5 +19,5 @@ Obtenir les informations sur les sites depuis l'API de coleo
 }
 \examples{
 get_sites(site_code=c('135_104_H01'))
-get_sites()
+head(get_sites())
 }
