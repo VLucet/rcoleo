@@ -8,7 +8,7 @@
 #' Retourne une objet de type `list` contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est `getSuccess` ou `getError`. Une réponse de classe `getSuccess` est une liste à deux niveaux composé du contenu (`body`), et la réponse [httr::response]. Une réponse de classe `getError` dispose de la même structure mais ne contiendra pas de body, seulement la réponse de l'API.
 #' @examples
 #' get_species(vernacular_fr=c('Érable'))
-#' get_species()
+#' head(get_species())
 #' @export
 
 get_species <- function(name = NULL, rank = NULL, vernacular_fr = NULL,...) {

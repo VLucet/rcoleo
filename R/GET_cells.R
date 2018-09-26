@@ -6,7 +6,7 @@
 #' @inheritParams get_gen
 #' @examples
 #' get_cells(cell_code=c('111_91'))
-#' get_cells()
+#' head(get_cells())
 #' @export
 
 get_cells <- function(cell_code = NULL,name = NULL, ...) {

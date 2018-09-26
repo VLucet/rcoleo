@@ -6,7 +6,8 @@
 #' @param type `character` vecteur contenant le type de campagnes d'inventaires réalisé (ex. végétation)
 #' @inheritParams get_gen
 #' @examples
-#' get_campaigns()
+#' head(get_campaigns())
+#' head(get_campaigns(type="végétation"))
 #' @export
 
 get_campaigns <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, type = NULL, ...){

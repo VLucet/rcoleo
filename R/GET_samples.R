@@ -6,7 +6,7 @@
 #' Retourne une objet de type `list` contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est `getSuccess` ou `getError`. Une réponse de classe `getSuccess` est une liste à deux niveaux composé du contenu (`body`), et la réponse [httr::response]. Une réponse de classe `getError` dispose de la même structure mais ne contiendra pas de body, seulement la réponse de l'API.
 #' @examples
 #' get_samples(trap_code=c('2016-0026'))
-#' get_samples()
+#' head(get_samples())
 #' @export
 
 get_samples <- function(sample_code = NULL, ...) {
@@ -29,7 +29,7 @@ get_samples <- function(sample_code = NULL, ...) {
 
     # Obtenir des cellules specifiques (query)
     for (r in 1:len) {
-      
+
       query <- list(sample_code = sample_code[r])
       responses[[r]] <- get_gen(endpoint, query = query, ...)
 
