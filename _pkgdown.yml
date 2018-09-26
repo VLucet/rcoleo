@@ -37,7 +37,7 @@ navbar:
         href: reference/index.html
       - text: Exporter les cellules en ESRI Shapefiles
         href: reference/index.html
-      - text: Exporter le repères sur le terrain en ESRI Shapefiles
+      - text: Exporter les repères sur le terrain en ESRI Shapefiles
         href: reference/index.html
     github:
       icon: fa-github fa-lg
