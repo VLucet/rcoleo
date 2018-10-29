@@ -60,7 +60,7 @@ get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, output = 'dat
     } else if(output == 'list') {
       body <- jsonlite::fromJSON(httr::content(resp, type = "text", encoding = "UTF-8"), simplify = FALSE)
     } else if(output == 'data.frame') {
-      body <- tibble::as_tibble(jsonlite::fromJSON(httr::content(resp, type = "text", encoding = "UTF-8"), flatten = flatten, simplifyDataFrame = TRUE))
+      body <- jsonlite::fromJSON(httr::content(resp, type = "text", encoding = "UTF-8"), flatten = flatten, simplifyDataFrame = TRUE)
     }
 
     # On regarde la longueur du jeu de données renvoyer pour faire les tests logiques
