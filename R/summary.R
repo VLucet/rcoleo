@@ -4,5 +4,15 @@
 #' @export
 
 diagnostic <- function(responses=responses){
-  do.call(plyr::rbind.fill,lapply(responses,function(x) as.data.frame(httr::http_status(x$response))))
+
+  status <- list()
+
+  for(resp in seq_len(length(responses))){
+    for(q in seq_len(length(resp))){
+        status[[length(status)+1]] <- as.data.frame(httr::http_status(responses[[resp]][[q]]$response))
+    }
+  }
+
+  plyr::rbind.fill(status)
+
 }
