@@ -4,13 +4,13 @@
 
 sheet <- "papillon"
 
-nms <- names(read_excel("./extdata/V2_CompilationDonnées_2016-2018.xlsx",sheet=sheet))
+nms <- names(read_excel("./extdata/V3_CompilationDonnées_2016-2018.xlsx",sheet=sheet))
 
 ## Gerer les dates (eviter la conversion automatique)
 ct <- ifelse(grepl("^Date|Heure", nms, ignore.case = TRUE), "date", "guess")
 
 ## deuxieme lecture de la page et ignore le type dans la ligne 2
-df <- read_excel("./extdata/V2_CompilationDonnées_2016-2018.xlsx",sheet="papillon",col_types = ct)[-1,]
+df <- read_excel("./extdata/V3_CompilationDonnées_2016-2018.xlsx",sheet="papillon",col_types = ct)[-1,]
 
 ## replacer les espaces par des barres de soulignement dans les noms de colonnes
 names(df) <- str_replace_all(names(df)," ", "_")
@@ -107,9 +107,13 @@ campaigns_ls <- lapply(campaigns_ls, function(x){
 
 # Ajout de l'effort d'échantillonnage
 campaigns_ls <- lapply(campaigns_ls, function(x) {
+
+  samp_surf <- ifelse(format(as.Date(x$opened_at),"%Y") == 2016, 2000, 5000)
+
   x$efforts <- list(
-    list(samp_surf = "2000", samp_surf_unit = "m2", time_finish=as.character(strsplit(x$Heure_fin," ")[[1]][2]), time_start=as.character(strsplit(x$Heure_début," ")[[1]][2])
+    list(samp_surf = samp_surf, samp_surf_unit = "m2", time_finish=as.character(strsplit(x$Heure_fin," ")[[1]][2]), time_start=as.character(strsplit(x$Heure_début," ")[[1]][2])
   ))
+
   return(x)
 })
 
@@ -123,7 +127,6 @@ campaigns_ls <- lapply(campaigns_ls, function(x) {
 
 ##### POST Campaigns
 responses <- post_campaigns(campaigns_ls)
-diagnostic(responses)
 
 #######################################
 ####### PREP POST sur observations ####
@@ -132,8 +135,6 @@ diagnostic(responses)
 # On selectionne les colonnes que l'on a besoin pour les Observations
 obs <- select(df,site_code=No_de_référence_du_site,opened_at,closed_at,espece="Esp._Papillon",value=nombre)
 
-# Simple modif sur une espèce
-obs$espece <- str_replace_all(obs$espece, "Azur printanier nordique", "Azur printanier")
 
 # On regarde si toutes les especes sont dans la table de reference
 sp <- obs$espece
@@ -168,4 +169,3 @@ for(i in 1:nrow(obs)){
 }
 
 responses <- post_observations(injection_obs)
-diagnostic(responses)

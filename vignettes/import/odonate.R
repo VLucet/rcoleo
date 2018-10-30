@@ -3,13 +3,13 @@
 ###################################
 sheet <- "odonate"
 
-nms <- names(read_excel("./extdata/V2_CompilationDonnées_2016-2018.xlsx",sheet=sheet))
+nms <- names(read_excel("./extdata/V3_CompilationDonnées_2016-2018.xlsx",sheet=sheet))
 
 ## Gerer les dates (eviter la conversion automatique)
 ct <- ifelse(grepl("^Date|Heure", nms, ignore.case = TRUE), "date", "guess")
 
 ## deuxieme lecture de la page et ignore le type dans la ligne 2
-df <- read_excel("./extdata/V2_CompilationDonnées_2016-2018.xlsx",sheet=sheet,col_types = ct)[-1,]
+df <- read_excel("./extdata/V3_CompilationDonnées_2016-2018.xlsx",sheet=sheet,col_types = ct)[-1,]
 
 ## replacer les espaces par des barres de soulignement dans les noms de colonnes
 names(df) <- str_replace_all(names(df)," ", "_")
@@ -100,7 +100,6 @@ campaigns_ls <- lapply(campaigns_ls, function(x) {
 
 ##### POST Campaigns
 responses <- post_campaigns(campaigns_ls)
-diagnostic(responses)
 
 ##### TODO
 #######################################
@@ -176,4 +175,3 @@ for(i in 1:nrow(obs)){
 }
 
 responses <- post_observations(injection_obs)
-diagnostic(responses)
