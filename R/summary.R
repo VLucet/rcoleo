@@ -7,9 +7,15 @@ diagnostic <- function(responses=responses){
 
   status <- list()
 
-  for(resp in seq_len(length(responses))){
-    for(q in seq_len(length(resp))){
-        status[[length(status)+1]] <- as.data.frame(httr::http_status(responses[[resp]][[q]]$response))
+  if(class(responses) == "coleoPostResp"){
+    for(r in seq_len(length(responses))){
+        status[[length(status)+1]] <- as.data.frame(httr::http_status(responses[[r]]$response))
+    }
+  } else if(class(responses) == "coleoGetResp"){
+    for(r in seq_len(length(responses))){
+      for(q in seq_len(length(resp))){
+          status[[length(status)+1]] <- as.data.frame(httr::http_status(responses[[r]][[q]]$response))
+      }
     }
   }
 
