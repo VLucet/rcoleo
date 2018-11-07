@@ -16,6 +16,8 @@ endpoints <- function(){
     landmarks = "/landmarks",
     attributes = "/attributes",
     traps = "/traps",
-    samples = "/samples"
+    samples = "/samples",
+    lures = "/lures",
+    devices = "/devices"
   )
 }
