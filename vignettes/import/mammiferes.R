@@ -155,10 +155,7 @@ responses <- post_lures(lures_ls)
 #### PREP POST sur landmarks ######
 ###################################
 
-## POST pour les devices
-
-
-## POST pour les lures
+## MISSING
 
 ###################################
 #### PREP POST sur médias ######
