@@ -28,7 +28,6 @@ sites$lonB <- type.convert(sites$lonB)
 sites$latC <- type.convert(sites$latC)
 sites$lonC <- type.convert(sites$lonC)
 
-## On prend seulement les sites qui n'éxistent pas
 ## Pour ce type campaign pas le choix de calculer le centroide de la distributions des traps
 sites$lat <- rowMeans(sites[,c("latA","latB","latC")])
 sites$lon <- rowMeans(sites[,c("lonA","lonB","lonC")])

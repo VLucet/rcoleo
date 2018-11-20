@@ -161,9 +161,21 @@ responses <- post_lures(lures_ls)
 #### PREP POST sur médias ######
 ###################################
 
+devtools::load_all(".")
 library(httr)
-media_ls <- list.files("./extdata/media/", recursive=TRUE, full.names=TRUE)
+mam_md <- readRDS("../media-cleanup/inject_mam.rds")
 
-resp <- httr::POST("http://localhost:8080/upload/campaign/1", body = list(type="image",media=upload_file(media_ls[1])),
+mam_md$url <- paste0("http://coleo-media:3002/upload/campaign/",mam_md$camp_id)
+mam_md$filename <- unlist(lapply(strsplit(mam_md$media,"[/]"), function(x) return(x[8])))
+mam_md <- mam_md[-which(duplicated(mam_md$filename)),]
+
+responses <- list()
+
+for(i in 1:nrow(mam_md)){
+  responses[[i]] <- httr::POST(mam_md$url[i], body = list(type="image",media=upload_file(mam_md$media[i])),
   config = httr::add_headers(`Content-type` = "multipart/form-data", Authorization = paste("Bearer",
     bearer())))
+}
+
+
+
