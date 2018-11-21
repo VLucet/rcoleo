@@ -10,7 +10,7 @@ endpoints <- function(){
     cells = "/cells",
     sites = "/sites",
     campaigns = "/campaigns",
-    medias = "/medias",
+    media = "/media",
     observations = "/observations",
     taxa = "/taxa",
     landmarks = "/landmarks",
