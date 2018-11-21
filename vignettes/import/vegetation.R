@@ -242,4 +242,4 @@ for(i in 1:nrow(obs)){
   )
 }
 
-responses <- post_observations(injection_obs)
+responses <- post_obs(injection_obs)

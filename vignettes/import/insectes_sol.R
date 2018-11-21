@@ -278,7 +278,7 @@ for(i in 1:nrow(obs)){
   )
 }
 
-responses <- post_observations(injection_obs)
+responses <- post_obs(injection_obs)
 
 ## Injection des carabes identifie à l'espèce en laboratoire
 
@@ -342,4 +342,4 @@ for(i in 1:nrow(obs)){
   )
 }
 
-responses <- post_observations(injection_obs)
+responses <- post_obs(injection_obs)
