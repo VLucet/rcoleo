@@ -15,7 +15,8 @@ Imports:
   stringr,
   dplyr,
   plyr,
-  sf
+  sf,
+  tibble
 Suggests: knitr,
     rmarkdown,
     RPostgreSQL

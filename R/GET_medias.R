@@ -45,6 +45,8 @@ get_medias <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, typ
       responses[[r]] <- get_gen(endpoint, query = list(campaign_id = campaigns$id[r]))
     } 
 
+    
+
     media <- as.data.frame(responses)
     media$uri <- paste0("/media/",media$type,"/",media$uuid,"/original")
 
