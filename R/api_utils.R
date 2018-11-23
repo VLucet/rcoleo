@@ -26,7 +26,7 @@ as.data.frame.coleoGetResp <- function(responses=responses, ...){
     }
   })
 
-  return(as.data.frame(do.call(plyr::rbind.fill, all_body), ...))
+  return(tibble::as.tibble(do.call(plyr::rbind.fill, all_body), ...))
 }
 
 #' Test sur la classe `coleoGetResp` (Objet S3)
