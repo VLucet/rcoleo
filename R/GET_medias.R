@@ -16,14 +16,7 @@
 #' }
 #' @export
 
-get_medias <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, type = NULL, output_dir = "./media", ...) {
-
-  # DEBUG
-  site_code = "141_108_F01"
-  type = "mammifères"
-  opened_at = NULL
-  closed_at = NULL
-  output_dir = "./media"
+get_medias <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, type = NULL, output_dir = "./media", verbose = TRUE, ...) {
 
   # Preparation de l'objet de sortie
   responses <- list()
@@ -39,16 +32,18 @@ get_medias <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, typ
   } else {
 
     campaigns <- as.data.frame(get_campaigns(site_code, opened_at, closed_at, type))
-    
-    # TODO: cover if media dont exist
+
     for(r in 1:nrow(campaigns)){
       responses[[r]] <- get_gen(endpoint, query = list(campaign_id = campaigns$id[r]))
     } 
 
-    
-
     media <- as.data.frame(responses)
     media$uri <- paste0("/media/",media$type,"/",media$uuid,"/original")
+
+    # On regarde si la campagne contient des médias
+    if(nrow(media) == 0){
+      stop("Aucun média attaché à cette/ces campagnes")
+    }
 
     # On créer le répertoire de sortie, s'il n'existe pas
     dir.create(output_dir)
@@ -56,10 +51,15 @@ get_medias <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, typ
     # Mieux gérer la progress bar
     # Vérifier si bug dans les chemins avec Windows
     for(m in 1:nrow(media)){
+      if(verbose){
+        cat("Téléversement de", m ,"/",nrow(media), "\n")
+        cat("Fichier:", media$name[m], "\n")
+        cat("Type:", media$type[m], "\n")
+      }
       httr::GET(
       url = paste0(server(),media$uri[m]), 
       config = httr::add_headers(Authorization = paste("Bearer", bearer())), 
-      ua, httr::progress(), httr::write_disk(paste0(output_dir,"/",media$name[m],media$og_extention[m]), overwrite=TRUE)
+      ua, httr::write_disk(paste0(output_dir,"/",media$name[m],media$og_extention[m]), overwrite=TRUE)
       )
     }
 
