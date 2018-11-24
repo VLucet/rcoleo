@@ -1,6 +1,7 @@
 #' Fonction générique pour retirer de l'information depuis l'API de Coléo
 #'
 #' @param endpoint `character` désignant le point d'entrée pour le retrait des données. Un point d'entrée peut être vu comme une table de la base de données.
+#' @param token `character` jeton d'accès 
 #' @param query `list` de paramètres à passer avec l'appel sur le endpoint.
 #' @param flatten `logical` aplatir automatiquement un data.frame imbriqués dans un seul `data.frame` (obsolete si l'objet retourné n'est pas un data.frame)
 #' @param output `character` choix du type d'objet retourné: `data.frame`, `list`, `json`
@@ -27,7 +28,15 @@ get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, output = 'dat
 
   # Premier appel pour avoir le nombre de page
   resp <- httr::GET(url, config = httr::add_headers(`Content-type` = "application/json",
-    Authorization = paste("Bearer", bearer())),ua, query = query, ... )
+    Authorization = paste("Bearer", bearer())),ua, query = query, ...)
+  
+  # On prépare la liste pour le renvoi de la fonction
+  responses <- list()
+
+  # On couvre le code d'erreur 401 (Unauthorized)
+  if(httr::status_code(resp) == 401){
+    stop(httr::content(resp)$message)
+  }
 
   # Denombrement du nombre de page
   rg <- as.numeric(stringr::str_extract_all(httr::headers(resp)["content-range"],
@@ -39,8 +48,6 @@ get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, output = 'dat
   pages <- ceiling(rg[3] / limit) - 1
   if(pages < 0) pages <- 0
 
-  # On prépare la liste pour le renvoi de la fonction
-  responses <- list()
 
   # Boucle sur les pages
   for (page in 0:pages) {
