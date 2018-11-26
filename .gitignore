@@ -29,4 +29,4 @@ inst/doc
 # Visual studio
 *.code-workspace
 *.vscode
-/docs/
+docs/*

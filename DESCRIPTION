@@ -19,7 +19,8 @@ Imports:
   tibble
 Suggests: knitr,
     rmarkdown,
-    RPostgreSQL
+    RPostgreSQL,
+    pkgdown
 VignetteBuilder: knitr
 RoxygenNote: 6.1.0
 Roxygen: list(markdown = TRUE)
