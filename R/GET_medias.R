@@ -9,9 +9,9 @@
 #' Sauvegarde les images/sons attachés aux campagnes à une emplacement définit par l'utilisateur
 #' @examples
 #' \dontrun{
-#' list_media(site_code="141_108_F01", type="mammifères")
+#' list_medias(site_code="141_108_F01", type="mammifères")
 #' Par exemple, on veut obtenir toutes les photos prises dans le cadre d'une campagne sur le site 141_108_F01 et portant sur les mammifères 
-#' get_media(site_code="141_108_F01", type="mammifères")
+#' get_medias(site_code="141_108_F01", type="mammifères")
 #' }
 #' @export
 
