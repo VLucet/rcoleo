@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Fonction générique pour retirer de l'information depuis l'API de Coléo — get_gen • rcoleo</title>
+<title>Téléverse l'ensemble des médias appartenant à une campagnes — list_medias • rcoleo</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -36,9 +36,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Fonction générique pour retirer de l'information depuis l'API de Coléo — get_gen" />
+<meta property="og:title" content="Téléverse l'ensemble des médias appartenant à une campagnes — list_medias" />
 
-<meta property="og:description" content="Fonction générique pour retirer de l'information depuis l'API de Coléo" />
+<meta property="og:description" content="Téléverse l'ensemble des médias appartenant à une campagnes" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -139,42 +139,38 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Fonction générique pour retirer de l'information depuis l'API de Coléo</h1>
-    <small class="dont-index">Source: <a href='https://github.com/TheoreticalEcosystemEcology/rcoleo/blob/master/R/GET_gen.R'><code>R/GET_gen.R</code></a></small>
-    <div class="hidden name"><code>get_gen.Rd</code></div>
+    <h1>Téléverse l'ensemble des médias appartenant à une campagnes</h1>
+    <small class="dont-index">Source: <a href='https://github.com/TheoreticalEcosystemEcology/rcoleo/blob/master/R/GET_medias.R'><code>R/GET_medias.R</code></a></small>
+    <div class="hidden name"><code>list_medias.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Fonction générique pour retirer de l'information depuis l'API de Coléo</p>
+    <p>Téléverse l'ensemble des médias appartenant à une campagnes</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>get_gen</span>(<span class='kw'>endpoint</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>query</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>flatten</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"data.frame"</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>bearer</span>(), <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>list_medias</span>(<span class='kw'>site_code</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>opened_at</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>closed_at</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>endpoint</th>
-      <td><p><code>character</code> désignant le point d'entrée pour le retrait des données. Un point d'entrée peut être vu comme une table de la base de données.</p></td>
+      <th>site_code</th>
+      <td><p><code>character</code> vecteur contenant les codes de sites pour lesquelles ont désire récupérer les campagnes (ex. 134_111_F01)</p></td>
     </tr>
     <tr>
-      <th>query</th>
-      <td><p><code>list</code> de paramètres à passer avec l'appel sur le endpoint.</p></td>
+      <th>opened_at</th>
+      <td><p><code>character</code> vecteur contenant les dates de début de campagnes (ex. 2017-01-30)</p></td>
     </tr>
     <tr>
-      <th>flatten</th>
-      <td><p><code>logical</code> aplatir automatiquement un data.frame imbriqués dans un seul <code>data.frame</code> (obsolete si l'objet retourné n'est pas un data.frame)</p></td>
+      <th>closed_at</th>
+      <td><p><code>character</code> vecteur contenant les dates de fin de campagnes (ex. 2017-01-30)</p></td>
     </tr>
     <tr>
-      <th>output</th>
-      <td><p><code>character</code> choix du type d'objet retourné: <code>data.frame</code>, <code>list</code>, <code>json</code></p></td>
-    </tr>
-    <tr>
-      <th>token</th>
-      <td><p><code>character</code> jeton d'accès pour authentification auprès de l'API</p></td>
+      <th>type</th>
+      <td><p><code>character</code> vecteur contenant le type de campagnes d'inventaires réalisé (ex. végétation)</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -184,20 +180,9 @@
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Retourne un objet de type <code>list</code> contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est <code>getSuccess</code> ou <code>getError</code>. Une réponse de classe <code>getSuccess</code> est une liste à deux niveaux composé du contenu (<code>body</code>), et la réponse <a href='http://www.rdocumentation.org/packages/httr/topics/response'>httr::response</a>. Une réponse de classe <code>getError</code> dispose de la même structure mais ne contiendra pas de body, seulement la réponse de l'API.</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Les points d'accès de l'API sont énuméré dans l'environment de coléo, voir <code>print(endpoints)</code></p>
+    <p>Sauvegarde les images/sons attachés aux campagnes à une emplacement définit par l'utilisateur</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>resp</span> <span class='kw'>&lt;-</span> <span class='fu'>get_gen</span>(<span class='st'>"/cells"</span>)
-<span class='fu'>length</span>(<span class='no'>resp</span>) <span class='co'># Nombre de pages retourné par l'appel sur le point d'accès de l'API.</span>
-<span class='fu'>str</span>(<span class='no'>resp</span><span class='kw'>[[</span><span class='fl'>1</span>]])
-<span class='fu'>class</span>(<span class='no'>resp</span><span class='kw'>[[</span><span class='fl'>1</span>]])
-<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -205,11 +190,7 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>
