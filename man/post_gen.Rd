@@ -4,12 +4,14 @@
 \alias{post_gen}
 \title{Fonction générique pour envoyer de l'information vers l'API de Coléo}
 \usage{
-post_gen(endpoint, singleton, ...)
+post_gen(endpoint, singleton, token = bearer(), ...)
 }
 \arguments{
 \item{endpoint}{Point d'entrée pour le retrait des données.}
 
 \item{singleton}{Données à injecter à l'intérieur de la base de données.}
+
+\item{token}{\code{character} jeton d'accès pour authentification auprès de l'API}
 
 \item{...}{httr options; arguments de la fonction \code{httr::POST()}}
 }

@@ -5,6 +5,7 @@
 #' @param query `list` de paramètres à passer avec l'appel sur le endpoint.
 #' @param flatten `logical` aplatir automatiquement un data.frame imbriqués dans un seul `data.frame` (obsolete si l'objet retourné n'est pas un data.frame)
 #' @param output `character` choix du type d'objet retourné: `data.frame`, `list`, `json`
+#' @param token  `character` jeton d'accès pour authentification auprès de l'API
 #' @param ... httr options; arguments de la fonction `httr::GET()`
 #' @return
 #' Retourne un objet de type `list` contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est `getSuccess` ou `getError`. Une réponse de classe `getSuccess` est une liste à deux niveaux composé du contenu (`body`), et la réponse [httr::response]. Une réponse de classe `getError` dispose de la même structure mais ne contiendra pas de body, seulement la réponse de l'API.
@@ -17,7 +18,7 @@
 #' class(resp[[1]])
 #' @export
 
-get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, output = 'data.frame',...) {
+get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, output = 'data.frame', token = bearer(),...) {
 
   stopifnot(exists("endpoint"))
 
@@ -28,7 +29,7 @@ get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, output = 'dat
 
   # Premier appel pour avoir le nombre de page
   resp <- httr::GET(url, config = httr::add_headers(`Content-type` = "application/json",
-    Authorization = paste("Bearer", bearer())),ua, query = query, ...)
+    Authorization = paste("Bearer", token)),ua, query = query, ...)
   
   # On prépare la liste pour le renvoi de la fonction
   responses <- list()
@@ -55,7 +56,7 @@ get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, output = 'dat
     query$page <- page
 
     resp <- httr::GET(url, config = httr::add_headers(`Content-type` = "application/json",
-      Authorization = paste("Bearer", bearer())), ua, query = query, ...)
+      Authorization = paste("Bearer", token)), ua, query = query, ...)
 
     if (httr::http_type(resp) != "application/json") {
       stop("L'API n'a pas retourné un JSON", call. = FALSE)

@@ -5,7 +5,7 @@
 \title{Fonction générique pour retirer de l'information depuis l'API de Coléo}
 \usage{
 get_gen(endpoint = NULL, query = NULL, flatten = TRUE,
-  output = "data.frame", ...)
+  output = "data.frame", token = bearer(), ...)
 }
 \arguments{
 \item{endpoint}{\code{character} désignant le point d'entrée pour le retrait des données. Un point d'entrée peut être vu comme une table de la base de données.}
@@ -16,7 +16,11 @@ get_gen(endpoint = NULL, query = NULL, flatten = TRUE,
 
 \item{output}{\code{character} choix du type d'objet retourné: \code{data.frame}, \code{list}, \code{json}}
 
+\item{token}{\code{character} jeton d'accès}
+
 \item{...}{httr options; arguments de la fonction \code{httr::GET()}}
+
+\item{token}{\code{character} jeton d'accès pour authentification auprès de l'API}
 }
 \value{
 Retourne un objet de type \code{list} contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est \code{getSuccess} ou \code{getError}. Une réponse de classe \code{getSuccess} est une liste à deux niveaux composé du contenu (\code{body}), et la réponse \link[httr:response]{httr::response}. Une réponse de classe \code{getError} dispose de la même structure mais ne contiendra pas de body, seulement la réponse de l'API.
