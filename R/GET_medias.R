@@ -1,24 +1,23 @@
-#' Retourne l'ensemble des médias appartenant à une campagnes
+#' Téléverse l'ensemble des médias appartenant à une campagnes
 #'
 #' @param site_code `character` vecteur contenant les codes de sites pour lesquelles ont désire récupérer les campagnes (ex. 134_111_F01)
 #' @param opened_at `character` vecteur contenant les dates de début de campagnes (ex. 2017-01-30)
 #' @param closed_at `character` vecteur contenant les dates de fin de campagnes (ex. 2017-01-30)
 #' @param type `character` vecteur contenant le type de campagnes d'inventaires réalisé (ex. végétation)
-#' @param output_dir `character` contenant le chemin d'accès vers le répetoire d'écriture des médias
-#' @param verbose `logical` mode verbose
 #' @inheritParams get_gen
 #' @return
 #' Sauvegarde les images/sons attachés aux campagnes à une emplacement définit par l'utilisateur
 #' @examples
 #' \dontrun{
+#' list_media(site_code="141_108_F01", type="mammifères")
 #' Par exemple, on veut obtenir toutes les photos prises dans le cadre d'une campagne sur le site 141_108_F01 et portant sur les mammifères 
 #' get_media(site_code="141_108_F01", type="mammifères")
 #' }
 #' @export
 
-get_medias <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, type = NULL, output_dir = "./media", verbose = TRUE, ...) {
 
-  # Preparation de l'objet de sortie
+list_medias <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, type = NULL, ...){
+# Preparation de l'objet de sortie
   responses <- list()
   class(responses) <- "coleoGetResp"
 
@@ -38,34 +37,53 @@ get_medias <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, typ
     } 
 
     media <- as.data.frame(responses)
-    media$uri <- paste0("/media/",media$type,"/",media$uuid,"/original")
 
     # On regarde si la campagne contient des médias
     if(nrow(media) == 0){
       stop("Aucun média attaché à ces campagnes")
     }
 
-    # On créer le répertoire de sortie, s'il n'existe pas
-    dir.create(output_dir)
+    media$uri <- paste0("/media/",media$type,"/",media$uuid,"/original")
 
-    # Mieux gérer la progress bar
-    # Vérifier si bug dans les chemins avec Windows
-    for(m in 1:nrow(media)){
-      if(verbose){
-        cat("Téléversement de", m ,"/",nrow(media), "\n")
-        cat("Fichier:", media$name[m], "\n")
-        cat("Type:", media$type[m], "\n")
-      }
-      httr::GET(
-      url = paste0(server(),media$uri[m]), 
-      config = httr::add_headers(Authorization = paste("Bearer", bearer())), 
-      ua, httr::write_disk(paste0(output_dir,"/",media$name[m],media$og_extention[m]), overwrite=TRUE)
-      )
-    }
+    return(media)
 
   }
-
-
-  return(responses)
-
 }
+
+#' Télécharge l'ensemble des médias appartenant à une campagnes
+#'
+#' @param output_dir `character` contenant le chemin d'accès vers le répetoire d'écriture des médias
+#' @param verbose `logical` mode verbose
+#' @inheritParams list_medias
+#' @return
+#' Sauvegarde les images/sons attachés aux campagnes à une emplacement définit par l'utilisateur
+#' @examples
+#' \dontrun{
+#' Par exemple, on veut obtenir toutes les photos prises dans le cadre d'une campagne sur le site 141_108_F01 et portant sur les mammifères 
+#' get_media(site_code="141_108_F01", type="mammifères")
+#' }
+#' @export
+
+get_medias <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, type = NULL, output_dir = "./media", verbose = TRUE, ...) {
+
+  media <- list_medias(site_code, opened_at, closed_at, type)
+
+  # On créer le répertoire de sortie, s'il n'existe pas
+  dir.create(output_dir)
+
+  # Mieux gérer la progress bar
+  # Vérifier si bug dans les chemins avec Windows
+  for(m in 1:nrow(media)){
+    if(verbose){
+      cat("Téléversement de", m ,"/",nrow(media), "\n")
+      cat("Fichier:", media$name[m], "\n")
+      cat("Type:", media$type[m], "\n")
+    }
+    httr::GET(
+    url = paste0(server(),media$uri[m]), 
+    config = httr::add_headers(Authorization = paste("Bearer", bearer())), 
+    ua, httr::write_disk(paste0(output_dir,"/",media$name[m],media$og_extention[m]), overwrite=TRUE)
+    )
+  }
+}
+
