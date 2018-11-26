@@ -180,77 +180,10 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>head</span>(<span class='fu'>get_campaigns</span>())</div><div class='output co'>#&gt; [[1]]
-#&gt; [[1]][[1]]
-#&gt; $body
-#&gt; # A tibble: 80 x 34
-#&gt;       id site_id type    technicians opened_at  closed_at notes created_at     
-#&gt;  * &lt;int&gt;   &lt;int&gt; &lt;chr&gt;   &lt;list&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;lgl&gt; &lt;chr&gt;          
-#&gt;  1     1       1 végéta… &lt;chr [2]&gt;   2016-06-23 2016-06-… NA    2018-11-07T18:…
-#&gt;  2     2       2 végéta… &lt;chr [2]&gt;   2016-05-20 2016-07-… NA    2018-11-07T18:…
-#&gt;  3     3       3 végéta… &lt;chr [3]&gt;   2016-05-17 2016-07-… NA    2018-11-07T18:…
-#&gt;  4     4       4 végéta… &lt;chr [2]&gt;   2016-07-11 2016-07-… NA    2018-11-07T18:…
-#&gt;  5     5       5 végéta… &lt;chr [2]&gt;   2016-06-21 2016-06-… NA    2018-11-07T18:…
-#&gt;  6     6       6 végéta… &lt;chr [2]&gt;   2016-06-14 2016-07-… NA    2018-11-07T18:…
-#&gt;  7     7       7 végéta… &lt;chr [2]&gt;   2016-05-26 2016-07-… NA    2018-11-07T18:…
-#&gt;  8     8       8 végéta… &lt;chr [2]&gt;   2016-07-05 2016-07-… NA    2018-11-07T18:…
-#&gt;  9     9       9 végéta… &lt;chr [2]&gt;   2016-06-03 2016-07-… NA    2018-11-07T18:…
-#&gt; 10    10      10 végéta… &lt;chr [2]&gt;   2016-06-28 2016-06-… NA    2018-11-07T18:…
-#&gt; # ... with 70 more rows, and 26 more variables: updated_at &lt;chr&gt;,
-#&gt; #   efforts &lt;list&gt;, lures &lt;list&gt;, landmarks &lt;list&gt;, traps &lt;list&gt;,
-#&gt; #   environment.id &lt;int&gt;, environment.campaign_id &lt;int&gt;,
-#&gt; #   environment.wind &lt;chr&gt;, environment.sky &lt;chr&gt;, environment.temp_c &lt;int&gt;,
-#&gt; #   environment.notes &lt;lgl&gt;, environment.created_at &lt;chr&gt;,
-#&gt; #   environment.updated_at &lt;chr&gt;, device.id &lt;int&gt;, device.sd_card_codes &lt;list&gt;,
-#&gt; #   device.cam_code &lt;chr&gt;, device.cam_h_cm &lt;int&gt;, device.mic_logger_code &lt;lgl&gt;,
-#&gt; #   device.mic_acc_code &lt;lgl&gt;, device.mic_h_cm_acc &lt;lgl&gt;,
-#&gt; #   device.mic_ultra_code &lt;lgl&gt;, device.mic_h_cm_ultra &lt;lgl&gt;,
-#&gt; #   device.mic_orientation_mic &lt;lgl&gt;, device.created_at &lt;chr&gt;,
-#&gt; #   device.updated_at &lt;chr&gt;, device.campaign_id &lt;int&gt;
-#&gt; 
-#&gt; $response
-#&gt; Response [https://coleo.biodiversite-quebec.ca/api/v1/campaigns?page=0]
-#&gt;   Date: 2018-11-23 15:37
-#&gt;   Status: 200
-#&gt;   Content-Type: application/json; charset=utf-8
-#&gt;   Size: 90.1 kB
-#&gt; 
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "getSuccess"
-#&gt; 
-#&gt; </div><div class='input'><span class='fu'>head</span>(<span class='fu'>get_campaigns</span>(<span class='kw'>type</span><span class='kw'>=</span><span class='st'>"végétation"</span>))</div><div class='output co'>#&gt; [[1]]
-#&gt; [[1]][[1]]
-#&gt; $body
-#&gt; # A tibble: 26 x 15
-#&gt;       id site_id type    technicians opened_at  closed_at notes created_at     
-#&gt;  * &lt;int&gt;   &lt;int&gt; &lt;chr&gt;   &lt;list&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;lgl&gt; &lt;chr&gt;          
-#&gt;  1     1       1 végéta… &lt;chr [2]&gt;   2016-06-23 2016-06-… NA    2018-11-07T18:…
-#&gt;  2     2       2 végéta… &lt;chr [2]&gt;   2016-05-20 2016-07-… NA    2018-11-07T18:…
-#&gt;  3     3       3 végéta… &lt;chr [3]&gt;   2016-05-17 2016-07-… NA    2018-11-07T18:…
-#&gt;  4     4       4 végéta… &lt;chr [2]&gt;   2016-07-11 2016-07-… NA    2018-11-07T18:…
-#&gt;  5     5       5 végéta… &lt;chr [2]&gt;   2016-06-21 2016-06-… NA    2018-11-07T18:…
-#&gt;  6     6       6 végéta… &lt;chr [2]&gt;   2016-06-14 2016-07-… NA    2018-11-07T18:…
-#&gt;  7     7       7 végéta… &lt;chr [2]&gt;   2016-05-26 2016-07-… NA    2018-11-07T18:…
-#&gt;  8     8       8 végéta… &lt;chr [2]&gt;   2016-07-05 2016-07-… NA    2018-11-07T18:…
-#&gt;  9     9       9 végéta… &lt;chr [2]&gt;   2016-06-03 2016-07-… NA    2018-11-07T18:…
-#&gt; 10    10      10 végéta… &lt;chr [2]&gt;   2016-06-28 2016-06-… NA    2018-11-07T18:…
-#&gt; # ... with 16 more rows, and 7 more variables: updated_at &lt;chr&gt;,
-#&gt; #   efforts &lt;list&gt;, environment &lt;lgl&gt;, device &lt;lgl&gt;, lures &lt;list&gt;,
-#&gt; #   landmarks &lt;list&gt;, traps &lt;list&gt;
-#&gt; 
-#&gt; $response
-#&gt; Response [https://coleo.biodiversite-quebec.ca/api/v1/campaigns?type=v%C3%A9g%C3%A9tation&amp;page=0]
-#&gt;   Date: 2018-11-23 15:37
-#&gt;   Status: 200
-#&gt;   Content-Type: application/json; charset=utf-8
-#&gt;   Size: 32.3 kB
-#&gt; 
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "getSuccess"
-#&gt; 
-#&gt; </div></pre>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>get_campaigns</span>()
+<span class='fu'>get_campaigns</span>(<span class='kw'>type</span><span class='kw'>=</span><span class='st'>"végétation"</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

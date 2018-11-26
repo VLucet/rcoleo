@@ -25,5 +25,8 @@ Retourne une objet de type \code{list} contenant les réponses de l'API. Chaque 
 Retourne les entrées présents dans la table observation
 }
 \examples{
-head(get_obs(type="végétation"))
+\dontrun{
+get_obs()
+get_obs(type = 'mamifères')
+} 
 }

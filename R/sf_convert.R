@@ -4,8 +4,9 @@
 #' @return
 #' Retourne un objet de la classe `sf::st_sf`
 #' @examples
-#' resp <- get_sites()
-#' plot(cl_to_sf(resp))
+#' \dontrun{
+#' plot(cl_to_sf(get_sites()))
+#' } 
 #' @details L'objet d'entrée doit contenir les colonnes `geom.type` & `geom.coordinates`
 #' @seealso [sf_cells()], [sf_sites()]
 #' @export

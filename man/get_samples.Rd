@@ -18,6 +18,8 @@ Retourne une objet de type \code{list} contenant les réponses de l'API. Chaque 
 Retourne les entrées pour les échantillons présents dans la base de données
 }
 \examples{
+\dontrun{
 get_samples(trap_code=c('2016-0026'))
-head(get_samples())
+get_samples()
+} 
 }

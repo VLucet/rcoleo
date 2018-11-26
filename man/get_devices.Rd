@@ -18,5 +18,7 @@ Retourne une objet de type \code{list} contenant les réponses de l'API. Chaque 
 Retourne les entrées pour la liste de matériel présents dans la base de données
 }
 \examples{
-head(get_devices())
+\dontrun{
+get_devices()
+} 
 }

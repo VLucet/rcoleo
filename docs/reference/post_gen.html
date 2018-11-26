@@ -150,7 +150,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>post_gen</span>(<span class='no'>endpoint</span>, <span class='no'>singleton</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>post_gen</span>(<span class='no'>endpoint</span>, <span class='no'>singleton</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>bearer</span>(), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,6 +162,10 @@
     <tr>
       <th>singleton</th>
       <td><p>Données à injecter à l'intérieur de la base de données.</p></td>
+    </tr>
+    <tr>
+      <th>token</th>
+      <td><p><code>character</code> jeton d'accès pour authentification auprès de l'API</p></td>
     </tr>
     <tr>
       <th>...</th>

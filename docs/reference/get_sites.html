@@ -171,64 +171,10 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_sites</span>(<span class='kw'>site_code</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>'135_104_H01'</span>))</div><div class='output co'>#&gt; [[1]]
-#&gt; [[1]][[1]]
-#&gt; $body
-#&gt; # A tibble: 1 x 19
-#&gt;      id cell_id off_station_code… site_code  type  opened_at notes created_at  
-#&gt; * &lt;int&gt;   &lt;int&gt; &lt;lgl&gt;             &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;     &lt;lgl&gt; &lt;chr&gt;       
-#&gt; 1     1     134 NA                135_104_H… mara… 2016-06-… NA    2018-11-07T…
-#&gt; # ... with 11 more variables: updated_at &lt;chr&gt;, campaigns &lt;list&gt;,
-#&gt; #   geom.type &lt;chr&gt;, geom.coordinates &lt;list&gt;, cell.id &lt;int&gt;, cell.name &lt;chr&gt;,
-#&gt; #   cell.cell_code &lt;chr&gt;, cell.created_at &lt;chr&gt;, cell.updated_at &lt;chr&gt;,
-#&gt; #   cell.geom.type &lt;chr&gt;, cell.geom.coordinates &lt;list&gt;
-#&gt; 
-#&gt; $response
-#&gt; Response [https://coleo.biodiversite-quebec.ca/api/v1/sites?site_code=135_104_H01&amp;page=0]
-#&gt;   Date: 2018-11-23 15:38
-#&gt;   Status: 200
-#&gt;   Content-Type: application/json; charset=utf-8
-#&gt;   Size: 1.32 kB
-#&gt; 
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "getSuccess"
-#&gt; 
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "coleoGetResp"</div><div class='input'><span class='fu'>head</span>(<span class='fu'>get_sites</span>())</div><div class='output co'>#&gt; [[1]]
-#&gt; [[1]][[1]]
-#&gt; $body
-#&gt; # A tibble: 30 x 19
-#&gt;       id cell_id off_station_code… site_code  type  opened_at notes created_at 
-#&gt;  * &lt;int&gt;   &lt;int&gt; &lt;chr&gt;             &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;     &lt;lgl&gt; &lt;chr&gt;      
-#&gt;  1    10     119 &lt;NA&gt;              132_116_H… tour… 2016-06-… NA    2018-11-07…
-#&gt;  2     9     119 48137116-1        132_116_F… fore… 2016-06-… NA    2018-11-07…
-#&gt;  3     2     134 46487218-2        135_104_F… fore… 2016-05-… NA    2018-11-07…
-#&gt;  4     1     134 &lt;NA&gt;              135_104_H… mara… 2016-06-… NA    2018-11-07…
-#&gt;  5    70     141 &lt;NA&gt;              136_116_F… fore… 2017-06-… NA    2018-11-18…
-#&gt;  6    34     141 &lt;NA&gt;              136_116_H… tour… 2017-07-… NA    2018-11-07…
-#&gt;  7    26     141 &lt;NA&gt;              136_116_T… toun… 2017-07-… NA    2018-11-07…
-#&gt;  8    25     149 46577142-1        137_107_F… fore… 2017-05-… NA    2018-11-07…
-#&gt;  9    13     149 &lt;NA&gt;              137_107_H… mara… 2017-06-… NA    2018-11-07…
-#&gt; 10    12     149 &lt;NA&gt;              137_107_H… mara… 2017-06-… NA    2018-11-07…
-#&gt; # ... with 20 more rows, and 11 more variables: updated_at &lt;chr&gt;,
-#&gt; #   campaigns &lt;list&gt;, geom.type &lt;chr&gt;, geom.coordinates &lt;list&gt;, cell.id &lt;int&gt;,
-#&gt; #   cell.name &lt;chr&gt;, cell.cell_code &lt;chr&gt;, cell.created_at &lt;chr&gt;,
-#&gt; #   cell.updated_at &lt;chr&gt;, cell.geom.type &lt;chr&gt;, cell.geom.coordinates &lt;list&gt;
-#&gt; 
-#&gt; $response
-#&gt; Response [https://coleo.biodiversite-quebec.ca/api/v1/sites?page=0]
-#&gt;   Date: 2018-11-23 15:38
-#&gt;   Status: 200
-#&gt;   Content-Type: application/json; charset=utf-8
-#&gt;   Size: 36.3 kB
-#&gt; 
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "getSuccess"
-#&gt; 
-#&gt; </div></pre>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>get_sites</span>(<span class='kw'>site_code</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>'135_104_H01'</span>))
+<span class='fu'>head</span>(<span class='fu'>get_sites</span>())
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

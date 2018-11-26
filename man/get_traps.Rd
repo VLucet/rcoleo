@@ -20,6 +20,8 @@ Retourne une objet de type \code{list} contenant les réponses de l'API. Chaque 
 Retourne les entrées pour les pièges présents dans la base de données
 }
 \examples{
+\dontrun{
 get_traps(trap_code=c('MP-22'))
 head(get_traps())
+} 
 }

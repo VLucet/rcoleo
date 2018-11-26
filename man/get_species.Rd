@@ -22,6 +22,8 @@ Retourne une objet de type \code{list} contenant les réponses de l'API. Chaque 
 Retourne les entrées d'espèces présentes dans la base de données
 }
 \examples{
+\dontrun{
 get_species(vernacular_fr=c('Érable'))
 head(get_species())
+} 
 }

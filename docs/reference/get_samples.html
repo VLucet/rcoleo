@@ -171,67 +171,10 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_samples</span>(<span class='kw'>trap_code</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>'2016-0026'</span>))</div><div class='output co'>#&gt; [[1]]
-#&gt; [[1]][[1]]
-#&gt; $body
-#&gt; # A tibble: 81 x 7
-#&gt;       id sample_code date_samp  trap_id notes created_at       updated_at      
-#&gt;  * &lt;int&gt; &lt;chr&gt;       &lt;chr&gt;        &lt;int&gt; &lt;lgl&gt; &lt;chr&gt;            &lt;chr&gt;           
-#&gt;  1     1 2016-0007   2016-06-10       1 NA    2018-11-07T18:5… 2018-11-07T18:5…
-#&gt;  2     2 2016-0013   2016-06-28       2 NA    2018-11-07T18:5… 2018-11-07T18:5…
-#&gt;  3     3 2016-0019   2016-06-20       3 NA    2018-11-07T18:5… 2018-11-07T18:5…
-#&gt;  4     4 2016-0025   2016-07-11       4 NA    2018-11-07T18:5… 2018-11-07T18:5…
-#&gt;  5     5 2016-0001   2016-06-21       5 NA    2018-11-07T18:5… 2018-11-07T18:5…
-#&gt;  6     6 2017-0037   2017-07-28      11 NA    2018-11-07T18:5… 2018-11-07T18:5…
-#&gt;  7     7 2017-0043   2017-07-11       6 NA    2018-11-07T18:5… 2018-11-07T18:5…
-#&gt;  8     8 2017-0025   2017-06-15      12 NA    2018-11-07T18:5… 2018-11-07T18:5…
-#&gt;  9     9 2017-0019   2017-06-20       7 NA    2018-11-07T18:5… 2018-11-07T18:5…
-#&gt; 10    10 2017-0013   2017-06-14      13 NA    2018-11-07T18:5… 2018-11-07T18:5…
-#&gt; # ... with 71 more rows
-#&gt; 
-#&gt; $response
-#&gt; Response [https://coleo.biodiversite-quebec.ca/api/v1/samples?page=0]
-#&gt;   Date: 2018-11-23 15:38
-#&gt;   Status: 200
-#&gt;   Content-Type: application/json; charset=utf-8
-#&gt;   Size: 13.5 kB
-#&gt; 
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "getSuccess"
-#&gt; 
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "coleoGetResp"</div><div class='input'><span class='fu'>head</span>(<span class='fu'>get_samples</span>())</div><div class='output co'>#&gt; [[1]]
-#&gt; [[1]][[1]]
-#&gt; $body
-#&gt; # A tibble: 81 x 7
-#&gt;       id sample_code date_samp  trap_id notes created_at       updated_at      
-#&gt;  * &lt;int&gt; &lt;chr&gt;       &lt;chr&gt;        &lt;int&gt; &lt;lgl&gt; &lt;chr&gt;            &lt;chr&gt;           
-#&gt;  1     1 2016-0007   2016-06-10       1 NA    2018-11-07T18:5… 2018-11-07T18:5…
-#&gt;  2     2 2016-0013   2016-06-28       2 NA    2018-11-07T18:5… 2018-11-07T18:5…
-#&gt;  3     3 2016-0019   2016-06-20       3 NA    2018-11-07T18:5… 2018-11-07T18:5…
-#&gt;  4     4 2016-0025   2016-07-11       4 NA    2018-11-07T18:5… 2018-11-07T18:5…
-#&gt;  5     5 2016-0001   2016-06-21       5 NA    2018-11-07T18:5… 2018-11-07T18:5…
-#&gt;  6     6 2017-0037   2017-07-28      11 NA    2018-11-07T18:5… 2018-11-07T18:5…
-#&gt;  7     7 2017-0043   2017-07-11       6 NA    2018-11-07T18:5… 2018-11-07T18:5…
-#&gt;  8     8 2017-0025   2017-06-15      12 NA    2018-11-07T18:5… 2018-11-07T18:5…
-#&gt;  9     9 2017-0019   2017-06-20       7 NA    2018-11-07T18:5… 2018-11-07T18:5…
-#&gt; 10    10 2017-0013   2017-06-14      13 NA    2018-11-07T18:5… 2018-11-07T18:5…
-#&gt; # ... with 71 more rows
-#&gt; 
-#&gt; $response
-#&gt; Response [https://coleo.biodiversite-quebec.ca/api/v1/samples?page=0]
-#&gt;   Date: 2018-11-23 15:38
-#&gt;   Status: 200
-#&gt;   Content-Type: application/json; charset=utf-8
-#&gt;   Size: 13.5 kB
-#&gt; 
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "getSuccess"
-#&gt; 
-#&gt; </div></pre>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>get_samples</span>(<span class='kw'>trap_code</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>'2016-0026'</span>))
+<span class='fu'>get_samples</span>()
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

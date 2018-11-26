@@ -22,6 +22,8 @@ get_campaigns(site_code = NULL, opened_at = NULL, closed_at = NULL,
 Obtenir l'ensemble des campagnes attachées à un site
 }
 \examples{
-head(get_campaigns())
-head(get_campaigns(type="végétation"))
+\dontrun{
+get_campaigns()
+get_campaigns(type="végétation")
+} 
 }

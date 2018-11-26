@@ -18,5 +18,7 @@ Retourne une objet de type \code{list} contenant les réponses de l'API. Chaque 
 Retourne les entrées pour les leurres utilisées dans le cadre d'une campagne présents dans la base de données
 }
 \examples{
-head(get_lures())
+\dontrun{
+get_lures()
+} 
 }

@@ -20,6 +20,8 @@ Retourne une objet de type \code{list} contenant les réponses de l'API. Chaque 
 Obtenir les informations sur les cellules depuis l'API de coleo
 }
 \examples{
+\dontrun{
 get_cells(cell_code=c('111_91'))
-head(get_cells())
+get_cells()
+} 
 }

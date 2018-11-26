@@ -25,8 +25,9 @@ Fonction générique pour convertir les sorties de l'API en objet de classe spat
 L'objet d'entrée doit contenir les colonnes \code{geom.type} & \code{geom.coordinates}
 }
 \examples{
-resp <- get_sites()
-plot(cl_to_sf(resp))
+\dontrun{
+plot(cl_to_sf(get_sites()))
+} 
 }
 \seealso{
 \code{\link[=sf_cells]{sf_cells()}}, \code{\link[=sf_sites]{sf_sites()}}

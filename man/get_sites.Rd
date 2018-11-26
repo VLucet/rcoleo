@@ -18,6 +18,8 @@ Retourne une objet de type \code{list} contenant les réponses de l'API. Chaque 
 Obtenir les informations sur les sites depuis l'API de coleo
 }
 \examples{
+\dontrun{
 get_sites(site_code=c('135_104_H01'))
 head(get_sites())
+} 
 }
