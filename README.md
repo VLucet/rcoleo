@@ -17,17 +17,34 @@ Ce paquet R expose les services `RESTFull` de l'API de Coléo. Colée est un sys
 devtools::install_github("TheoreticalEcosystemEcology/rcoleo")
 ```
 
-## Mettre en cache votre jeton d'accès
+## S'authentifier auprès de l'API
 
-Pour obtenir votre jeton d'accès, veuillez vous authentifier sur le portail coleo, votre jeton d'accès sera affiché dans la section profile [http://coleo.quebec-biodiversite.ca/portail](http://coleo.quebec-biodiversite.ca/portail)
+### Stratégie 1
 
-Il est fortement recommandé de mettre en cache se jeton d'accès afin de s'assurer qu'il ne soit pas visible ou transmis avec votre code à un autre utilisateur. Ce jeton d'accès est unique et révocable.
+#### Mettre en cache votre jeton d'accès dans un fichier `.rds`
+
+Il est **fortement recommandé** de mettre en cache votre jeton d'accès afin de s'assurer qu'il ne soit pas visible ou transmis avec votre code à un autre utilisateur. Ce jeton d'accès est unique et révocable. 
+
+Pour cela, il vous suffit simplement d'enregistrer le jeton d'accès directement dans à la racine de votre répertoire/projet R utilisant la librairie `rcoleo`.
 
 ```r
-bearer <- "7f8df438e1be96a18436e9dab5d97d68ed0e0441d9b68f59e0ce631b2919f3aa"
+getwd()
+saveRDS(".httr-oauth","7f8df438e1be96a18436e9dab5d97d68ed0e0441d9b68f59e0ce631b2919f3aa")
 ```
 
 *Le jeton d'accès est un exemple ici et n'est aucunement valide.*
+
+
+### Stratégie 2
+
+Vous pouvez également passer votre jeton d'accès comme un argument: 
+
+```r
+sites <- get_sites(token="7f8df438e1be96a18436e9dab5d97d68ed0e0441d9b68f59e0ce631b2919f3aa")
+```
+
+*Le jeton d'accès est un exemple ici et n'est aucunement valide.*
+
 
 ### Roadmap to 2.0.0
 
