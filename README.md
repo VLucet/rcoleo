@@ -23,7 +23,7 @@ devtools::install_github("TheoreticalEcosystemEcology/rcoleo")
 
 Il est **fortement recommandé** de mettre en cache votre jeton d'accès (jeton d'accès stocké dans un fichier `rds`) afin de s'assurer qu'il ne soit pas visible ou transmis avec votre code à un autre utilisateur. Ce jeton d'accès est unique et révocable. 
 
-Pour cela, il vous suffit simplement d'enregistrer le jeton d'accès directement dans à la racine de votre répertoire/projet R utilisant la librairie `rcoleo`.
+Pour cela, il vous suffit simplement d'enregistrer le jeton d'accès directement dans votre répertoire/projet R utilisant la librairie `rcoleo`.
 
 ```r
 getwd()
@@ -32,7 +32,7 @@ saveRDS(".httr-oauth","7f8df438e1be96a18436e9dab5d97d68ed0e0441d9b68f59e0ce631b2
 
 *Le jeton d'accès est un exemple ici et n'est aucunement valide.*
 
-### Stratégie 2: Argument
+### Stratégie 2: Argument 
 
 Vous pouvez également passer votre jeton d'accès comme un argument pour chacune des fonctions `GET`: 
 

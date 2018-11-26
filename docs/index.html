@@ -122,7 +122,7 @@
 <h3 class="hasAnchor">
 <a href="#strategie-1-mise-en-cache" class="anchor"></a>Stratégie 1: Mise en cache</h3>
 <p>Il est <strong>fortement recommandé</strong> de mettre en cache votre jeton d’accès (jeton d’accès stocké dans un fichier <code>rds</code>) afin de s’assurer qu’il ne soit pas visible ou transmis avec votre code à un autre utilisateur. Ce jeton d’accès est unique et révocable.</p>
-<p>Pour cela, il vous suffit simplement d’enregistrer le jeton d’accès directement dans à la racine de votre répertoire/projet R utilisant la librairie <code>rcoleo</code>.</p>
+<p>Pour cela, il vous suffit simplement d’enregistrer le jeton d’accès directement dans votre répertoire/projet R utilisant la librairie <code>rcoleo</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getwd</span>()
 <span class="kw">saveRDS</span>(<span class="st">".httr-oauth"</span>,<span class="st">"7f8df438e1be96a18436e9dab5d97d68ed0e0441d9b68f59e0ce631b2919f3aa"</span>)</code></pre></div>
 <p><em>Le jeton d’accès est un exemple ici et n’est aucunement valide.</em></p>
