@@ -82,7 +82,7 @@ get_medias <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, typ
     httr::GET(
     url = paste0(server(),media$uri[m]), 
     config = httr::add_headers(Authorization = paste("Bearer", bearer())), 
-    ua, httr::write_disk(paste0(output_dir,"/",media$name[m],media$og_extention[m]), overwrite=TRUE)
+    ua, httr::write_disk(normalizePath(paste0(output_dir,"/",media$name[m],media$og_extention[m]), winslash = "\\", mustWork = TRUE), overwrite=TRUE)
     )
   }
 }
