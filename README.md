@@ -29,12 +29,7 @@ bearer <- "7f8df438e1be96a18436e9dab5d97d68ed0e0441d9b68f59e0ce631b2919f3aa"
 
 *Le jeton d'accès est un exemple ici et n'est aucunement valide.*
 
-### Roadmap to 1.1.0
-
-- [ ] Get medias from a campaigns
-- [ ] Export shapefiles
-- [ ] Export DwC-A
-
 ### Roadmap to 2.0.0
 
 - [ ] Use the login page to stored the token
+- [ ] Export DwC-A
