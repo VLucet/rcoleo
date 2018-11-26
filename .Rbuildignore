@@ -3,3 +3,5 @@
 extdata/
 ^_pkgdown\.yml$
 ^docs$
+^appveyor\.yml$
+^\.travis\.yml$

@@ -1,6 +1,8 @@
 # Documentation du paquet `rcoleo` <img src="man/figures/logo.svg" width="130" height="150" align="right"/>
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/TheoreticalEcosystemEcology/rcoleo?branch=master&svg=true)](https://ci.appveyor.com/project/TheoreticalEcosystemEcology/rcoleo)
+[![Travis-CI Build Status](https://travis-ci.org/TheoreticalEcosystemEcology/rcoleo.svg?branch=master)](https://travis-ci.org/TheoreticalEcosystemEcology/rcoleo)
 
 `rcoleo` un paquet R permettant le retrait et l'analyse des données collectées dans le cadre du programme de suivi de la biodiversité (BdQc).
 
