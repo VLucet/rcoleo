@@ -115,13 +115,25 @@
 </h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools::<span class="kw">install_github</span>(<span class="st">"TheoreticalEcosystemEcology/rcoleo"</span>)</code></pre></div>
 </div>
-<div id="mettre-en-cache-votre-jeton-dacces" class="section level2">
+<div id="sauthentifier-aupres-de-lapi" class="section level2">
 <h2 class="hasAnchor">
-<a href="#mettre-en-cache-votre-jeton-dacces" class="anchor"></a>Mettre en cache votre jeton d’accès</h2>
-<p>Pour obtenir votre jeton d’accès, veuillez vous authentifier sur le portail coleo, votre jeton d’accès sera affiché dans la section profile <a href="http://coleo.quebec-biodiversite.ca/portail" class="uri">http://coleo.quebec-biodiversite.ca/portail</a></p>
-<p>Il est fortement recommandé de mettre en cache se jeton d’accès afin de s’assurer qu’il ne soit pas visible ou transmis avec votre code à un autre utilisateur. Ce jeton d’accès est unique et révocable.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bearer &lt;-<span class="st"> "7f8df438e1be96a18436e9dab5d97d68ed0e0441d9b68f59e0ce631b2919f3aa"</span></code></pre></div>
+<a href="#sauthentifier-aupres-de-lapi" class="anchor"></a>S’authentifier auprès de l’API</h2>
+<div id="strategie-1-mise-en-cache" class="section level3">
+<h3 class="hasAnchor">
+<a href="#strategie-1-mise-en-cache" class="anchor"></a>Stratégie 1: Mise en cache</h3>
+<p>Il est <strong>fortement recommandé</strong> de mettre en cache votre jeton d’accès (jeton d’accès stocké dans un fichier <code>rds</code>) afin de s’assurer qu’il ne soit pas visible ou transmis avec votre code à un autre utilisateur. Ce jeton d’accès est unique et révocable.</p>
+<p>Pour cela, il vous suffit simplement d’enregistrer le jeton d’accès directement dans à la racine de votre répertoire/projet R utilisant la librairie <code>rcoleo</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getwd</span>()
+<span class="kw">saveRDS</span>(<span class="st">".httr-oauth"</span>,<span class="st">"7f8df438e1be96a18436e9dab5d97d68ed0e0441d9b68f59e0ce631b2919f3aa"</span>)</code></pre></div>
 <p><em>Le jeton d’accès est un exemple ici et n’est aucunement valide.</em></p>
+</div>
+<div id="strategie-2-argument" class="section level3">
+<h3 class="hasAnchor">
+<a href="#strategie-2-argument" class="anchor"></a>Stratégie 2: Argument</h3>
+<p>Vous pouvez également passer votre jeton d’accès comme un argument pour chacune des fonctions <code>GET</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sites &lt;-<span class="st"> </span><span class="kw"><a href="reference/get_sites.html">get_sites</a></span>(<span class="dt">token=</span><span class="st">"7f8df438e1be96a18436e9dab5d97d68ed0e0441d9b68f59e0ce631b2919f3aa"</span>)</code></pre></div>
+<p><em>Le jeton d’accès est un exemple ici et n’est aucunement valide.</em></p>
+</div>
 <div id="roadmap-to-2-0-0" class="section level3">
 <h3 class="hasAnchor">
 <a href="#roadmap-to-2-0-0" class="anchor"></a>Roadmap to 2.0.0</h3>
