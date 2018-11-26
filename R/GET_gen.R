@@ -1,7 +1,6 @@
 #' Fonction générique pour retirer de l'information depuis l'API de Coléo
 #'
 #' @param endpoint `character` désignant le point d'entrée pour le retrait des données. Un point d'entrée peut être vu comme une table de la base de données.
-#' @param token `character` jeton d'accès 
 #' @param query `list` de paramètres à passer avec l'appel sur le endpoint.
 #' @param flatten `logical` aplatir automatiquement un data.frame imbriqués dans un seul `data.frame` (obsolete si l'objet retourné n'est pas un data.frame)
 #' @param output `character` choix du type d'objet retourné: `data.frame`, `list`, `json`
