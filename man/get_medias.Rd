@@ -5,7 +5,7 @@
 \title{Retourne l'ensemble des médias appartenant à une campagnes}
 \usage{
 get_medias(site_code = NULL, opened_at = NULL, closed_at = NULL,
-  type = NULL, output_dir = "./media", ...)
+  type = NULL, output_dir = "./media", verbose = TRUE, ...)
 }
 \arguments{
 \item{site_code}{\code{character} vecteur contenant les codes de sites pour lesquelles ont désire récupérer les campagnes (ex. 134_111_F01)}
@@ -18,9 +18,9 @@ get_medias(site_code = NULL, opened_at = NULL, closed_at = NULL,
 
 \item{output_dir}{\code{character} contenant le chemin d'accès vers le répetoire d'écriture des médias}
 
-\item{...}{httr options; arguments de la fonction \code{httr::GET()}}
+\item{verbose}{\code{logical} mode verbose}
 
-\item{output_dir}{\code{character} contenant le chemin d'accès vers le répetoire d'écriture des médias}
+\item{...}{httr options; arguments de la fonction \code{httr::GET()}}
 }
 \value{
 Sauvegarde les images/sons attachés aux campagnes à une emplacement définit par l'utilisateur

@@ -5,7 +5,7 @@
 #' @param closed_at `character` vecteur contenant les dates de fin de campagnes (ex. 2017-01-30)
 #' @param type `character` vecteur contenant le type de campagnes d'inventaires réalisé (ex. végétation)
 #' @param output_dir `character` contenant le chemin d'accès vers le répetoire d'écriture des médias
-#' @param output_dir `character` contenant le chemin d'accès vers le répetoire d'écriture des médias
+#' @param verbose `logical` mode verbose
 #' @inheritParams get_gen
 #' @return
 #' Sauvegarde les images/sons attachés aux campagnes à une emplacement définit par l'utilisateur
@@ -42,7 +42,7 @@ get_medias <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, typ
 
     # On regarde si la campagne contient des médias
     if(nrow(media) == 0){
-      stop("Aucun média attaché à cette/ces campagnes")
+      stop("Aucun média attaché à ces campagnes")
     }
 
     # On créer le répertoire de sortie, s'il n'existe pas
