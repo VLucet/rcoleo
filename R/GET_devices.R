@@ -1,4 +1,4 @@
-#' Retourne les entrées pour la liste de matériel présents dans la base de données
+#' Retourne les entrées pour la liste de matériels présents dans la base de données
 #'
 #' @param campaign_id `integer` vecteur contenant les identifiants uniques de la campagne
 #' @inheritParams get_gen

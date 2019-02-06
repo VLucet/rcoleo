@@ -6,7 +6,7 @@
 #' @param type `character` vecteur contenant le type de campagnes d'inventaires réalisé (ex. végétation)
 #' @inheritParams get_gen
 #' @return
-#' Sauvegarde les images/sons attachés aux campagnes à une emplacement définit par l'utilisateur
+#' Sauvegarde les images/sons attachés aux campagnes à une emplacement défini par l'utilisateur
 #' @examples
 #' \dontrun{
 #' list_medias(site_code="141_108_F01", type="mammifères")

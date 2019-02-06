@@ -19,7 +19,7 @@ list_medias(site_code = NULL, opened_at = NULL, closed_at = NULL,
 \item{...}{httr options; arguments de la fonction \code{httr::GET()}}
 }
 \value{
-Sauvegarde les images/sons attachés aux campagnes à une emplacement définit par l'utilisateur
+Sauvegarde les images/sons attachés aux campagnes à une emplacement défini par l'utilisateur
 }
 \description{
 Téléverse l'ensemble des médias appartenant à une campagnes

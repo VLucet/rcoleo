@@ -2,7 +2,7 @@
 % Please edit documentation in R/GET_obs.R
 \name{get_obs}
 \alias{get_obs}
-\title{Retourne les entrées présents dans la table observation}
+\title{Retourne les observations présentes dans la base de données}
 \usage{
 get_obs(site_code = NULL, opened_at = NULL, closed_at = NULL,
   type = NULL, ...)
@@ -22,11 +22,11 @@ get_obs(site_code = NULL, opened_at = NULL, closed_at = NULL,
 Retourne une objet de type \code{list} contenant les réponses de l'API. Chaque niveau de la liste correspond à une page. Pour chacun des appels sur l'API (page), la classe retourné est \code{getSuccess} ou \code{getError}. Une réponse de classe \code{getSuccess} est une liste à deux niveaux composé du contenu (\code{body}), et la réponse \link[httr:response]{httr::response}. Une réponse de classe \code{getError} dispose de la même structure mais ne contiendra pas de body, seulement la réponse de l'API.
 }
 \description{
-Retourne les entrées présents dans la table observation
+Retourne les observations présentes dans la base de données
 }
 \examples{
 \dontrun{
 get_obs()
-get_obs(type = 'mamifères')
+get_obs(type = 'mammifères')
 } 
 }

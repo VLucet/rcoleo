@@ -1,4 +1,4 @@
-#' Retourne les entrées présents dans la table observation
+#' Retourne les observations présentes dans la base de données
 #'
 #' @inheritParams get_campaigns
 #' @return
@@ -6,7 +6,7 @@
 #' @examples
 #' \dontrun{
 #' get_obs()
-#' get_obs(type = 'mamifères')
+#' get_obs(type = 'mammifères')
 #' } 
 #' @export
 
