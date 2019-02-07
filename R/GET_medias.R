@@ -33,7 +33,7 @@ list_medias <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, ty
     campaigns <- as.data.frame(get_campaigns(site_code, opened_at, closed_at, type))
 
     for(r in 1:nrow(campaigns)){
-      responses[[r]] <- get_gen(endpoint, query = list(campaign_id = campaigns$id[r]))
+      responses[[r]] <- get_gen(endpoint, query = list(campaign_id = campaigns$id[r]), ...)
     } 
 
     media <- as.data.frame(responses)
@@ -81,7 +81,7 @@ get_medias <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, typ
     }
     httr::GET(
     url = paste0(server(),media$uri[m]), 
-    config = httr::add_headers(Authorization = paste("Bearer", bearer())), 
+    config = httr::add_headers(Authorization = paste("Bearer", ifelse(is.na(bearer()),token,bearer()))), 
     ua, httr::write_disk(file.path(output_dir,paste0(media$name[m],media$og_extention[m])), overwrite=TRUE)
     )
   }

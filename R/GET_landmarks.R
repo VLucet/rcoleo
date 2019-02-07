@@ -35,7 +35,7 @@ get_landmarks <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, 
     }
 
     # On récupère les landmarks pour la campagne concernée
-    for(i in 1:length(campaigns_ids)) responses[[i]] <- get_gen(endpoint, query=list(campaign_id=campaigns_ids[i]))
+    for(i in 1:length(campaigns_ids)) responses[[i]] <- get_gen(endpoint, query=list(campaign_id=campaigns_ids[i]), ...)
 
     # On ajoute les informations sur la campagne
     responses <- lapply(responses, function(response){
@@ -47,10 +47,11 @@ get_landmarks <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, 
           campaign_id <- unique(page$body$campaign_id)
           stopifnot(length(campaign_id) == 1)
 
+
           # Campagne info
-          campaign_info <- httr::content(httr::GET(url=paste0(server(),"/api/v1/campaigns/",campaign_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", bearer())),ua), simplify = TRUE)
+          campaign_info <- httr::content(httr::GET(url=paste0(server(),"/api/v1/campaigns/",campaign_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", ifelse(is.na(bearer()),token,bearer()))),ua), simplify = TRUE)
           # Code du site
-          site_code <- httr::content(httr::GET(url=paste0(server(),"/api/v1/sites/",campaign_info$site_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", bearer())),ua), simplify = TRUE)$site_code
+          site_code <- httr::content(httr::GET(url=paste0(server(),"/api/v1/sites/",campaign_info$site_id), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", ifelse(is.na(bearer()),token,bearer()))),ua), simplify = TRUE)$site_code
 
           # On prepare la sortie
           page$body$site_code <- site_code
