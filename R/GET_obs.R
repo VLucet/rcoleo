@@ -15,6 +15,7 @@
 get_obs <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, type = NULL, ...) {
 
   endpoint <- endpoints()$observations
+  token <- ifelse(is.na(bearer()),list(...)$token ,bearer())
 
   # Preparation de l'objet de sortie
   responses <- list()
@@ -33,7 +34,7 @@ get_obs <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, type =
       campaigns_info <- list()
 
       for(i in 1:length(campaign_ids)){
-        campaign <- httr::content(httr::GET(url=paste0(server(),"/api/v1/campaigns/",campaign_ids[i]), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer",ifelse(is.na(bearer()),token,bearer()))),ua), simplify = TRUE)
+        campaign <- httr::content(httr::GET(url=paste0(server(),"/api/v1/campaigns/",campaign_ids[i]), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer",token)),ua), simplify = TRUE)
         if(is.null(campaign$closed_at)) campaign$closed_at <- NA
         campaigns_info[[i]] <- data.frame(campaign_id = campaign$id, site_id=campaign$site_id, opened_at=campaign$opened_at, closed_at=campaign$closed_at, type=campaign$type)
       }
@@ -46,7 +47,7 @@ get_obs <- function(site_code = NULL, opened_at = NULL, closed_at = NULL, type =
       sites_info <- list()
 
       for(i in 1:length(site_ids)){
-        site <- httr::content(httr::GET(url=paste0(server(),"/api/v1/sites/",site_ids[i]), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", ifelse(is.na(bearer()),token,bearer()))),ua), simplify = TRUE)
+        site <- httr::content(httr::GET(url=paste0(server(),"/api/v1/sites/",site_ids[i]), config = httr::add_headers(`Content-type` = "application/json",Authorization = paste("Bearer", token)),ua), simplify = TRUE)
         sites_info[[i]] <- data.frame(site_id = site$id, site_code = site$site_code, cell_code = site$cell$cell_code)
       }
 
