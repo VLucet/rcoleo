@@ -47,7 +47,7 @@ get_gen <- function(endpoint = NULL, query = NULL, flatten = TRUE, output = 'dat
 
   # Préparation de l'itérateur
   limit <- 100
-  pages <- ceiling(rg[3] / limit) - 1
+  pages <- floor(rg[3] / limit) - 1
   if(pages < 0) pages <- 0
 
 
