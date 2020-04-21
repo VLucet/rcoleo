@@ -32,7 +32,7 @@ cl_to_sf.coleoGetResp <- function(data) {
         names(features) <- NULL
         return(features)
       }else{
-        return NULL
+        return(NULL)
       }
     })
   })
