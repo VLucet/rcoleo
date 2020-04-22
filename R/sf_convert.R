@@ -25,15 +25,11 @@ cl_to_sf.coleoGetResp <- function(data) {
   # get features
   features <- lapply(data, function(request){
     lapply(request, function(page){
-      if(nrow(page$body)>0){
         features <- apply(page$body, 1, function(feature){
           return(list(type="Feature", geometry=list(type=feature$geom.type,coordinates=feature$geom.coordinates)))
         })
         names(features) <- NULL
         return(features)
-      }else{
-        return(NULL)
-      }
     })
   })
 
