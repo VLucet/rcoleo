@@ -1,7 +1,7 @@
 # Config de base
-server <- function() "https://coleo.biodiversite-quebec.ca"
-#server <- function() "http://coleo-api.vhost33:3001" # dev purpose
-base <- function() "/v1"
+#server <- function() "https://coleo.biodiversite-quebec.ca"
+server <- function() "http://synapse" # dev purpose
+base <- function() "/api/v1"
 bearer <- function() ifelse(file.exists(".httr-oauth"), as.character(readRDS(".httr-oauth")), NA)
 ua <- httr::user_agent("rcoleo")
 
