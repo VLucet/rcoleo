@@ -1,6 +1,6 @@
 #' Publication d'une espèce sur la base de données de Coléo
 #'
-#' Cette fonction applique la méthode POST sur le point d'entrées `species` de l'API de Coleo
+#' Cette fonction applique la méthode POST sur le point d'entrées `taxa` de l'API de Coleo
 #'
 #' @inheritParams post_cells
 #' @export
@@ -11,7 +11,7 @@ post_species <- function(data, ...) {
   responses <- list()
   class(responses) <- "coleoPostResp"
 
-  endpoint <- endpoints()$species
+  endpoint <- endpoints()$taxa
 
   for (i in 1:length(data)) {
     responses[[i]] <- post_gen(endpoint, data[[i]], ...)
